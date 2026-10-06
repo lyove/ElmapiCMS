@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Reveal from '../../components/Reveal.astro';
+import RichText from '../../components/RichText.astro';
+import { getMediaAlt, getMediaUrl } from '../../lib/assets';
+import { getJournalPostBySlug, getJournalPosts, getSiteSettings } from '../../lib/content';
+import { renderRichText } from '../../lib/rich-text';
+import { buildSeo } from '../../lib/seo';
+
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect('/journal');
+}
+
+let post;
+try {
+  post = await getJournalPostBySlug(slug);
+} catch {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const [settings, allPosts] = await Promise.all([getSiteSettings(), getJournalPosts()]);
+const fields = post.fields;
+const bodyHtml = renderRichText(fields.body);
+const coverUrl = getMediaUrl(fields['cover-image']);
+const related = allPosts.filter((p) => p.fields.slug !== slug).slice(0, 2);
+
+const seo = buildSeo({
+  settings,
+  page: fields,
+  path: `/journal/${slug}`,
+  fallbackTitle: fields.title,
+  fallbackDescription: fields.excerpt,
+});
+
+function formatDate(iso?: string | null): string {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout settings={settings} seo={seo}>
+  <article class="pb-16 sm:pb-20">
+    <div class="container-wide pt-10 sm:pt-14">
+      <div class="mx-auto max-w-3xl">
+        <a href="/journal" class="section-label !text-ember">&larr; Journal</a>
+
+        {post.published_at && (
+          <time datetime={post.published_at} class="mt-6 block text-sm text-forest/60">
+            {formatDate(post.published_at)}
+          </time>
+        )}
+
+        <h1 class="mt-3 font-display text-3xl font-extrabold tracking-[-0.03em] text-coal sm:text-5xl sm:leading-[1.1]">
+          {fields.title}
+        </h1>
+
+        {fields.excerpt && (
+          <p class="mt-5 text-lg leading-relaxed text-forest/75 sm:text-xl">
+            {fields.excerpt}
+          </p>
+        )}
+      </div>
+
+      {coverUrl && (
+        <div class="mx-auto mt-10 max-w-5xl overflow-hidden rounded-[1.75rem] sm:mt-12 sm:rounded-[2rem]">
+          <img
+            src={coverUrl}
+            alt={getMediaAlt(fields['cover-image'], fields.title || 'Journal post')}
+            class="aspect-[16/10] w-full object-cover sm:aspect-[21/9]"
+            loading="eager"
+          />
+        </div>
+      )}
+
+      {bodyHtml && (
+        <div class="prose-marrow mx-auto mt-10 max-w-3xl sm:mt-14">
+          <RichText html={bodyHtml} />
+        </div>
+      )}
+
+      <div class="mx-auto mt-14 max-w-3xl border-t border-forest/10 pt-10 sm:mt-16">
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="font-display text-xl font-bold tracking-tight text-coal">
+              Want a seat for dinner?
+            </p>
+            <p class="mt-1 text-forest/70">Send a table request and we will confirm by email.</p>
+          </div>
+          <a href="/reserve" class="btn-primary shrink-0 self-start sm:self-auto">Reserve a table</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="border-t border-forest/8 bg-foam/50 py-16 sm:py-20">
+      <div class="container-wide">
+        <Reveal>
+          <div class="flex items-end justify-between gap-4">
+            <div>
+              <p class="section-label">Keep reading</p>
+              <h2 class="mt-2 font-display text-2xl font-bold tracking-tight text-coal sm:text-3xl">
+                More from the journal
+              </h2>
+            </div>
+            <a href="/journal" class="hidden text-sm font-semibold text-ember sm:inline">All notes</a>
+          </div>
+          <div class="mt-8 grid gap-5 sm:grid-cols-2">
+            {related.map((item) => {
+              const relatedCover = getMediaUrl(item.fields['cover-image']);
+              return (
+                <a
+                  href={`/journal/${item.fields.slug}`}
+                  class="group flex gap-4 rounded-[1.5rem] bg-foam p-3 no-underline !text-coal shadow-[0_14px_40px_-28px_rgba(21,32,25,0.4)] transition-transform duration-300 hover:-translate-y-0.5 sm:p-4"
+                >
+                  {relatedCover && (
+                    <div class="aspect-square w-24 shrink-0 overflow-hidden rounded-[1rem] sm:w-28">
+                      <img
+                        src={relatedCover}
+                        alt={getMediaAlt(item.fields['cover-image'], item.fields.title || 'Journal post')}
+                        class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div class="flex min-w-0 flex-col justify-center py-1 pr-1">
+                    <h3 class="font-display text-lg font-bold tracking-tight sm:text-xl">
+                      {item.fields.title}
+                    </h3>
+                    {item.fields.excerpt && (
+                      <p class="mt-1 line-clamp-2 text-sm leading-relaxed text-forest/70">
+                        {item.fields.excerpt}
+                      </p>
+                    )}
+                    <span class="mt-2 text-sm font-semibold text-ember">Read more</span>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )}
+</BaseLayout>

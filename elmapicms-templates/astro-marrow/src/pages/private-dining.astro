@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Reveal from '../components/Reveal.astro';
+import RichText from '../components/RichText.astro';
+import { getMediaAlt, getMediaUrl } from '../lib/assets';
+import { getPagePrivateDining, getSiteSettings } from '../lib/content';
+import { renderRichText } from '../lib/rich-text';
+import { buildSeo } from '../lib/seo';
+
+const [settings, page] = await Promise.all([getSiteSettings(), getPagePrivateDining()]);
+const fields = page?.fields;
+const bodyHtml = renderRichText(fields?.body);
+const imageUrl = getMediaUrl(fields?.image);
+const ctaUrl = fields?.['cta-url'] || '/reserve';
+const ctaLabel = fields?.['cta-label'] || 'Request private dining';
+
+const highlights = [
+  { label: 'Capacity', value: 'Up to 14 guests' },
+  { label: 'Format', value: 'One seating, set menu' },
+  { label: 'Wine', value: 'Pairings or corkage' },
+  { label: 'Timing', value: 'Weeknights more flexible' },
+];
+
+const seo = buildSeo({
+  settings,
+  page: fields,
+  path: '/private-dining',
+  fallbackTitle: fields?.headline || 'Private Dining',
+  fallbackDescription: fields?.eyebrow,
+});
+---
+
+<BaseLayout settings={settings} seo={seo}>
+  <section class="container-wide py-14 sm:py-20">
+    <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div>
+        {fields?.eyebrow && <p class="section-label hero-rise">{fields.eyebrow}</p>}
+        <h1 class="section-title mt-3 hero-rise hero-rise-delay-1">
+          {fields?.headline || 'Private Dining'}
+        </h1>
+        <p class="mt-5 max-w-xl text-lg text-forest/75 hero-rise hero-rise-delay-2">
+          A quieter room for birthdays, partners, and small celebrations that still want serious food.
+        </p>
+        <a href={ctaUrl} class="btn-primary mt-8 hero-rise hero-rise-delay-3">{ctaLabel}</a>
+      </div>
+      {imageUrl && (
+        <div class="aspect-[4/3] overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-35px_rgba(21,32,25,0.45)] hero-rise hero-rise-delay-2">
+          <img
+            src={imageUrl}
+            alt={getMediaAlt(fields?.image, 'Private dining room')}
+            class="h-full w-full object-cover"
+            loading="eager"
+          />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="container-wide pb-10">
+    <Reveal>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {highlights.map((item) => (
+          <div class="rounded-[1.5rem] border border-forest/10 bg-foam/80 px-5 py-6">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-sage">{item.label}</p>
+            <p class="mt-2 font-display text-lg font-bold tracking-tight text-coal">{item.value}</p>
+          </div>
+        ))}
+      </div>
+    </Reveal>
+  </section>
+
+  <section class="container-wide pb-24">
+    <Reveal>
+      <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <div class="rounded-[1.75rem] bg-foam p-8 shadow-[0_18px_50px_-32px_rgba(21,32,25,0.4)] sm:p-10 lg:col-span-7">
+          {bodyHtml && (
+            <div class="prose-marrow">
+              <RichText html={bodyHtml} />
+            </div>
+          )}
+          <a href={ctaUrl} class="btn-primary mt-8">{ctaLabel}</a>
+        </div>
+
+        <aside class="space-y-6 lg:col-span-5">
+          <div class="rounded-[1.75rem] border border-forest/10 bg-chalk/70 p-6 sm:p-8">
+            <p class="section-label">Planning tips</p>
+            <ul class="mt-4 space-y-3 text-forest/80">
+              <li>Book Fridays and Saturdays a few weeks ahead.</li>
+              <li>Share dietary needs early so the set menu can flex.</li>
+              <li>Ask about wine pairings or a short corkage list.</li>
+            </ul>
+          </div>
+          <div class="rounded-[1.75rem] bg-forest p-6 text-foam sm:p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.16em] text-sage">Next step</p>
+            <p class="mt-3 font-display text-2xl font-bold tracking-tight">
+              Send a request and we will reply with availability.
+            </p>
+            <a href="/reserve" class="btn-primary mt-6 !bg-ember">Open reserve form</a>
+            {settings?.fields?.email && (
+              <p class="mt-4 text-sm text-foam/70">
+                Or email{' '}
+                <a href={`mailto:${settings.fields.email}`} class="!text-foam underline">
+                  {settings.fields.email}
+                </a>
+              </p>
+            )}
+          </div>
+        </aside>
+      </div>
+    </Reveal>
+  </section>
+</BaseLayout>

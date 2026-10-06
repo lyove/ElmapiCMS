@@ -1,0 +1,120 @@
+.EditorTheme__code {
+  background-color: var(--sidebar);
+  font-family: Menlo, Consolas, Monaco, monospace;
+  display: block;
+  padding: 8px 8px 8px 52px;
+  line-height: 1.53;
+  font-size: 13px;
+  margin: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+  border: 1px solid var(--sidebar-border);
+  position: relative;
+  border-radius: var(--radius);
+  tab-size: 2;
+}
+.EditorTheme__code:before {
+  content: attr(data-gutter);
+  position: absolute;
+  background-color: transparent;
+  border-right: 1px solid var(--sidebar-border);
+  left: 0;
+  top: 0;
+  padding: 8px;
+  color: var(--muted-foreground);
+  white-space: pre-wrap;
+  text-align: right;
+  min-width: 25px;
+}
+.EditorTheme__table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  table-layout: fixed;
+  width: fit-content;
+  width: 100%;
+  margin: 0px 25px 30px 0px;
+}
+.EditorTheme__tokenComment {
+  color: var(--muted-foreground);
+}
+.EditorTheme__tokenPunctuation {
+  color: var(--muted-foreground);
+}
+.EditorTheme__tokenProperty {
+  color: var(--primary);
+}
+.EditorTheme__tokenSelector {
+  color: var(--foreground);
+}
+.EditorTheme__tokenOperator {
+  color: var(--accent-foreground);
+}
+.EditorTheme__tokenAttr {
+  color: var(--primary);
+}
+.EditorTheme__tokenVariable {
+  color: var(--primary);
+}
+.EditorTheme__tokenFunction {
+  color: var(--primary);
+}
+
+.Collapsible__container {
+  background-color: var(--sidebar);
+  border: 1px solid var(--sidebar-border);
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+}
+
+.Collapsible__title{
+  padding: 0.25rem;
+  padding-left: 1rem;
+  position: relative;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  list-style-type: disclosure-closed;
+  list-style-position: inside;
+}
+
+.Collapsible__title p{
+  display: inline-flex;
+}
+.Collapsible__title::marker{
+  color: var(--muted-foreground);
+}
+.Collapsible__container[open] >.Collapsible__title {
+  list-style-type: disclosure-open;
+}
+
+/* Disable link clicks in editor for better selection */
+.ContentEditable__root a {
+  pointer-events: none;
+  cursor: text;
+}
+
+/* Keep link styling but make them non-interactive */
+.ContentEditable__root a:hover {
+  text-decoration: underline;
+  cursor: text;
+}
+
+/* Ensure links are still visually distinct */
+.ContentEditable__root a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* Remove code block border in markdown mode */
+.markdown-mode .EditorTheme__code {
+  border: none;
+  background-color: transparent;
+  padding: 8px 8px 8px 8px;
+}
+
+.markdown-mode .EditorTheme__code:before {
+  display: none;
+}

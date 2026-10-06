@@ -1,0 +1,118 @@
+---
+import DocsLayout from '../../../../layouts/DocsLayout.astro';
+import {
+  getCategoryBySlug,
+  getDocsNav,
+  getSearchIndex,
+  getSiteSettings,
+  getVersionBySlug,
+  getVersions,
+} from '../../../../lib/content';
+import { buildPageSeo } from '../../../../lib/seo';
+import { NotFoundError } from '@elmapicms/js-sdk';
+
+const { version, slug } = Astro.params;
+if (!version || !slug) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+let category;
+let nav;
+let versions;
+let settings;
+let searchItems;
+
+try {
+  [category, nav, versions, settings, searchItems] = await Promise.all([
+    getCategoryBySlug(slug),
+    getDocsNav(version),
+    getVersions(),
+    getSiteSettings(),
+    getSearchIndex(version),
+  ]);
+  await getVersionBySlug(version);
+} catch (e) {
+  if (e instanceof NotFoundError) {
+    return new Response(null, { status: 404, statusText: 'Not Found' });
+  }
+  throw e;
+}
+
+const section = nav.find((item) => item.slug === slug);
+if (!section) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+const siteName = settings.fields['site-name'] || 'Docs';
+
+const seo = buildPageSeo({
+  settings,
+  path: `/v/${version}/category/${slug}`,
+  title: category.fields.title,
+  description: category.fields.description || undefined,
+});
+---
+
+<DocsLayout
+  seo={seo}
+  siteName={siteName}
+  versionSlug={version}
+  versions={versions}
+  nav={nav}
+  searchItems={searchItems}
+>
+  <div class="space-y-8">
+    <header class="space-y-3">
+      <p class="text-sm font-medium text-docs-primary">Category</p>
+      <h1 class="text-3xl font-semibold tracking-tight text-foreground sm:text-[2.15rem] sm:leading-[1.2]">
+        {category.fields.title || 'Untitled'}
+      </h1>
+      {
+        category.fields.description && (
+          <p class="max-w-2xl text-[15.5px] leading-7 text-muted-foreground">
+            {category.fields.description}
+          </p>
+        )
+      }
+    </header>
+
+    <ul class="space-y-0.5">
+      {
+        section.articles.map((article) => (
+          <li>
+            <a
+              href={`/v/${version}/${article.slug}`}
+              class="group flex items-start justify-between gap-4 rounded-lg px-2.5 py-2.5 transition-colors hover:bg-accent/70"
+            >
+              <span>
+                <span class="block text-[15px] font-medium tracking-tight text-foreground group-hover:text-docs-primary">
+                  {article.title}
+                </span>
+                {
+                  article.summary && (
+                    <span class="mt-0.5 block text-sm leading-6 text-muted-foreground">
+                      {article.summary}
+                    </span>
+                  )
+                }
+              </span>
+              <svg
+                class="mt-1 size-4 shrink-0 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-docs-primary"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</DocsLayout>

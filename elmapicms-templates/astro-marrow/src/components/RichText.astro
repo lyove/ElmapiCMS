@@ -1,0 +1,10 @@
+---
+interface Props {
+  html: string;
+  class?: string;
+}
+
+const { html, class: className = 'prose-marrow' } = Astro.props;
+---
+
+{html ? <div class={className} set:html={html} /> : null}

@@ -1,0 +1,85 @@
+---
+interface FeastImage {
+  src: string;
+  alt: string;
+  label?: string;
+}
+
+interface Props {
+  hero: FeastImage | null;
+  dishes: FeastImage[];
+}
+
+const { hero, dishes } = Astro.props;
+const satellites = dishes.slice(0, 5);
+---
+
+<section class="relative pb-8 sm:pb-14" aria-label="Featured plates">
+  <div class="container-wide">
+    <div class="relative">
+      {/* Soft stage glow behind the main plate */}
+      <div
+        class="pointer-events-none absolute -inset-x-8 -inset-y-6 rounded-[3rem] bg-gradient-to-b from-sage/20 via-ember/10 to-transparent blur-2xl"
+        aria-hidden="true"
+      ></div>
+
+      {hero && (
+        <div class="relative overflow-hidden rounded-[2rem] shadow-[0_40px_80px_-40px_rgba(21,32,25,0.55)] sm:rounded-[2.5rem]">
+          <div class="aspect-[16/11] sm:aspect-[21/10]">
+            <img
+              src={hero.src}
+              alt={hero.alt}
+              class="h-full w-full object-cover"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-coal/55 via-transparent to-coal/10"></div>
+          {hero.label && (
+            <p class="absolute bottom-5 left-5 rounded-full bg-foam/95 px-4 py-2 text-sm font-semibold text-coal shadow-lg sm:bottom-8 sm:left-8">
+              {hero.label}
+            </p>
+          )}
+        </div>
+      )}
+
+      {satellites.length > 0 && (
+        <div class="relative z-10 -mt-10 flex justify-center px-2 sm:-mt-14">
+          <div class="flex items-end justify-center">
+            {satellites.map((dish, index) => {
+              const sizes = [
+                'h-20 w-20 sm:h-28 sm:w-28',
+                'h-24 w-24 sm:h-32 sm:w-32',
+                'h-28 w-28 sm:h-36 sm:w-36',
+                'h-24 w-24 sm:h-32 sm:w-32',
+                'h-20 w-20 sm:h-28 sm:w-28',
+              ];
+              const offsets = ['translate-y-3', 'translate-y-1', 'translate-y-0', 'translate-y-1', 'translate-y-3'];
+              return (
+                <figure
+                  class:list={[
+                    'relative -ml-3 overflow-hidden rounded-full border-[5px] border-foam bg-foam shadow-[0_16px_40px_-18px_rgba(21,32,25,0.55)] first:ml-0 sm:-ml-4 sm:border-[6px]',
+                    sizes[index] || sizes[0],
+                    offsets[index] || '',
+                    'transition-transform duration-500 hover:-translate-y-2 hover:z-10',
+                  ]}
+                  style={`z-index: ${10 + index}`}
+                >
+                  <img
+                    src={dish.src}
+                    alt={dish.alt}
+                    class="h-full w-full object-cover"
+                    loading="eager"
+                  />
+                  {dish.label && (
+                    <figcaption class="sr-only">{dish.label}</figcaption>
+                  )}
+                </figure>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

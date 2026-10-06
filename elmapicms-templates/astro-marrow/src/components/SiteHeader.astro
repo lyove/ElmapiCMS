@@ -1,0 +1,127 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Menu', href: '/menu' },
+  { label: 'About', href: '/about' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Private Dining', href: '/private-dining' },
+  { label: 'Visit', href: '/visit' },
+  { label: 'Journal', href: '/journal' },
+];
+
+import type { ContentEntry, SiteSettingsFields } from '../lib/types';
+
+interface Props {
+  settings: ContentEntry<SiteSettingsFields> | null;
+  currentPath: string;
+}
+
+const { settings, currentPath } = Astro.props;
+const siteName = settings?.fields['site-name'] || 'Marrow';
+const reservationUrl = settings?.fields['reservation-url'] || '/reserve';
+const reserveExternal = /^https?:\/\//i.test(reservationUrl);
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+}
+---
+
+<header class="sticky top-0 z-40 border-b border-forest/8 bg-chalk/85 backdrop-blur-xl">
+  <div class="container-wide flex items-center justify-between gap-4 py-4">
+    <a href="/" class="group flex items-center gap-2 !text-coal no-underline">
+      <span class="flex h-10 w-10 items-center justify-center rounded-full bg-forest text-sm font-bold text-foam">
+        {siteName.slice(0, 1)}
+      </span>
+      <span class="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">
+        {siteName}
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-1 xl:flex" aria-label="Main">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'rounded-full px-3 py-2 text-sm font-medium no-underline transition-colors',
+            isActive(item.href) ? 'bg-forest text-foam' : 'text-forest/75 hover:bg-foam hover:!text-forest',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href={reservationUrl}
+        class:list={[
+          'btn-primary !px-5 !py-2.5 !text-sm ml-2',
+          isActive('/reserve') && !reserveExternal ? 'ring-2 ring-forest/20' : '',
+        ]}
+        target={reserveExternal ? '_blank' : undefined}
+        rel={reserveExternal ? 'noopener noreferrer' : undefined}
+      >
+        Reserve
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      class="flex h-11 w-11 flex-col items-center justify-center gap-1.5 rounded-full border border-forest/15 bg-foam xl:hidden"
+      id="mobile-menu-toggle"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+    >
+      <span class="block h-0.5 w-5 rounded bg-coal transition-transform origin-center" id="bar-1"></span>
+      <span class="block h-0.5 w-5 rounded bg-coal transition-opacity" id="bar-2"></span>
+      <span class="block h-0.5 w-5 rounded bg-coal transition-transform origin-center" id="bar-3"></span>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    class="hidden border-t border-forest/8 bg-chalk xl:hidden"
+    aria-label="Mobile"
+  >
+    <div class="container-wide flex flex-col py-4">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'rounded-2xl px-4 py-3 text-base font-medium no-underline',
+            isActive(item.href) ? 'bg-forest text-foam' : 'text-coal',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+      <a
+        href={reservationUrl}
+        class="btn-primary mt-4 text-center"
+        target={reserveExternal ? '_blank' : undefined}
+        rel={reserveExternal ? 'noopener noreferrer' : undefined}
+      >
+        Reserve
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar-1');
+  const bar2 = document.getElementById('bar-2');
+  const bar3 = document.getElementById('bar-3');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+
+    bar1?.classList.toggle('translate-y-[7px]', isOpen);
+    bar1?.classList.toggle('rotate-45', isOpen);
+    bar2?.classList.toggle('opacity-0', isOpen);
+    bar3?.classList.toggle('-translate-y-[7px]', isOpen);
+    bar3?.classList.toggle('-rotate-45', isOpen);
+  });
+</script>

@@ -1,0 +1,97 @@
+---
+import type { ContentEntry, SiteSettingsFields } from '../lib/types';
+import { renderRichText } from '../lib/rich-text';
+
+interface Props {
+  settings: ContentEntry<SiteSettingsFields> | null;
+}
+
+const { settings } = Astro.props;
+const fields = settings?.fields;
+const hoursHtml = renderRichText(fields?.hours);
+
+const footerNav = [
+  { label: 'Menu', href: '/menu' },
+  { label: 'About', href: '/about' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Private Dining', href: '/private-dining' },
+  { label: 'Visit', href: '/visit' },
+  { label: 'Journal', href: '/journal' },
+  { label: 'Reserve', href: '/reserve' },
+];
+
+const reserveHref = fields?.['reservation-url'] || '/reserve';
+const reserveExternal = /^https?:\/\//i.test(reserveHref);
+---
+
+<footer class="mt-24 rounded-t-[2.5rem] bg-forest text-foam">
+  <div class="container-wide grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-12">
+    <div class="lg:col-span-5">
+      <p class="font-display text-4xl font-extrabold tracking-tight">
+        {fields?.['site-name'] || 'Marrow'}
+      </p>
+      {fields?.['footer-blurb'] && (
+        <p class="mt-4 max-w-md text-base leading-relaxed text-foam/75">{fields['footer-blurb']}</p>
+      )}
+      {fields?.['instagram-url'] && (
+        <a
+          href={fields['instagram-url']}
+          class="mt-6 inline-flex !text-foam/90 hover:!text-ember"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram
+        </a>
+      )}
+    </div>
+
+    <div class="lg:col-span-2">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage">Explore</p>
+      <ul class="mt-4 space-y-2">
+        {footerNav.map((item) => (
+          <li>
+            <a href={item.href} class="!text-foam/80 hover:!text-foam">{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="lg:col-span-2">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage">Visit</p>
+      {fields?.address && (
+        <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-foam/80">{fields.address}</p>
+      )}
+      {fields?.phone && (
+        <p class="mt-3 text-sm">
+          <a href={`tel:${fields.phone.replace(/\s/g, '')}`} class="!text-foam hover:!text-ember">
+            {fields.phone}
+          </a>
+        </p>
+      )}
+    </div>
+
+    <div class="lg:col-span-3">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-sage">Hours</p>
+      {hoursHtml ? (
+        <div class="hours-ticket mt-4 text-foam/80" set:html={hoursHtml} />
+      ) : (
+        <p class="mt-4 text-sm text-foam/80">See the visit page for hours.</p>
+      )}
+      <a
+        href={reserveHref}
+        class="btn-primary mt-6 !bg-ember"
+        target={reserveExternal ? '_blank' : undefined}
+        rel={reserveExternal ? 'noopener noreferrer' : undefined}
+      >
+        Reserve a table
+      </a>
+    </div>
+  </div>
+
+  <div class="border-t border-foam/10">
+    <div class="container-wide flex flex-col gap-2 py-6 text-sm text-foam/55 sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; {new Date().getFullYear()} {fields?.['site-name'] || 'Marrow'}. All rights reserved.</p>
+      <p>Ingredient-led dinner in the neighborhood.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fafafa;
+  --foreground: #18181b;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.rich-text {
+  line-height: 1.7;
+}
+
+.rich-text > * + * {
+  margin-top: 0.85em;
+}
+
+.rich-text h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.rich-text h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.rich-text ul,
+.rich-text ol {
+  padding-left: 1.25rem;
+}
+
+.rich-text ul {
+  list-style: disc;
+}
+
+.rich-text ol {
+  list-style: decimal;
+}
+
+.rich-text a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rich-text code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.9em;
+  background: #f4f4f5;
+  padding: 0.1em 0.35em;
+  border-radius: 0.25rem;
+}
+
+.rich-text pre {
+  overflow-x: auto;
+  background: #f4f4f5;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+}
+
+.rich-text pre code {
+  background: transparent;
+  padding: 0;
+}

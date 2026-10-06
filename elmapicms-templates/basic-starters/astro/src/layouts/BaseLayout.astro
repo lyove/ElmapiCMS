@@ -1,0 +1,52 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import type { Dictionary } from "../lib/dictionaries";
+import type { Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  dictionary: Dictionary;
+  siteName: string;
+  title?: string;
+  description?: string;
+  signedIn?: boolean;
+}
+
+const {
+  locale,
+  dictionary,
+  siteName,
+  title = siteName,
+  description = "",
+  signedIn = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen antialiased">
+    <div class="flex min-h-screen flex-col">
+      <SiteHeader
+        locale={locale}
+        dictionary={dictionary}
+        siteName={siteName}
+        signedIn={signedIn}
+      />
+      <main class="mx-auto w-full max-w-3xl flex-1 px-4 py-8">
+        <slot />
+      </main>
+      <footer
+        class="border-t border-zinc-200 py-6 text-center text-xs text-zinc-500"
+      >
+        Elmapi basic starter · {locale}
+      </footer>
+    </div>
+  </body>
+</html>

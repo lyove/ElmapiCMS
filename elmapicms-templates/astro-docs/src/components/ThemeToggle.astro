@@ -1,0 +1,76 @@
+---
+---
+
+<button
+  type="button"
+  id="docs-theme-toggle"
+  class="inline-flex size-8 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent"
+  aria-label="Toggle theme"
+>
+  <svg
+    data-icon-light
+    class="size-4 hidden"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2" />
+    <path d="M12 20v2" />
+    <path d="m4.93 4.93 1.41 1.41" />
+    <path d="m17.66 17.66 1.41 1.41" />
+    <path d="M2 12h2" />
+    <path d="M20 12h2" />
+    <path d="m6.34 17.66-1.41 1.41" />
+    <path d="m19.07 4.93-1.41 1.41" />
+  </svg>
+  <svg
+    data-icon-dark
+    class="size-4"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20.985 12.486a9 9 0 1 1-8.475-8.472" />
+  </svg>
+</button>
+
+<script>
+  const STORAGE_KEY = 'docs-color-mode';
+  const button = document.getElementById('docs-theme-toggle');
+  const iconLight = button?.querySelector('[data-icon-light]');
+  const iconDark = button?.querySelector('[data-icon-dark]');
+
+  function isDark() {
+    return document.documentElement.classList.contains('dark');
+  }
+
+  function syncIcon() {
+    const dark = isDark();
+    iconLight?.classList.toggle('hidden', !dark);
+    iconDark?.classList.toggle('hidden', dark);
+    button?.setAttribute(
+      'aria-label',
+      dark ? 'Switch to light mode' : 'Switch to dark mode',
+    );
+  }
+
+  syncIcon();
+
+  button?.addEventListener('click', () => {
+    const nextDark = !isDark();
+    document.documentElement.classList.toggle('dark', nextDark);
+    try {
+      localStorage.setItem(STORAGE_KEY, nextDark ? 'dark' : 'light');
+    } catch {}
+    syncIcon();
+  });
+</script>

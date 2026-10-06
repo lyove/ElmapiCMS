@@ -1,0 +1,9 @@
+---
+interface Props {
+  html?: string | null;
+}
+
+const { html } = Astro.props;
+---
+
+{html ? <div class="rich-text" set:html={html} /> : null}

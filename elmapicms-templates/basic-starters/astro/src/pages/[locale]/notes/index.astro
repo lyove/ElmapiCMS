@@ -1,0 +1,342 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  buildNotesWhere,
+  countNotes,
+  listNotes,
+  listNotesOffset,
+} from "../../../lib/content";
+import { localePath } from "../../../lib/i18n";
+import { loadPageChrome, resolveLocale } from "../../../lib/page-context";
+import type { ListNotesOptions, NoteSort } from "../../../lib/types";
+import { ElmapiError } from "@elmapicms/js-sdk";
+
+const locale = await resolveLocale(Astro.params.locale);
+const chrome = await loadPageChrome(locale, Astro.cookies);
+const sp = Astro.url.searchParams;
+
+const SORTS: NoteSort[] = [
+  "published_at:desc",
+  "published_at:asc",
+  "title:asc",
+  "title:desc",
+];
+
+const sortValue = String(sp.get("sort") || "published_at:desc");
+const options: ListNotesOptions = {
+  page: Math.max(1, Number(sp.get("page") || 1) || 1),
+  perPage: [2, 5, 10].includes(Number(sp.get("perPage")))
+    ? Number(sp.get("perPage"))
+    : 5,
+  sort: (SORTS as string[]).includes(sortValue)
+    ? (sortValue as NoteSort)
+    : "published_at:desc",
+  titleContains: String(sp.get("title") || "").trim() || undefined,
+  slugEq: String(sp.get("slug") || "").trim() || undefined,
+  slugContains: String(sp.get("slugLike") || "").trim() || undefined,
+  authorContains: String(sp.get("author") || "").trim() || undefined,
+  publishedAfter: String(sp.get("after") || "").trim() || undefined,
+  matchTitleOrSlug: String(sp.get("or") || "").trim() || undefined,
+};
+if (options.slugEq) options.slugContains = undefined;
+
+let notes: Awaited<ReturnType<typeof listNotes>> = { data: [], meta: {} };
+let total = 0;
+let offsetSlice: Awaited<ReturnType<typeof listNotesOffset>> = [];
+let loadError: string | null = null;
+
+try {
+  notes = await listNotes(locale, options);
+  total = await countNotes(locale, options);
+  offsetSlice = await listNotesOffset(locale, {
+    ...options,
+    limit: 2,
+    offset: 0,
+  });
+} catch (error) {
+  if (error instanceof ElmapiError) {
+    loadError = chrome.dictionary.errors.loadFailed;
+  } else {
+    throw error;
+  }
+}
+
+const where = buildNotesWhere(options);
+const queryPreview = {
+  state: "published",
+  locale,
+  sort: options.sort,
+  paginate: options.perPage,
+  page: options.page,
+  ...(where ? { where } : {}),
+};
+
+const lastPage = Math.max(1, notes.meta?.last_page ?? 1);
+const page = options.page ?? 1;
+const pageNumbers = Array.from({ length: lastPage }, (_, i) => i + 1).slice(
+  0,
+  8,
+);
+
+function hrefFor(overrides: Record<string, string | number | undefined>) {
+  const next = {
+    title: options.titleContains,
+    slug: options.slugEq,
+    slugLike: options.slugContains,
+    author: options.authorContains,
+    after: options.publishedAfter,
+    or: options.matchTitleOrSlug,
+    sort: options.sort,
+    perPage: options.perPage,
+    page,
+    ...overrides,
+  };
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(next)) {
+    if (value === undefined || value === "") continue;
+    params.set(key, String(value));
+  }
+  const qs = params.toString();
+  return `${localePath(locale, "/notes")}${qs ? `?${qs}` : ""}`;
+}
+---
+
+<BaseLayout
+  locale={locale}
+  dictionary={chrome.dictionary}
+  siteName={chrome.siteName}
+  title={chrome.dictionary.notes.title}
+  description={chrome.description}
+  signedIn={chrome.signedIn}
+>
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">
+        {chrome.dictionary.notes.title}
+      </h1>
+      <p class="mt-1 text-sm text-zinc-500">
+        {total} {chrome.dictionary.notes.results} · locale {locale}
+      </p>
+    </div>
+
+    <form
+      method="get"
+      action={localePath(locale, "/notes")}
+      class="space-y-3 rounded border border-zinc-200 bg-white p-4"
+    >
+      <h2 class="text-sm font-medium text-zinc-800">
+        {chrome.dictionary.notes.filtersHeading}
+      </h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600"
+            >{chrome.dictionary.notes.titleContains}</span
+          >
+          <input
+            name="title"
+            value={options.titleContains || ""}
+            class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+          />
+        </label>
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600">{chrome.dictionary.notes.slugEq}</span>
+          <input
+            name="slug"
+            value={options.slugEq || ""}
+            class="w-full rounded border border-zinc-300 px-3 py-2 font-mono text-sm"
+          />
+        </label>
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600"
+            >{chrome.dictionary.notes.slugContains}</span
+          >
+          <input
+            name="slugLike"
+            value={options.slugContains || ""}
+            class="w-full rounded border border-zinc-300 px-3 py-2 font-mono text-sm"
+          />
+        </label>
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600"
+            >{chrome.dictionary.notes.authorContains}</span
+          >
+          <input
+            name="author"
+            value={options.authorContains || ""}
+            class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+          />
+        </label>
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600"
+            >{chrome.dictionary.notes.publishedAfter}</span
+          >
+          <input
+            name="after"
+            type="date"
+            value={options.publishedAfter || ""}
+            class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+          />
+        </label>
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600">{chrome.dictionary.notes.orTerm}</span>
+          <input
+            name="or"
+            value={options.matchTitleOrSlug || ""}
+            class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+          />
+        </label>
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600">{chrome.dictionary.notes.sort}</span>
+          <select
+            name="sort"
+            class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+          >
+            {
+              SORTS.map((value) => (
+                <option value={value} selected={options.sort === value}>
+                  {value}
+                </option>
+              ))
+            }
+          </select>
+        </label>
+        <label class="block space-y-1 text-sm">
+          <span class="text-zinc-600">{chrome.dictionary.notes.perPage}</span>
+          <select
+            name="perPage"
+            class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+          >
+            {
+              [2, 5, 10].map((n) => (
+                <option value={n} selected={options.perPage === n}>
+                  {n}
+                </option>
+              ))
+            }
+          </select>
+        </label>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="submit"
+          class="rounded bg-zinc-900 px-3 py-2 text-sm text-white"
+        >
+          {chrome.dictionary.notes.applyFilter}
+        </button>
+        <a
+          href={localePath(locale, "/notes")}
+          class="rounded border border-zinc-300 px-3 py-2 text-sm"
+        >
+          {chrome.dictionary.notes.clearFilter}
+        </a>
+      </div>
+    </form>
+
+    <details class="rounded border border-zinc-200 bg-zinc-50 p-3 text-sm">
+      <summary class="cursor-pointer font-medium text-zinc-700">
+        {chrome.dictionary.notes.queryPreview}
+      </summary>
+      <pre
+        class="mt-2 overflow-x-auto font-mono text-xs text-zinc-700"
+      >{JSON.stringify(queryPreview, null, 2)}</pre>
+    </details>
+
+    {
+      loadError ? (
+        <p class="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+          {loadError}
+        </p>
+      ) : null
+    }
+
+    <ul class="divide-y divide-zinc-200 rounded border border-zinc-200 bg-white">
+      {
+        notes.data.length === 0 ? (
+          <li class="px-4 py-3 text-sm text-zinc-500">
+            {chrome.dictionary.notes.empty}
+          </li>
+        ) : (
+          notes.data.map((note) => (
+            <li>
+              <a
+                href={localePath(locale, `/notes/${note.fields.slug}`)}
+                class="block px-4 py-3 hover:bg-zinc-50"
+              >
+                <span class="font-medium">{note.fields.title}</span>
+                <span class="mt-0.5 block font-mono text-xs text-zinc-500">
+                  {note.fields.slug}
+                  {note.fields["author-name"]
+                    ? ` · ${note.fields["author-name"]}`
+                    : ""}
+                  {note.published_at
+                    ? ` · ${note.published_at.slice(0, 10)}`
+                    : ""}
+                </span>
+              </a>
+            </li>
+          ))
+        )
+      }
+    </ul>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 text-sm">
+      <span class="text-zinc-500">
+        {chrome.dictionary.notes.page} {page} / {lastPage}
+      </span>
+      <div class="flex flex-wrap gap-1">
+        {
+          page > 1 ? (
+            <a
+              href={hrefFor({ page: page - 1 })}
+              class="rounded border border-zinc-300 px-3 py-1.5"
+            >
+              {chrome.dictionary.notes.prev}
+            </a>
+          ) : null
+        }
+        {
+          pageNumbers.map((n) => (
+            <a
+              href={hrefFor({ page: n })}
+              class:list={[
+                "rounded px-3 py-1.5",
+                n === page
+                  ? "bg-zinc-900 text-white"
+                  : "border border-zinc-300",
+              ]}
+            >
+              {n}
+            </a>
+          ))
+        }
+        {
+          page < lastPage ? (
+            <a
+              href={hrefFor({ page: page + 1 })}
+              class="rounded border border-zinc-300 px-3 py-1.5"
+            >
+              {chrome.dictionary.notes.next}
+            </a>
+          ) : null
+        }
+      </div>
+    </div>
+
+    <section class="space-y-2 rounded border border-dashed border-zinc-300 p-4">
+      <h2 class="text-sm font-medium text-zinc-800">
+        {chrome.dictionary.notes.offsetDemo}
+      </h2>
+      <ul class="text-sm text-zinc-700">
+        {
+          offsetSlice.length === 0 ? (
+            <li class="text-zinc-500">{chrome.dictionary.notes.empty}</li>
+          ) : (
+            offsetSlice.map((note) => (
+              <li class="font-mono text-xs">{note.fields.slug}</li>
+            ))
+          )
+        }
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

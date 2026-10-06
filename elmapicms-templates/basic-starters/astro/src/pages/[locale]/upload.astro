@@ -1,0 +1,107 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { loadPageChrome, resolveLocale } from "../../lib/page-context";
+
+const locale = await resolveLocale(Astro.params.locale);
+const chrome = await loadPageChrome(locale, Astro.cookies);
+---
+
+<BaseLayout
+  locale={locale}
+  dictionary={chrome.dictionary}
+  siteName={chrome.siteName}
+  title={chrome.dictionary.upload.title}
+  description={chrome.dictionary.upload.intro}
+  signedIn={chrome.signedIn}
+>
+  <div class="mx-auto max-w-lg space-y-4">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">
+        {chrome.dictionary.upload.title}
+      </h1>
+      <p class="mt-2 text-sm text-zinc-600">{chrome.dictionary.upload.intro}</p>
+    </div>
+    <form id="upload-form" class="space-y-4">
+      <div class="space-y-1.5">
+        <label for="file" class="block text-sm font-medium"
+          >{chrome.dictionary.upload.file}</label
+        >
+        <input id="file" name="file" type="file" required class="block w-full text-sm" />
+      </div>
+      <div class="space-y-1.5">
+        <label for="alt_text" class="block text-sm font-medium"
+          >{chrome.dictionary.upload.alt}</label
+        >
+        <input
+          id="alt_text"
+          name="alt_text"
+          type="text"
+          class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+        />
+      </div>
+      <p id="upload-error" class="hidden text-sm text-red-600"></p>
+      <div
+        id="upload-result"
+        class="hidden rounded border border-green-200 bg-green-50 p-3 text-sm text-green-900"
+      >
+      </div>
+      <button
+        type="submit"
+        class="rounded bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-50"
+        data-success={chrome.dictionary.upload.success}
+      >
+        {chrome.dictionary.upload.submit}
+      </button>
+    </form>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("upload-form") as HTMLFormElement | null;
+  const errorEl = document.getElementById("upload-error");
+  const resultEl = document.getElementById("upload-result");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const submit = form.querySelector("button[type=submit]") as HTMLButtonElement;
+    submit.disabled = true;
+    errorEl?.classList.add("hidden");
+    resultEl?.classList.add("hidden");
+    try {
+      const res = await fetch("/api/assets/upload", {
+        method: "POST",
+        body: new FormData(form),
+      });
+      const data = (await res.json()) as {
+        error?: string;
+        uuid?: string;
+        url?: string;
+        alt_text?: string | null;
+      };
+      if (!res.ok) {
+        if (errorEl) {
+          errorEl.textContent = data.error || "Upload failed.";
+          errorEl.classList.remove("hidden");
+        }
+        submit.disabled = false;
+        return;
+      }
+      if (resultEl) {
+        resultEl.innerHTML = `
+          <p>${submit.dataset.success || "Uploaded."}</p>
+          ${data.uuid ? `<p class="mt-1 font-mono text-xs">uuid: ${data.uuid}</p>` : ""}
+          ${data.alt_text ? `<p class="mt-1 text-xs">alt: ${data.alt_text}</p>` : ""}
+          ${data.url ? `<a href="${data.url}" target="_blank" rel="noreferrer" class="mt-1 block break-all underline">${data.url}</a>` : ""}
+        `;
+        resultEl.classList.remove("hidden");
+      }
+      form.reset();
+      submit.disabled = false;
+    } catch {
+      if (errorEl) {
+        errorEl.textContent = "Network error.";
+        errorEl.classList.remove("hidden");
+      }
+      submit.disabled = false;
+    }
+  });
+</script>

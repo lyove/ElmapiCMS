@@ -1,0 +1,112 @@
+---
+import { getMediaAlt, getMediaUrl } from '../lib/assets';
+
+interface Props {
+  brand?: string;
+  eyebrow?: string;
+  headline: string;
+  subhead?: string;
+  image?: unknown;
+  imageAlt?: string;
+  /** Home uses a centered text band; subpages can keep a media column */
+  align?: 'center' | 'start';
+  size?: 'home' | 'page';
+  ctaLabel?: string;
+  ctaUrl?: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaUrl?: string;
+}
+
+const {
+  brand,
+  eyebrow,
+  headline,
+  subhead,
+  image,
+  imageAlt,
+  align = 'start',
+  size = 'page',
+  ctaLabel,
+  ctaUrl,
+  secondaryCtaLabel,
+  secondaryCtaUrl,
+} = Astro.props;
+
+const imageUrl = getMediaUrl(image);
+const alt = getMediaAlt(image, imageAlt || headline);
+const isHome = size === 'home';
+const isCentered = align === 'center' || isHome;
+---
+
+<section class:list={['relative', isHome ? 'pb-6 pt-10 sm:pb-8 sm:pt-14' : 'py-14 sm:py-20']}>
+  <div class="container-wide">
+    <div
+      class:list={[
+        !isHome && imageUrl ? 'grid items-center gap-10 lg:grid-cols-2' : '',
+        isCentered ? 'mx-auto max-w-3xl text-center' : 'max-w-3xl',
+      ]}
+    >
+      <div>
+        {eyebrow && <p class="eyebrow hero-rise">{eyebrow}</p>}
+
+        {brand && isHome && (
+          <p class="mt-4 font-display text-5xl font-extrabold tracking-[-0.03em] text-coal hero-rise hero-rise-delay-1 sm:text-6xl lg:text-7xl">
+            {brand}
+          </p>
+        )}
+
+        <h1
+          class:list={[
+            'font-display font-extrabold tracking-[-0.02em] text-coal hero-rise hero-rise-delay-1',
+            isHome
+              ? 'mt-4 text-2xl leading-snug text-forest sm:text-3xl lg:text-4xl'
+              : 'mt-3 text-4xl leading-tight sm:text-5xl lg:text-6xl',
+            isCentered && !isHome && 'mx-auto',
+          ]}
+        >
+          {headline}
+        </h1>
+
+        {subhead && (
+          <p
+            class:list={[
+              'mt-5 text-base leading-relaxed text-forest/75 sm:text-lg hero-rise hero-rise-delay-2',
+              isCentered ? 'mx-auto max-w-2xl' : 'max-w-xl',
+            ]}
+          >
+            {subhead}
+          </p>
+        )}
+
+        {(ctaLabel && ctaUrl) || (secondaryCtaLabel && secondaryCtaUrl) ? (
+          <div
+            class:list={[
+              'mt-8 flex flex-wrap gap-3 hero-rise hero-rise-delay-3',
+              isCentered && 'justify-center',
+            ]}
+          >
+            {ctaLabel && ctaUrl && (
+              <a href={ctaUrl} class="btn-primary">{ctaLabel}</a>
+            )}
+            {secondaryCtaLabel && secondaryCtaUrl && (
+              <a href={secondaryCtaUrl} class="btn-outline">{secondaryCtaLabel}</a>
+            )}
+          </div>
+        ) : null}
+      </div>
+
+      {!isHome && imageUrl && (
+        <div class="relative">
+          <div class="aspect-[4/3] overflow-hidden rounded-[2rem] shadow-[0_30px_80px_-30px_rgba(27,60,49,0.45)]">
+            <img
+              src={imageUrl}
+              alt={alt}
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,92 @@
+---
+import { getMediaAlt, getMediaUrl } from '../lib/assets';
+import { formatPrice, parseDietary } from '../lib/content';
+import type { ContentEntry, MenuCategoryFields, MenuItemFields } from '../lib/types';
+
+interface Props {
+  sections: Array<{
+    category: ContentEntry<MenuCategoryFields>;
+    items: ContentEntry<MenuItemFields>[];
+  }>;
+  showImages?: boolean;
+  compact?: boolean;
+}
+
+const { sections, showImages = false, compact = false } = Astro.props;
+---
+
+<div class="space-y-14">
+  {sections.map(({ category, items }) => (
+    items.length > 0 && (
+      <section class="ticket-section" id={category.fields.slug}>
+        <div class="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="ticket-label">Course</p>
+            <h2 class="font-display text-3xl font-bold tracking-tight text-coal sm:text-4xl">
+              {category.fields.name}
+            </h2>
+          </div>
+          {category.fields.description && (
+            <p class="max-w-sm text-sm text-forest/70">{category.fields.description}</p>
+          )}
+        </div>
+
+        <div class="overflow-hidden rounded-[1.5rem] bg-foam shadow-[0_18px_50px_-32px_rgba(21,32,25,0.45)]">
+          {items.map((item) => {
+            const imageUrl = getMediaUrl(item.fields.image);
+            const dietary = parseDietary(item.fields.dietary);
+            return (
+              <article class="ticket-row px-5 sm:px-7">
+                <div class:list={[showImages && imageUrl && 'grid gap-4 sm:grid-cols-[5.5rem_1fr] sm:items-start']}>
+                  {showImages && imageUrl && (
+                    <div class="aspect-square w-full max-w-[5.5rem] overflow-hidden rounded-2xl">
+                      <img
+                        src={imageUrl}
+                        alt={getMediaAlt(item.fields.image, item.fields.name || 'Dish')}
+                        class="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <h3
+                        class:list={[
+                          'font-display font-bold tracking-tight text-coal',
+                          compact ? 'text-lg' : 'text-xl sm:text-2xl',
+                        ]}
+                      >
+                        {item.fields.name}
+                      </h3>
+                      {!compact && (
+                        <span class="ticket-price sm:hidden">{formatPrice(item.fields.price)}</span>
+                      )}
+                    </div>
+                    {item.fields.description && (
+                      <p class="mt-1 max-w-prose text-sm leading-relaxed text-forest/70">
+                        {item.fields.description}
+                      </p>
+                    )}
+                    {dietary.length > 0 && (
+                      <div class="mt-2 flex flex-wrap gap-1.5">
+                        {dietary.map((tag) => (
+                          <span class="dietary-badge">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="ticket-price hidden sm:inline">{formatPrice(item.fields.price)}</span>
+                  {compact && (
+                    <span class="ticket-price sm:hidden">{formatPrice(item.fields.price)}</span>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    )
+  ))}
+</div>

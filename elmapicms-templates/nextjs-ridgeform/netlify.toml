@@ -1,0 +1,5 @@
+# Turbopack may retain env values in build cache (.sst). Those files are not
+# published. Omit them so Netlify secrets scanning does not fail the deploy.
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = ".next/cache,.netlify/.next/cache"
+

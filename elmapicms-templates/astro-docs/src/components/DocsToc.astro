@@ -1,0 +1,71 @@
+---
+import type { TocItem } from '../lib/types';
+
+interface Props {
+  items: TocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <nav aria-label="On this page" class="space-y-2.5" data-docs-toc>
+      <p class="text-xs font-medium text-foreground">On this page</p>
+      <ul class="space-y-1 border-s border-border/80">
+        {
+          items.map((item) => (
+            <li>
+              <a
+                href={`#${item.id}`}
+                data-toc-link
+                data-toc-id={item.id}
+                class:list={[
+                  'block border-s-2 border-transparent py-1 text-[13px] text-muted-foreground transition-colors hover:text-foreground',
+                  item.depth === 3 ? 'ps-5' : 'ps-3',
+                ]}
+              >
+                {item.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  )
+}
+
+<script define:vars={{ itemIds: items.map((item) => item.id) }}>
+  if (itemIds.length === 0) {
+    // no headings
+  } else {
+    const links = document.querySelectorAll('[data-toc-link]');
+    const headings = itemIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (headings.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+          const activeId = visible[0]?.target.id;
+          if (!activeId) return;
+          links.forEach((link) => {
+            const isActive = link.getAttribute('data-toc-id') === activeId;
+            link.classList.toggle('border-docs-primary', isActive);
+            link.classList.toggle('font-medium', isActive);
+            link.classList.toggle('text-foreground', isActive);
+          });
+        },
+        {
+          rootMargin: '-96px 0px -65% 0px',
+          threshold: [0, 1],
+        },
+      );
+
+      headings.forEach((heading) => observer.observe(heading));
+    }
+  }
+</script>

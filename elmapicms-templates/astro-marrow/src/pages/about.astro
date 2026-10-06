@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Reveal from '../components/Reveal.astro';
+import RichText from '../components/RichText.astro';
+import { getMediaAlt, getMediaUrl } from '../lib/assets';
+import { getGalleryImages, getPageAbout, getSiteSettings } from '../lib/content';
+import { renderRichText } from '../lib/rich-text';
+import { buildSeo } from '../lib/seo';
+
+const [settings, page, gallery] = await Promise.all([
+  getSiteSettings(),
+  getPageAbout(),
+  getGalleryImages(),
+]);
+const fields = page?.fields;
+const bodyHtml = renderRichText(fields?.body);
+const atmosphereUrl = getMediaUrl(fields?.['atmosphere-image']);
+const portraitUrl = getMediaUrl(fields?.['portrait-image']);
+const strip = gallery.slice(0, 3);
+
+const pillars = [
+  {
+    title: 'Market first',
+    body: 'We buy close when we can and cook what looks alive that morning.',
+  },
+  {
+    title: 'Fire and cast iron',
+    body: 'Wood, heat, and patience. The plate should taste like attention.',
+  },
+  {
+    title: 'A neighborhood table',
+    body: 'Come for a weeknight two-top or a longer night with wine.',
+  },
+];
+
+const seo = buildSeo({
+  settings,
+  page: fields,
+  path: '/about',
+  fallbackTitle: fields?.headline || 'About',
+  fallbackDescription: fields?.['pull-quote'],
+});
+---
+
+<BaseLayout settings={settings} seo={seo}>
+  <section class="container-wide py-14 sm:py-20">
+    {fields?.eyebrow && <p class="section-label hero-rise">{fields.eyebrow}</p>}
+    <h1 class="section-title mt-3 max-w-4xl hero-rise hero-rise-delay-1">
+      {fields?.headline || 'About'}
+    </h1>
+    {fields?.['pull-quote'] && (
+      <p class="mt-6 max-w-2xl font-display text-xl font-semibold leading-snug text-forest/80 hero-rise hero-rise-delay-2 sm:text-2xl">
+        {fields['pull-quote']}
+      </p>
+    )}
+  </section>
+
+  <section class="container-wide pb-16">
+    <Reveal>
+      <div class="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
+        <div class="relative lg:col-span-5">
+          {atmosphereUrl && (
+            <div class="aspect-[4/5] overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-35px_rgba(21,32,25,0.45)]">
+              <img
+                src={atmosphereUrl}
+                alt={getMediaAlt(fields?.['atmosphere-image'], 'Dining room atmosphere')}
+                class="h-full w-full object-cover"
+                loading="eager"
+              />
+            </div>
+          )}
+          {portraitUrl && (
+            <div class="absolute -bottom-8 -right-2 aspect-square w-32 overflow-hidden rounded-full border-4 border-foam shadow-xl sm:w-40 lg:-right-6">
+              <img
+                src={portraitUrl}
+                alt={getMediaAlt(fields?.['portrait-image'], 'Team portrait')}
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          )}
+        </div>
+
+        <div class="lg:col-span-7 lg:pt-4">
+          {bodyHtml && (
+            <div class="prose-marrow max-w-2xl">
+              <RichText html={bodyHtml} />
+            </div>
+          )}
+          <div class="mt-10 flex flex-wrap gap-3">
+            <a href="/menu" class="btn-primary">Get menu</a>
+            <a href="/reserve" class="btn-secondary">Reserve a table</a>
+          </div>
+        </div>
+      </div>
+    </Reveal>
+  </section>
+
+  <section class="container-wide py-16 sm:py-20">
+    <Reveal>
+      <p class="section-label">How we work</p>
+      <h2 class="section-title mt-3 max-w-2xl">Three ideas that shape every service</h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {pillars.map((pillar) => (
+          <div class="rounded-[1.75rem] bg-foam p-6 shadow-[0_18px_50px_-32px_rgba(21,32,25,0.35)] sm:p-8">
+            <h3 class="font-display text-xl font-bold tracking-tight text-coal">{pillar.title}</h3>
+            <p class="mt-3 text-forest/75">{pillar.body}</p>
+          </div>
+        ))}
+      </div>
+    </Reveal>
+  </section>
+
+  {strip.length > 0 && (
+    <section class="container-wide pb-24">
+      <Reveal>
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <p class="section-label">From the room</p>
+            <h2 class="section-title mt-3">A feel for the night</h2>
+          </div>
+          <a href="/gallery" class="hidden text-sm font-semibold text-ember sm:inline">View gallery</a>
+        </div>
+        <div class="mt-8 grid gap-4 sm:grid-cols-3">
+          {strip.map((item) => {
+            const url = getMediaUrl(item.fields.image);
+            if (!url) return null;
+            return (
+              <div class="aspect-[4/5] overflow-hidden rounded-[1.5rem]">
+                <img
+                  src={url}
+                  alt={getMediaAlt(item.fields.image, item.fields.caption || 'Gallery image')}
+                  class="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            );
+          })}
+        </div>
+        <a href="/gallery" class="mt-6 inline-block text-sm font-semibold text-ember sm:hidden">
+          View gallery
+        </a>
+      </Reveal>
+    </section>
+  )}
+</BaseLayout>

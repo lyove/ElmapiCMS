@@ -1,0 +1,30 @@
+{
+  "name": "nuxt-cove",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@elmapicms/js-sdk": "^1.0.0",
+    "@iconify-json/lucide": "^1.2.120",
+    "@iconify-json/simple-icons": "^1.2.92",
+    "@nuxt/ui": "^4.10.0",
+    "marked": "^18.0.7",
+    "nuxt": "^4.5.1",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.16.0",
+    "@types/node": "^26.1.2",
+    "eslint": "^10.8.0",
+    "typescript": "~5.9.3",
+    "vue-tsc": "^3.3.8"
+  },
+  "packageManager": "pnpm@11.17.0"
+}

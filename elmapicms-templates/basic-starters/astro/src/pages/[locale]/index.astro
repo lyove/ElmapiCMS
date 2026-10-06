@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { listNotes } from "../../lib/content";
+import { localePath } from "../../lib/i18n";
+import { loadPageChrome, resolveLocale } from "../../lib/page-context";
+import { ElmapiError } from "@elmapicms/js-sdk";
+
+const locale = await resolveLocale(Astro.params.locale);
+const chrome = await loadPageChrome(locale, Astro.cookies);
+
+let notes: Awaited<ReturnType<typeof listNotes>>["data"] = [];
+let loadError: string | null = null;
+try {
+  notes = (await listNotes(locale, { page: 1, perPage: 3 })).data;
+} catch (error) {
+  if (error instanceof ElmapiError) {
+    loadError = chrome.dictionary.errors.loadFailed;
+  } else {
+    throw error;
+  }
+}
+---
+
+<BaseLayout
+  locale={locale}
+  dictionary={chrome.dictionary}
+  siteName={chrome.siteName}
+  title={chrome.settingsTitle}
+  description={chrome.description}
+  signedIn={chrome.signedIn}
+>
+  <div class="space-y-8">
+    <section class="space-y-2">
+      <h1 class="text-2xl font-semibold tracking-tight">{chrome.siteName}</h1>
+      <p class="max-w-2xl text-zinc-600">{chrome.description}</p>
+    </section>
+
+    {
+      loadError ? (
+        <p class="rounded border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+          {loadError}
+        </p>
+      ) : null
+    }
+
+    <section class="space-y-3">
+      <div class="flex items-center justify-between gap-3">
+        <h2 class="text-lg font-medium">{chrome.dictionary.home.latestNotes}</h2>
+        <a
+          href={localePath(locale, "/notes")}
+          class="text-sm text-zinc-600 underline underline-offset-2 hover:text-zinc-900"
+        >
+          {chrome.dictionary.home.viewAll}
+        </a>
+      </div>
+      <ul class="divide-y divide-zinc-200 rounded border border-zinc-200 bg-white">
+        {
+          notes.length === 0 ? (
+            <li class="px-4 py-3 text-sm text-zinc-500">
+              {chrome.dictionary.notes.empty}
+            </li>
+          ) : (
+            notes.map((note) => (
+              <li>
+                <a
+                  href={localePath(locale, `/notes/${note.fields.slug}`)}
+                  class="block px-4 py-3 hover:bg-zinc-50"
+                >
+                  <span class="font-medium">{note.fields.title}</span>
+                  <span class="mt-0.5 block font-mono text-xs text-zinc-500">
+                    {note.fields.slug}
+                  </span>
+                </a>
+              </li>
+            ))
+          )
+        }
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

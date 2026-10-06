@@ -1,0 +1,148 @@
+---
+import '../styles/global.css';
+import DocsHeader from '../components/DocsHeader.astro';
+import DocsSidebar from '../components/DocsSidebar.astro';
+import type { SeoMeta } from '../lib/seo';
+import type {
+  ContentEntry,
+  DocVersionFields,
+  NavCategory,
+  SearchItem,
+} from '../lib/types';
+
+interface Props {
+  seo: SeoMeta;
+  siteName: string;
+  versionSlug: string;
+  versions: ContentEntry<DocVersionFields>[];
+  nav: NavCategory[];
+  searchItems: SearchItem[];
+}
+
+const { seo, siteName, versionSlug, versions, nav, searchItems } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="h-full antialiased">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{seo.title}</title>
+    {seo.description && <meta name="description" content={seo.description} />}
+    <link rel="canonical" href={seo.canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={seo.canonical} />
+    <meta property="og:title" content={seo.title} />
+    {seo.description && <meta property="og:description" content={seo.description} />}
+    <meta property="og:site_name" content={siteName} />
+    {seo.image && <meta property="og:image" content={seo.image} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.title} />
+    {seo.description && <meta name="twitter:description" content={seo.description} />}
+    {seo.image && <meta name="twitter:image" content={seo.image} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('docs-color-mode');
+          var dark =
+            stored === 'dark' ||
+            (stored !== 'light' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="min-h-full font-sans">
+    <div class="relative min-h-full bg-background">
+      <div
+        id="docs-gutter-bleed"
+        aria-hidden="true"
+        class="pointer-events-none fixed inset-y-0 left-0 z-0 hidden bg-docs-sidebar lg:block"
+        style="width: 268px"
+      />
+
+      <div
+        id="docs-chrome"
+        class="relative z-10 mx-auto flex min-h-full w-full max-w-[97rem] transition-[max-width] duration-200"
+      >
+        <aside class="sticky top-0 hidden h-svh w-[268px] shrink-0 border-r border-border/80 bg-transparent lg:block">
+          <div class="h-full overflow-y-auto">
+            <div class="px-4 py-5">
+              <DocsSidebar siteName={siteName} nav={nav} versionSlug={versionSlug} />
+            </div>
+          </div>
+        </aside>
+
+        <div class="flex min-w-0 flex-1 flex-col bg-background">
+          <DocsHeader
+            siteName={siteName}
+            versionSlug={versionSlug}
+            versions={versions}
+            nav={nav}
+            searchItems={searchItems}
+          />
+          <main class="min-w-0 flex-1 px-4 py-10 sm:px-6 md:px-8 lg:px-10 lg:py-12">
+            <div class="mx-auto w-full max-w-[860px]">
+              <slot />
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const FULL_WIDTH_KEY = 'docs-full-width';
+      const LAYOUT_WIDTH = '97rem';
+      const SIDEBAR_WIDTH = '268px';
+
+      function applyFullWidth(fullWidth: boolean) {
+        const gutter = document.getElementById('docs-gutter-bleed');
+        const chrome = document.getElementById('docs-chrome');
+        if (!gutter || !chrome) return;
+
+        gutter.style.width = fullWidth
+          ? SIDEBAR_WIDTH
+          : `max(${SIDEBAR_WIDTH}, calc((100vw - min(100vw, ${LAYOUT_WIDTH})) / 2 + ${SIDEBAR_WIDTH}))`;
+
+        chrome.classList.toggle('max-w-none', fullWidth);
+        chrome.classList.toggle('max-w-[97rem]', !fullWidth);
+      }
+
+      function readFullWidth(): boolean {
+        try {
+          return localStorage.getItem(FULL_WIDTH_KEY) === '1';
+        } catch {
+          return false;
+        }
+      }
+
+      applyFullWidth(readFullWidth());
+
+      window.docsSetFullWidth = (fullWidth: boolean) => {
+        try {
+          localStorage.setItem(FULL_WIDTH_KEY, fullWidth ? '1' : '0');
+        } catch {}
+        applyFullWidth(fullWidth);
+        window.dispatchEvent(
+          new CustomEvent('docs:full-width', { detail: { fullWidth } }),
+        );
+      };
+
+      window.docsGetFullWidth = readFullWidth;
+    </script>
+  </body>
+</html>

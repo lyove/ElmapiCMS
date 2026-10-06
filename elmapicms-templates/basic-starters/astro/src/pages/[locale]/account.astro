@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { ensureFreshSession } from "../../lib/auth-cookies";
+import { authUserFromMe } from "../../lib/auth-user";
+import { createAuthClient } from "../../lib/elmapi-auth";
+import { localePath } from "../../lib/i18n";
+import { loadPageChrome, resolveLocale } from "../../lib/page-context";
+
+const locale = await resolveLocale(Astro.params.locale);
+const chrome = await loadPageChrome(locale, Astro.cookies);
+const session = await ensureFreshSession(Astro.cookies);
+
+if (!session?.accessToken) {
+  return Astro.redirect(localePath(locale, "/login"));
+}
+
+let email = "";
+let name: string | undefined;
+try {
+  const user = authUserFromMe(await createAuthClient(session).me());
+  email = user.email;
+  name = user.name;
+  if (!email && !user.id) {
+    return Astro.redirect(localePath(locale, "/login"));
+  }
+} catch {
+  return Astro.redirect(localePath(locale, "/login"));
+}
+---
+
+<BaseLayout
+  locale={locale}
+  dictionary={chrome.dictionary}
+  siteName={chrome.siteName}
+  title={chrome.dictionary.account.title}
+  signedIn={true}
+>
+  <div class="space-y-4">
+    <h1 class="text-2xl font-semibold tracking-tight">
+      {chrome.dictionary.account.title}
+    </h1>
+    <p class="text-sm text-zinc-700">
+      {chrome.dictionary.account.signedInAs}
+      {" "}
+      <strong>{email || name || "—"}</strong>
+    </p>
+    {name && email ? <p class="text-sm text-zinc-600">{name}</p> : null}
+    <p
+      class="max-w-xl rounded border border-zinc-200 bg-white p-3 text-sm text-zinc-600"
+    >
+      {chrome.dictionary.account.sessionNote}
+    </p>
+  </div>
+</BaseLayout>

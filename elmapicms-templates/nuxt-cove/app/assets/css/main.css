@@ -1,0 +1,214 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/*
+  Cove, product-led SaaS (Drospecta direction)
+  Deep forest green hero, lime CTA, light gray body, Inter Display.
+*/
+
+@theme static {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #F9F9F9;
+  --color-surface: #FFFFFF;
+
+  --color-forest-50: #F3F7EF;
+  --color-forest-100: #E4EDD9;
+  --color-forest-200: #C5D9B0;
+  --color-forest-300: #9BBC7A;
+  --color-forest-400: #6F9448;
+  --color-forest-500: #2F4A1A;
+  --color-forest-600: #243A14;
+  --color-forest-700: #1B3008;
+  --color-forest-800: #142406;
+  --color-forest-900: #0E1A04;
+  --color-forest-950: #091102;
+
+  --color-lime-50: #F5FDE9;
+  --color-lime-100: #E7FBC8;
+  --color-lime-200: #D0F694;
+  --color-lime-300: #B8EF68;
+  --color-lime-400: #9FE870;
+  --color-lime-500: #84D94A;
+  --color-lime-600: #63B52E;
+  --color-lime-700: #4A8C23;
+  --color-lime-800: #3B6E1F;
+  --color-lime-900: #325A1D;
+  --color-lime-950: #17320B;
+
+  --color-ink-50: #F7F7F7;
+  --color-ink-100: #EDEDED;
+  --color-ink-200: #D9D9D9;
+  --color-ink-300: #B8B8B8;
+  --color-ink-400: #8A8A8A;
+  --color-ink-500: #5C5C5C;
+  --color-ink-600: #3D3D3D;
+  --color-ink-700: #262626;
+  --color-ink-800: #141414;
+  --color-ink-900: #0A0A0A;
+  --color-ink-950: #000000;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-[var(--color-canvas)] text-ink-800 antialiased;
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-lime-400) 55%, white);
+    color: var(--color-forest-900);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .cove-wrap {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .cove-section {
+    @apply py-16 sm:py-24;
+  }
+
+  .cove-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-ink-200 bg-white px-3 py-1 text-sm text-ink-600;
+  }
+
+  .cove-pill-dot {
+    @apply h-2 w-2 rounded-full bg-forest-700;
+  }
+
+  .rich-text {
+    @apply text-ink-600 leading-relaxed text-lg;
+  }
+
+  .rich-text :where(h2) {
+    @apply font-display text-2xl font-semibold tracking-tight text-ink-900 mt-10 mb-4;
+  }
+
+  .rich-text :where(h3) {
+    @apply font-display text-xl font-semibold text-ink-900 mt-8 mb-3;
+  }
+
+  .rich-text :where(p) {
+    @apply mb-4;
+  }
+
+  .rich-text :where(ul) {
+    @apply list-disc pl-5 mb-4 space-y-2;
+  }
+
+  .rich-text :where(ol) {
+    @apply list-decimal pl-5 mb-4 space-y-2;
+  }
+
+  .rich-text :where(a) {
+    @apply text-forest-700 underline underline-offset-2 hover:text-forest-800;
+  }
+
+  .rich-text :where(strong) {
+    @apply font-semibold text-ink-900;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes cove-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cove-fade-up {
+  animation: cove-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cove-fade-up-2 {
+  animation: cove-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.cove-fade-up-3 {
+  animation: cove-fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+@keyframes cove-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.cove-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: cove-marquee 28s linear infinite;
+}
+
+.cove-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--cove-delay, 0ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--cove-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.cove-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes cove-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.cove-float {
+  animation: cove-float 5.5s ease-in-out infinite;
+}
+
+@keyframes cove-pulse-soft {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(159 232 112 / 0.35); }
+  50% { box-shadow: 0 0 0 12px rgb(159 232 112 / 0); }
+}
+
+.cove-pulse-soft {
+  animation: cove-pulse-soft 2.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cove-fade-up,
+  .cove-fade-up-2,
+  .cove-fade-up-3,
+  .cove-marquee-track,
+  .cove-float,
+  .cove-pulse-soft {
+    animation: none !important;
+  }
+
+  .cove-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

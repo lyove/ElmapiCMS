@@ -1,0 +1,102 @@
+---
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+import DocsMarkdown from '../../../components/DocsMarkdown.astro';
+import DocsToc from '../../../components/DocsToc.astro';
+import PrevNext from '../../../components/PrevNext.astro';
+import {
+  getArticleBySlug,
+  getDocsNav,
+  getPrevNext,
+  getSearchIndex,
+  getSiteSettings,
+  getVersionBySlug,
+  getVersions,
+} from '../../../lib/content';
+import { extractToc, normalizeMarkdown, renderArticleBody } from '../../../lib/markdown';
+import { buildPageSeo } from '../../../lib/seo';
+import { NotFoundError } from '@elmapicms/js-sdk';
+
+const { version, slug } = Astro.params;
+if (!version || !slug) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+let article;
+let nav;
+let versions;
+let settings;
+let searchItems;
+
+try {
+  [article, nav, versions, settings, searchItems] = await Promise.all([
+    getArticleBySlug(version, slug),
+    getDocsNav(version),
+    getVersions(),
+    getSiteSettings(),
+    getSearchIndex(version),
+  ]);
+  await getVersionBySlug(version);
+} catch (e) {
+  if (e instanceof NotFoundError) {
+    return new Response(null, { status: 404, statusText: 'Not Found' });
+  }
+  throw e;
+}
+
+const siteName = settings.fields['site-name'] || 'Docs';
+const { prev, next } = getPrevNext(nav, slug);
+const category = article.fields.category;
+const bodyMarkdown = normalizeMarkdown(article.fields.body);
+const toc = extractToc(bodyMarkdown);
+const html = await renderArticleBody(article.fields.body);
+
+const seo = buildPageSeo({
+  settings,
+  path: `/v/${version}/${slug}`,
+  title: article.fields['seo-title'] || article.fields.title,
+  description: article.fields['seo-description'] || article.fields.summary || undefined,
+});
+---
+
+<DocsLayout
+  seo={seo}
+  siteName={siteName}
+  versionSlug={version}
+  versions={versions}
+  nav={nav}
+  searchItems={searchItems}
+>
+  <div class="xl:-me-4 xl:grid xl:grid-cols-[minmax(0,1fr)_12.5rem] xl:gap-12 2xl:grid-cols-[minmax(0,1fr)_14rem]">
+    <article class="min-w-0">
+      <header class="mb-8 space-y-3">
+        {
+          category?.fields.slug && (
+            <p class="text-sm font-medium text-docs-primary">
+              <a
+                href={`/v/${version}/category/${category.fields.slug}`}
+                class="hover:underline hover:underline-offset-4"
+              >
+                {category.fields.title}
+              </a>
+            </p>
+          )
+        }
+        <h1 class="text-3xl font-semibold tracking-tight text-foreground sm:text-[2.15rem] sm:leading-[1.2]">
+          {article.fields.title || 'Untitled'}
+        </h1>
+        {
+          article.fields.summary && (
+            <p class="max-w-2xl text-[15.5px] leading-7 text-muted-foreground">
+              {article.fields.summary}
+            </p>
+          )
+        }
+      </header>
+      <DocsMarkdown html={html} />
+      <PrevNext versionSlug={version} prev={prev} next={next} />
+    </article>
+    <aside class="sticky top-24 hidden max-h-[calc(100vh-7rem)] self-start overflow-y-auto pt-1 xl:block">
+      <DocsToc items={toc} />
+    </aside>
+  </div>
+</DocsLayout>

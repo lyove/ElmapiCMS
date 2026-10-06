@@ -1,0 +1,115 @@
+---
+import LocaleSwitcher from "./LocaleSwitcher.astro";
+import type { Dictionary } from "../lib/dictionaries";
+import { localePath, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  dictionary: Dictionary;
+  siteName: string;
+  signedIn?: boolean;
+}
+
+const { locale, dictionary, siteName, signedIn = false } = Astro.props;
+---
+
+<header class="border-b border-zinc-200 bg-white">
+  <div
+    class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-3 px-4 py-3"
+  >
+    <div class="flex flex-wrap items-center gap-4">
+      <a
+        href={localePath(locale, "/")}
+        class="text-sm font-semibold tracking-tight text-zinc-900"
+      >
+        {siteName}
+      </a>
+      <nav class="flex flex-wrap items-center gap-3 text-sm text-zinc-600">
+        <a href={localePath(locale, "/notes")} class="hover:text-zinc-900"
+          >{dictionary.nav.notes}</a
+        >
+        <a href={localePath(locale, "/notes/new")} class="hover:text-zinc-900"
+          >{dictionary.nav.newNote}</a
+        >
+        <a href={localePath(locale, "/upload")} class="hover:text-zinc-900"
+          >{dictionary.nav.upload}</a
+        >
+        {
+          signedIn ? (
+            <a
+              href={localePath(locale, "/account")}
+              class="hover:text-zinc-900"
+            >
+              {dictionary.nav.account}
+            </a>
+          ) : (
+            <>
+              <a
+                href={localePath(locale, "/login")}
+                class="hover:text-zinc-900"
+              >
+                {dictionary.nav.login}
+              </a>
+              <a
+                href={localePath(locale, "/register")}
+                class="hover:text-zinc-900"
+              >
+                {dictionary.nav.register}
+              </a>
+            </>
+          )
+        }
+      </nav>
+    </div>
+    <div class="flex items-center gap-3">
+      <LocaleSwitcher locale={locale} label={dictionary.locale.switcher} />
+      {
+        signedIn ? (
+          <div class="flex flex-col items-end gap-1">
+            <button
+              type="button"
+              id="logout-btn"
+              class="rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-50 disabled:opacity-50"
+              data-locale={locale}
+              data-failed={dictionary.auth.logoutFailed}
+              data-home={localePath(locale, "/")}
+            >
+              {dictionary.nav.logout}
+            </button>
+            <p id="logout-error" class="hidden text-xs text-red-600"></p>
+          </div>
+        ) : null
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("logout-btn");
+  const err = document.getElementById("logout-error");
+  if (btn) {
+    btn.addEventListener("click", async () => {
+      btn.setAttribute("disabled", "true");
+      err?.classList.add("hidden");
+      try {
+        const res = await fetch("/api/auth/logout", { method: "POST" });
+        const data = (await res.json()) as { ok?: boolean };
+        if (!res.ok || data.ok === false) {
+          if (err) {
+            err.textContent = btn.dataset.failed || "Logout failed.";
+            err.classList.remove("hidden");
+          }
+          btn.removeAttribute("disabled");
+          return;
+        }
+        window.location.href = btn.dataset.home || "/";
+      } catch {
+        if (err) {
+          err.textContent = btn.dataset.failed || "Logout failed.";
+          err.classList.remove("hidden");
+        }
+        btn.removeAttribute("disabled");
+      }
+    });
+  }
+</script>

@@ -1,0 +1,36 @@
+---
+import { renderRichText } from '../lib/rich-text';
+import type { ContentEntry, FaqFields } from '../lib/types';
+import RichText from './RichText.astro';
+
+interface Props {
+  faqs: ContentEntry<FaqFields>[];
+}
+
+const { faqs } = Astro.props;
+---
+
+{faqs.length > 0 && (
+  <section class="rounded-[1.75rem] bg-foam p-6 shadow-[0_18px_50px_-32px_rgba(21,32,25,0.4)] sm:p-8">
+    <p class="section-label">Questions</p>
+    <h2 class="section-title mt-2 text-3xl">FAQ</h2>
+    <div class="mt-8 divide-y divide-forest/10">
+      {faqs.map((faq) => {
+        const answerHtml = renderRichText(faq.fields.answer);
+        return (
+          <details class="group py-5">
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-4 font-display text-lg font-semibold tracking-tight text-coal marker:content-none">
+              <span>{faq.fields.question}</span>
+              <span class="text-ember transition-transform group-open:rotate-45">+</span>
+            </summary>
+            {answerHtml && (
+              <div class="mt-3 max-w-prose">
+                <RichText html={answerHtml} />
+              </div>
+            )}
+          </details>
+        );
+      })}
+    </div>
+  </section>
+)}

@@ -1,0 +1,74 @@
+---
+---
+
+<button
+  type="button"
+  id="docs-width-toggle"
+  class="inline-flex size-8 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent"
+  aria-label="Use full width"
+  title="Full width"
+>
+  <svg
+    data-icon-expand
+    class="size-4"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M15 3h6v6" />
+    <path d="m21 3-7 7" />
+    <path d="m3 21 7-7" />
+    <path d="M9 21H3v-6" />
+  </svg>
+  <svg
+    data-icon-collapse
+    class="size-4 hidden"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M4 14h6v6" />
+    <path d="m10 14-7 7" />
+    <path d="M20 10h-6V4" />
+    <path d="m14 10 7-7" />
+  </svg>
+</button>
+
+<script>
+  const button = document.getElementById('docs-width-toggle');
+  const iconExpand = button?.querySelector('[data-icon-expand]');
+  const iconCollapse = button?.querySelector('[data-icon-collapse]');
+
+  function syncIcon(fullWidth: boolean) {
+    iconExpand?.classList.toggle('hidden', fullWidth);
+    iconCollapse?.classList.toggle('hidden', !fullWidth);
+    button?.setAttribute(
+      'aria-label',
+      fullWidth ? 'Use reading width' : 'Use full width',
+    );
+    button?.setAttribute('title', fullWidth ? 'Reading width' : 'Full width');
+  }
+
+  const initial =
+    typeof window.docsGetFullWidth === 'function' ? window.docsGetFullWidth() : false;
+  syncIcon(initial);
+
+  button?.addEventListener('click', () => {
+    const current =
+      typeof window.docsGetFullWidth === 'function' ? window.docsGetFullWidth() : false;
+    window.docsSetFullWidth?.(!current);
+  });
+
+  window.addEventListener('docs:full-width', (event) => {
+    const detail = (event as CustomEvent<{ fullWidth: boolean }>).detail;
+    syncIcon(detail.fullWidth);
+  });
+</script>

@@ -1,0 +1,94 @@
+---
+import DocsSearch from './DocsSearch.astro';
+import DocsSidebar from './DocsSidebar.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import VersionSwitcher from './VersionSwitcher.astro';
+import WidthToggle from './WidthToggle.astro';
+import type {
+  ContentEntry,
+  DocVersionFields,
+  NavCategory,
+  SearchItem,
+} from '../lib/types';
+
+interface Props {
+  siteName: string;
+  versionSlug: string;
+  versions: ContentEntry<DocVersionFields>[];
+  nav: NavCategory[];
+  searchItems: SearchItem[];
+}
+
+const { siteName, versionSlug, versions, nav, searchItems } = Astro.props;
+---
+
+<header class="sticky top-0 z-30 border-b border-border/70 bg-background/80 backdrop-blur-xl supports-backdrop-filter:bg-background/70">
+  <div class="flex h-14 items-center gap-2 px-3 sm:px-4 lg:px-5">
+    <button
+      type="button"
+      id="docs-mobile-menu-open"
+      class="inline-flex size-8 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent lg:hidden"
+      aria-label="Open navigation"
+    >
+      <svg
+        class="size-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4 5h16" />
+        <path d="M4 12h16" />
+        <path d="M4 19h16" />
+      </svg>
+    </button>
+
+    <VersionSwitcher versions={versions} currentSlug={versionSlug} />
+
+    <div class="ml-auto flex items-center gap-1.5">
+      <DocsSearch
+        items={searchItems}
+        versionSlug={versionSlug}
+        class="w-44 sm:w-56 md:w-64"
+      />
+      <WidthToggle />
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<div id="docs-mobile-menu" class="fixed inset-0 z-50 hidden lg:hidden" aria-hidden="true">
+  <button
+    type="button"
+    id="docs-mobile-menu-backdrop"
+    class="absolute inset-0 bg-black/40"
+    aria-label="Close navigation"
+  ></button>
+  <aside class="absolute inset-y-0 left-0 w-[min(20rem,90vw)] overflow-y-auto bg-docs-sidebar px-4 py-5 shadow-xl">
+    <DocsSidebar
+      siteName={siteName}
+      nav={nav}
+      versionSlug={versionSlug}
+      mobile={true}
+    />
+  </aside>
+</div>
+
+<script>
+  const menu = document.getElementById('docs-mobile-menu');
+  const openBtn = document.getElementById('docs-mobile-menu-open');
+  const backdrop = document.getElementById('docs-mobile-menu-backdrop');
+
+  function setMenuOpen(open: boolean) {
+    menu?.classList.toggle('hidden', !open);
+    menu?.setAttribute('aria-hidden', open ? 'false' : 'true');
+    document.body.classList.toggle('overflow-hidden', open);
+  }
+
+  openBtn?.addEventListener('click', () => setMenuOpen(true));
+  backdrop?.addEventListener('click', () => setMenuOpen(false));
+  window.addEventListener('docs:sidebar-navigate', () => setMenuOpen(false));
+</script>

@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { loadPageChrome, resolveLocale } from "../../../lib/page-context";
+
+const locale = await resolveLocale(Astro.params.locale);
+const chrome = await loadPageChrome(locale, Astro.cookies);
+---
+
+<BaseLayout
+  locale={locale}
+  dictionary={chrome.dictionary}
+  siteName={chrome.siteName}
+  title={chrome.dictionary.newNote.title}
+  description={chrome.dictionary.newNote.intro}
+  signedIn={chrome.signedIn}
+>
+  <div class="mx-auto max-w-lg space-y-4">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">
+        {chrome.dictionary.newNote.title}
+      </h1>
+      <p class="mt-2 text-sm text-zinc-600">{chrome.dictionary.newNote.intro}</p>
+    </div>
+    <form id="new-note-form" class="space-y-4" data-locale={locale}>
+      <div class="space-y-1.5">
+        <label for="title" class="block text-sm font-medium"
+          >{chrome.dictionary.newNote.noteTitle}</label
+        >
+        <input
+          id="title"
+          name="title"
+          required
+          class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+        />
+      </div>
+      <div class="space-y-1.5">
+        <label for="slug" class="block text-sm font-medium"
+          >{chrome.dictionary.newNote.slug}</label
+        >
+        <input
+          id="slug"
+          name="slug"
+          required
+          pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+          placeholder="my-note"
+          class="w-full rounded border border-zinc-300 px-3 py-2 font-mono text-sm"
+        />
+      </div>
+      <div class="space-y-1.5">
+        <label for="body" class="block text-sm font-medium"
+          >{chrome.dictionary.newNote.body}</label
+        >
+        <textarea
+          id="body"
+          name="body"
+          required
+          rows="8"
+          class="w-full rounded border border-zinc-300 px-3 py-2 font-mono text-sm"
+          >## New note
+
+Write markdown here.</textarea
+        >
+      </div>
+      <p id="note-error" class="hidden text-sm text-red-600"></p>
+      <button
+        type="submit"
+        class="rounded bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-50"
+      >
+        {chrome.dictionary.newNote.submit}
+      </button>
+    </form>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("new-note-form") as HTMLFormElement | null;
+  const errorEl = document.getElementById("note-error");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const submit = form.querySelector("button[type=submit]") as HTMLButtonElement;
+    submit.disabled = true;
+    errorEl?.classList.add("hidden");
+    const fd = new FormData(form);
+    try {
+      const res = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: String(fd.get("title") || ""),
+          slug: String(fd.get("slug") || ""),
+          body: String(fd.get("body") || ""),
+          locale: form.dataset.locale || "en",
+        }),
+      });
+      const data = (await res.json()) as { error?: string; slug?: string };
+      if (!res.ok) {
+        if (errorEl) {
+          errorEl.textContent = data.error || "Create failed.";
+          errorEl.classList.remove("hidden");
+        }
+        submit.disabled = false;
+        return;
+      }
+      window.location.href = `/${form.dataset.locale}/notes/${data.slug}`;
+    } catch {
+      if (errorEl) {
+        errorEl.textContent = "Network error.";
+        errorEl.classList.remove("hidden");
+      }
+      submit.disabled = false;
+    }
+  });
+</script>

@@ -1,0 +1,38 @@
+---
+import { locales, localeLabels, type Locale } from "../lib/i18n";
+
+interface Props {
+  locale: Locale;
+  label: string;
+}
+
+const { locale, label } = Astro.props;
+const pathname = Astro.url.pathname;
+const search = Astro.url.search;
+
+function pathForLocale(target: Locale) {
+  const segments = pathname.split("/");
+  segments[1] = target;
+  return `${segments.join("/") || `/${target}`}${search}`;
+}
+---
+
+<div class="flex items-center gap-1" role="group" aria-label={label}>
+  {
+    locales.map((code) => (
+      <a
+        href={pathForLocale(code)}
+        class:list={[
+          "rounded px-2 py-1 text-xs font-medium uppercase",
+          code === locale
+            ? "bg-zinc-900 text-white"
+            : "text-zinc-600 hover:bg-zinc-100",
+        ]}
+        aria-current={code === locale ? "true" : undefined}
+        title={localeLabels[code]}
+      >
+        {code}
+      </a>
+    ))
+  }
+</div>

@@ -1,0 +1,14 @@
+---
+import { getDefaultVersion } from '../lib/content';
+
+try {
+  const version = await getDefaultVersion();
+  const slug = version.fields.slug;
+  if (!slug) {
+    return new Response(null, { status: 404, statusText: 'Not Found' });
+  }
+  return Astro.redirect(`/v/${slug}`, 302);
+} catch {
+  return Astro.redirect('/v/1.0', 302);
+}
+---

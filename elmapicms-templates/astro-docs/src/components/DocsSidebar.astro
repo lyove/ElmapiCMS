@@ -1,0 +1,188 @@
+---
+import type { NavCategory } from '../lib/types';
+
+interface Props {
+  siteName: string;
+  nav: NavCategory[];
+  versionSlug: string;
+  class?: string;
+  mobile?: boolean;
+}
+
+const { siteName, nav, versionSlug, class: className, mobile = false } = Astro.props;
+const pathname = Astro.url.pathname;
+const rootId = mobile ? 'docs-sidebar-mobile' : 'docs-sidebar';
+---
+
+<div id={rootId} class:list={['flex flex-col gap-5', className]} data-version={versionSlug}>
+  <a
+    href={`/v/${versionSlug}`}
+    class="block text-[15px] font-semibold tracking-tight text-foreground transition-opacity hover:opacity-80"
+    data-nav-home
+  >
+    {siteName}
+  </a>
+
+  <nav aria-label="Documentation" class="space-y-5">
+    {
+      nav.map((category) => {
+        const categoryActive = pathname === `/v/${versionSlug}/category/${category.slug}`;
+        const hasActiveArticle = category.articles.some(
+          (article) => pathname === `/v/${versionSlug}/${article.slug}`,
+        );
+        const shouldOpen = category.defaultOpen || categoryActive || hasActiveArticle;
+
+        return (
+          <div data-category={category.uuid} data-default-open={shouldOpen ? 'true' : 'false'}>
+            <div class="mb-1 flex items-center gap-0.5">
+              <button
+                type="button"
+                data-toggle
+                aria-expanded={shouldOpen}
+                aria-label={`${shouldOpen ? 'Collapse' : 'Expand'} ${category.title}`}
+                class="inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              >
+                <svg
+                  data-chevron
+                  class:list={[
+                    'size-3.5 transition-transform duration-150',
+                    shouldOpen && 'rotate-90',
+                  ]}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+              <a
+                href={`/v/${versionSlug}/category/${category.slug}`}
+                data-category-link
+                class:list={[
+                  'min-w-0 flex-1 rounded-lg px-2 py-1.5 text-[13px] font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground',
+                  categoryActive && 'bg-accent text-foreground',
+                ]}
+              >
+                {category.title}
+              </a>
+            </div>
+            <ul
+              data-articles
+              class:list={['ms-3 space-y-0.5 border-s border-border/80 ps-2', !shouldOpen && 'hidden']}
+            >
+              {
+                category.articles.map((article) => {
+                  const href = `/v/${versionSlug}/${article.slug}`;
+                  const active = pathname === href;
+                  return (
+                    <li>
+                      <a
+                        href={href}
+                        data-article-link
+                        class:list={[
+                          'block rounded-lg px-2.5 py-[0.4rem] text-[13px] text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
+                          active &&
+                            'bg-docs-primary/10 font-medium text-docs-primary hover:bg-docs-primary/10 hover:text-docs-primary',
+                        ]}
+                      >
+                        {article.title}
+                      </a>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </div>
+        );
+      })
+    }
+  </nav>
+</div>
+
+<script define:vars={{ storageKey: 'docs-sidebar-categories', rootId }}>
+  function readStored() {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      const next = {};
+      for (const [key, value] of Object.entries(parsed)) {
+        if (typeof value === 'boolean') next[key] = value;
+      }
+      return next;
+    } catch {
+      return {};
+    }
+  }
+
+  function writeStored(map) {
+    localStorage.setItem(storageKey, JSON.stringify(map));
+  }
+
+  function initSidebar(root) {
+    if (!root) return;
+    const stored = readStored();
+    const versionSlug = root.dataset.version || '';
+    const pathname = window.location.pathname;
+
+    root.querySelectorAll('[data-category]').forEach((block) => {
+      const uuid = block.getAttribute('data-category');
+      const articles = block.querySelector('[data-articles]');
+      const chevron = block.querySelector('[data-chevron]');
+      const toggle = block.querySelector('[data-toggle]');
+      const defaultOpen = block.getAttribute('data-default-open') === 'true';
+
+      let isOpen =
+        typeof stored[uuid] === 'boolean' ? stored[uuid] : defaultOpen;
+
+      const categoryLink = block.querySelector('[data-category-link]');
+      const categorySlug = categoryLink?.getAttribute('href')?.split('/').pop() || '';
+      const categoryActive = pathname === `/v/${versionSlug}/category/${categorySlug}`;
+      const articleActive = Array.from(
+        block.querySelectorAll('[data-article-link]'),
+      ).some((link) => link.getAttribute('href') === pathname);
+
+      if (categoryActive || articleActive) {
+        isOpen = true;
+        writeStored({ ...readStored(), [uuid]: true });
+      }
+
+      function setOpen(value) {
+        articles?.classList.toggle('hidden', !value);
+        chevron?.classList.toggle('rotate-90', value);
+        toggle?.setAttribute('aria-expanded', value ? 'true' : 'false');
+        toggle?.setAttribute(
+          'aria-label',
+          `${value ? 'Collapse' : 'Expand'} ${categoryLink?.textContent?.trim() || 'category'}`,
+        );
+      }
+
+      setOpen(isOpen);
+
+      toggle?.addEventListener('click', () => {
+        const next = articles?.classList.contains('hidden');
+        setOpen(next);
+        writeStored({ ...readStored(), [uuid]: next });
+      });
+
+      categoryLink?.addEventListener('click', () => {
+        setOpen(true);
+        writeStored({ ...readStored(), [uuid]: true });
+      });
+    });
+
+    root.querySelectorAll('[data-nav-home], [data-article-link], [data-category-link]').forEach(
+      (link) => {
+        link.addEventListener('click', () => {
+          window.dispatchEvent(new CustomEvent('docs:sidebar-navigate'));
+        });
+      },
+    );
+  }
+
+  initSidebar(document.getElementById(rootId));
+</script>

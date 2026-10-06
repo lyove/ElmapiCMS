@@ -1,0 +1,27 @@
+{
+  "name": "@elmapicms/basic-starter-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node ./dist/server/entry.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.0.3",
+    "@elmapicms/js-sdk": "^1.0.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.1.6",
+    "marked": "^18.0.7",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3"
+  }
+}

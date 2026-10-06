@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+@theme {
+  --color-chalk: #f2f5f3;
+  --color-foam: #ffffff;
+  --color-coal: #152019;
+  --color-forest: #1b3c31;
+  --color-sage: #5a8f74;
+  --color-ember: #e85d3b;
+  --color-mist: #8a9a92;
+
+  /* Aliases used across subpages */
+  --color-ink: #152019;
+  --color-linen: #f2f5f3;
+  --color-slate: #4d6358;
+  --color-oxblood: #e85d3b;
+  --color-brass: #5a8f74;
+
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    --chalk: #f2f5f3;
+    --foam: #ffffff;
+    --coal: #152019;
+    --forest: #1b3c31;
+    --sage: #5a8f74;
+    --ember: #e85d3b;
+    --mist: #8a9a92;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-chalk text-coal font-body antialiased;
+    background-image:
+      radial-gradient(ellipse 90% 60% at 10% 0%, color-mix(in srgb, var(--sage) 14%, transparent), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 100% 20%, color-mix(in srgb, var(--ember) 8%, transparent), transparent 50%),
+      linear-gradient(180deg, var(--chalk) 0%, #e8eee9 100%);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--ember) 30%, transparent);
+    color: var(--coal);
+  }
+
+  a {
+    @apply text-forest transition-colors duration-200;
+  }
+
+  a:hover {
+    @apply text-ember;
+  }
+
+  img {
+    @apply max-w-full h-auto;
+  }
+}
+
+@layer components {
+  .container-marrow {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-sage;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-ember px-7 py-3.5 text-sm font-semibold text-foam shadow-[0_10px_30px_-12px_rgba(232,93,59,0.7)] transition-all duration-300;
+  }
+
+  .btn-primary:hover {
+    @apply -translate-y-0.5 brightness-105;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-forest/20 bg-foam px-7 py-3.5 text-sm font-semibold text-forest transition-all duration-300 hover:border-ember hover:text-ember;
+  }
+
+  .btn-primary:hover {
+    @apply bg-forest shadow-[0_12px_28px_-12px_rgba(27,60,49,0.55)] !text-foam;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-full border-2 border-forest/20 bg-foam/70 px-7 py-3.5 text-sm font-semibold text-forest backdrop-blur transition-all duration-300;
+  }
+
+  .btn-outline:hover {
+    @apply border-ember text-ember !text-ember;
+  }
+
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-[0.2em] text-sage;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-bold tracking-[-0.02em] text-coal leading-tight sm:text-4xl lg:text-5xl;
+  }
+
+  .dish-card {
+    @apply overflow-hidden rounded-[1.75rem] bg-foam shadow-[0_18px_50px_-28px_rgba(21,32,25,0.45)] transition-transform duration-500;
+  }
+
+  .dish-card:hover {
+    @apply -translate-y-1;
+  }
+
+  .value-card {
+    @apply rounded-[1.5rem] border border-forest/8 bg-foam/80 p-7 shadow-[0_12px_40px_-30px_rgba(21,32,25,0.4)] backdrop-blur;
+  }
+
+  .ticket-section {
+    @apply border-t border-forest/10 pt-10;
+  }
+
+  .ticket-row {
+    @apply grid gap-2 border-b border-dashed border-forest/12 py-5 transition-colors duration-200 sm:grid-cols-[1fr_auto] sm:items-start sm:gap-6;
+  }
+
+  .ticket-row:hover {
+    @apply bg-foam/60;
+  }
+
+  .ticket-label {
+    @apply text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-mist;
+  }
+
+  .ticket-price {
+    @apply text-base font-bold tabular-nums text-ember;
+  }
+
+  .dietary-badge {
+    @apply inline-block rounded-full bg-chalk px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider text-forest;
+  }
+
+  .hero-rise {
+    animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero-rise-delay-1 {
+    animation-delay: 0.1s;
+  }
+
+  .hero-rise-delay-2 {
+    animation-delay: 0.2s;
+  }
+
+  .hero-rise-delay-3 {
+    animation-delay: 0.32s;
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .prose-marrow {
+    @apply text-base leading-relaxed sm:text-lg;
+  }
+
+  .prose-marrow p {
+    @apply mb-5 last:mb-0 text-forest/80;
+  }
+
+  .prose-marrow h2 {
+    @apply font-display text-2xl font-bold tracking-[-0.02em] text-coal mt-10 mb-4;
+  }
+
+  .prose-marrow h3 {
+    @apply font-display text-xl font-bold tracking-[-0.02em] text-coal mt-8 mb-3;
+  }
+
+  .form-label {
+    @apply mb-1.5 block text-sm font-semibold text-coal;
+  }
+
+  .form-input,
+  .form-textarea {
+    @apply w-full rounded-2xl border border-forest/15 bg-chalk px-4 py-3 text-coal outline-none transition focus:border-ember focus:ring-2 focus:ring-ember/20;
+  }
+
+  .form-textarea {
+    @apply min-h-[7rem] resize-y;
+  }
+
+  .prose-marrow ul,
+  .prose-marrow ol {
+    @apply mb-4 ml-5 space-y-1 text-forest/80;
+  }
+
+  .prose-marrow ul {
+    @apply list-disc;
+  }
+
+  .prose-marrow ol {
+    @apply list-decimal;
+  }
+
+  .prose-marrow a {
+    @apply text-ember underline decoration-ember/40 underline-offset-2;
+  }
+
+  .prose-marrow strong {
+    @apply text-coal font-semibold;
+  }
+
+  .prose-marrow blockquote {
+    @apply border-l-4 border-ember pl-4 italic text-forest/90 my-6;
+  }
+
+  .hours-ticket {
+    @apply text-sm leading-relaxed text-mist;
+  }
+
+  .hours-ticket p {
+    @apply mb-1;
+  }
+
+  .hours-ticket strong {
+    @apply text-foam;
+  }
+
+  .font-mono-ticket {
+    font-family: var(--font-body);
+    @apply font-semibold tracking-wide;
+  }
+}

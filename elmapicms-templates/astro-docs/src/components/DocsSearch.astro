@@ -1,0 +1,96 @@
+---
+import type { SearchItem } from '../lib/types';
+
+interface Props {
+  items: SearchItem[];
+  versionSlug: string;
+  class?: string;
+}
+
+const { items, versionSlug, class: className } = Astro.props;
+const searchJson = JSON.stringify(items);
+---
+
+<div class:list={['relative', className]} data-docs-search data-version={versionSlug}>
+  <label class="sr-only" for="docs-search-input">Search documentation</label>
+  <div class="relative">
+    <svg
+      class="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+    <input
+      id="docs-search-input"
+      type="search"
+      placeholder="Search..."
+      autocomplete="off"
+      class="h-8 w-full rounded-md border border-border bg-background pr-3 pl-8 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-docs-primary/30"
+    />
+  </div>
+  <div
+    id="docs-search-results"
+    class="absolute top-[calc(100%+0.35rem)] right-0 left-0 z-40 hidden overflow-hidden rounded-lg border border-border bg-popover shadow-lg"
+  ></div>
+</div>
+
+<script define:vars={{ searchJson, versionSlug }}>
+  const root = document.querySelector('[data-docs-search]');
+  const input = document.getElementById('docs-search-input');
+  const results = document.getElementById('docs-search-results');
+  const items = JSON.parse(searchJson);
+
+  function renderResults(query) {
+    if (!results || !input) return;
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) {
+      results.classList.add('hidden');
+      results.innerHTML = '';
+      return;
+    }
+
+    const matches = items
+      .filter((item) => {
+        const haystack = `${item.title} ${item.summary} ${item.categoryTitle}`.toLowerCase();
+        return haystack.includes(trimmed);
+      })
+      .slice(0, 8);
+
+    if (matches.length === 0) {
+      results.innerHTML = `<p class="px-3 py-2.5 text-sm text-muted-foreground">No matches for "${query.trim()}".</p>`;
+    } else {
+      const list = matches
+        .map((item) => {
+          const summary = item.summary ? ` · ${item.summary}` : '';
+          return `<li><a href="/v/${versionSlug}/${item.slug}" class="block px-3 py-2 transition-colors hover:bg-muted" data-search-link><span class="block text-sm font-medium text-foreground">${item.title}</span><span class="mt-0.5 block text-xs text-muted-foreground">${item.categoryTitle}${summary}</span></a></li>`;
+        })
+        .join('');
+      results.innerHTML = `<ul class="max-h-72 overflow-auto py-1">${list}</ul>`;
+      results.querySelectorAll('[data-search-link]').forEach((link) => {
+        link.addEventListener('click', () => {
+          input.value = '';
+          renderResults('');
+        });
+      });
+    }
+
+    results.classList.remove('hidden');
+  }
+
+  input?.addEventListener('input', (event) => {
+    renderResults(event.target.value);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!root?.contains(event.target)) {
+      results?.classList.add('hidden');
+    }
+  });
+</script>

@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import type { ContentEntry, SiteSettingsFields } from '../lib/types';
+import type { SeoMeta } from '../lib/seo';
+
+interface Props {
+  settings: ContentEntry<SiteSettingsFields> | null;
+  seo: SeoMeta;
+}
+
+const { settings, seo } = Astro.props;
+const siteName = settings?.fields['site-name'] || 'Marrow';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{seo.title}</title>
+    {seo.description && <meta name="description" content={seo.description} />}
+    <link rel="canonical" href={seo.canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={seo.canonical} />
+    <meta property="og:title" content={seo.title} />
+    {seo.description && <meta property="og:description" content={seo.description} />}
+    <meta property="og:site_name" content={siteName} />
+    {seo.image && <meta property="og:image" content={seo.image} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.title} />
+    {seo.description && <meta name="twitter:description" content={seo.description} />}
+    {seo.image && <meta name="twitter:image" content={seo.image} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <SiteHeader settings={settings} currentPath={Astro.url.pathname} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter settings={settings} />
+  </body>
+</html>

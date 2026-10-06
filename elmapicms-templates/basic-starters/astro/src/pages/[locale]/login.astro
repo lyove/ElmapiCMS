@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { localePath } from "../../lib/i18n";
+import { loadPageChrome, resolveLocale } from "../../lib/page-context";
+
+const locale = await resolveLocale(Astro.params.locale);
+const chrome = await loadPageChrome(locale, Astro.cookies);
+const callbackUrl =
+  Astro.url.searchParams.get("callbackUrl") || localePath(locale, "/account");
+---
+
+<BaseLayout
+  locale={locale}
+  dictionary={chrome.dictionary}
+  siteName={chrome.siteName}
+  title={chrome.dictionary.auth.loginTitle}
+  signedIn={chrome.signedIn}
+>
+  <div class="mx-auto max-w-sm space-y-4">
+    <h1 class="text-2xl font-semibold tracking-tight">
+      {chrome.dictionary.auth.loginTitle}
+    </h1>
+    <form
+      id="login-form"
+      class="space-y-4"
+      data-callback={callbackUrl}
+    >
+      <div class="space-y-1.5">
+        <label for="email" class="block text-sm font-medium"
+          >{chrome.dictionary.auth.email}</label
+        >
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+        />
+      </div>
+      <div class="space-y-1.5">
+        <label for="password" class="block text-sm font-medium"
+          >{chrome.dictionary.auth.password}</label
+        >
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          autocomplete="current-password"
+          class="w-full rounded border border-zinc-300 px-3 py-2 text-sm"
+        />
+      </div>
+      <p id="login-error" class="hidden text-sm text-red-600"></p>
+      <button
+        type="submit"
+        class="w-full rounded bg-zinc-900 px-3 py-2 text-sm font-medium text-white disabled:opacity-50"
+      >
+        {chrome.dictionary.auth.submitLogin}
+      </button>
+    </form>
+    <p class="text-sm text-zinc-600">
+      {chrome.dictionary.auth.noAccount}
+      <a
+        href={localePath(locale, "/register")}
+        class="underline underline-offset-2"
+      >
+        {chrome.dictionary.nav.register}
+      </a>
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("login-form") as HTMLFormElement | null;
+  const errorEl = document.getElementById("login-error");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const submit = form.querySelector("button[type=submit]") as HTMLButtonElement;
+    submit.disabled = true;
+    errorEl?.classList.add("hidden");
+    const fd = new FormData(form);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: String(fd.get("email") || ""),
+          password: String(fd.get("password") || ""),
+        }),
+      });
+      if (!res.ok) {
+        if (errorEl) {
+          errorEl.textContent =
+            "Sign-in failed. Check your email and password, or confirm your email if verification is required.";
+          errorEl.classList.remove("hidden");
+        }
+        submit.disabled = false;
+        return;
+      }
+      window.location.href = form.dataset.callback || "/";
+    } catch {
+      if (errorEl) {
+        errorEl.textContent = "Network error.";
+        errorEl.classList.remove("hidden");
+      }
+      submit.disabled = false;
+    }
+  });
+</script>

@@ -1,0 +1,198 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-canvas: var(--canvas);
+  --color-ink: var(--ink);
+  --color-stone: var(--stone);
+  --color-mist: var(--mist);
+  --color-teal: var(--teal);
+  --color-surface: var(--surface);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  /* Auros-like furniture shop: white, mist grey, black, soft teal */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --canvas: #ffffff;
+  --ink: #1a1a1a;
+  --stone: #8c8c8c;
+  --mist: #f3f3f3;
+  --teal: #2ec4b6;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #1a1a1a;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f3f3;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f3f3f3;
+  --muted-foreground: #8c8c8c;
+  --accent: #2ec4b6;
+  --accent-foreground: #ffffff;
+  --destructive: #e74c3c;
+  --border: #e8e8e8;
+  --input: #e8e8e8;
+  --ring: #2ec4b6;
+  --chart-1: #1a1a1a;
+  --chart-2: #2ec4b6;
+  --chart-3: #8c8c8c;
+  --chart-4: #f3f3f3;
+  --chart-5: #e8e8e8;
+  --radius: 0.125rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #1a1a1a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f3f3;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #e8e8e8;
+  --sidebar-ring: #2ec4b6;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-canvas text-foreground text-[14px] leading-6;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+}
+
+@layer components {
+  .rich-text {
+    @apply space-y-5 text-[15px] leading-7 text-ink/80;
+  }
+  .rich-text h2 {
+    @apply mt-10 font-heading text-2xl font-bold tracking-tight text-ink;
+  }
+  .rich-text h3 {
+    @apply mt-8 font-heading text-xl font-bold tracking-tight text-ink;
+  }
+  .rich-text p {
+    @apply text-pretty;
+  }
+  .rich-text ul {
+    @apply list-disc space-y-2 pl-6 marker:text-teal;
+  }
+  .rich-text ol {
+    @apply list-decimal space-y-2 pl-6 marker:font-semibold marker:text-teal;
+  }
+  .rich-text strong {
+    @apply font-semibold text-ink;
+  }
+  .rich-text a {
+    @apply text-teal underline decoration-teal/40 underline-offset-4;
+  }
+
+  .brand-mark {
+    @apply font-heading text-xl font-bold uppercase tracking-[0.28em] text-ink sm:text-2xl;
+  }
+
+  .section-title {
+    @apply font-heading text-2xl font-bold tracking-tight text-ink sm:text-3xl;
+  }
+
+  .section-lead {
+    @apply mt-3 max-w-xl text-[14px] leading-6 text-stone;
+  }
+
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.16em] text-stone;
+  }
+
+  .price-label {
+    @apply text-sm font-medium tabular-nums text-ink;
+  }
+
+  .shop-cta {
+    @apply inline-flex items-center justify-center border border-ink bg-ink px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-teal hover:border-teal;
+  }
+
+  .shop-cta-outline {
+    @apply inline-flex items-center justify-center border border-ink bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-ink hover:text-white;
+  }
+}
+
+@keyframes sable-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: sable-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-rise-delay-1 {
+  animation-delay: 0.1s;
+}
+
+.animate-rise-delay-2 {
+  animation-delay: 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+}

@@ -1,0 +1,50 @@
+---
+import type { ContentEntry, DocVersionFields } from '../lib/types';
+
+interface Props {
+  versions: ContentEntry<DocVersionFields>[];
+  currentSlug: string;
+}
+
+const { versions, currentSlug } = Astro.props;
+---
+
+<label class="relative inline-flex items-center">
+  <span class="sr-only">Documentation version</span>
+  <select
+    id="docs-version-switcher"
+    value={currentSlug}
+    class="h-8 appearance-none rounded-md border border-border bg-background pr-8 pl-2.5 text-sm font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-2 focus-visible:ring-docs-primary/30"
+  >
+    {
+      versions.map((version) => {
+        const slug = version.fields.slug || version.uuid;
+        const label = version.fields.label || slug;
+        return <option value={slug}>{label}</option>;
+      })
+    }
+  </select>
+  <svg
+    class="pointer-events-none absolute top-1/2 right-2 size-3.5 -translate-y-1/2 text-muted-foreground"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+</label>
+
+<script>
+  const select = document.getElementById('docs-version-switcher') as HTMLSelectElement | null;
+  const initial = select?.value || '';
+
+  select?.addEventListener('change', () => {
+    const next = select.value;
+    if (!next || next === initial) return;
+    window.location.href = `/v/${encodeURIComponent(next)}`;
+  });
+</script>

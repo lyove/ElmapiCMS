@@ -1,0 +1,76 @@
+---
+interface NavLink {
+  title: string;
+  slug: string;
+}
+
+interface Props {
+  versionSlug: string;
+  prev: NavLink | null;
+  next: NavLink | null;
+}
+
+const { versionSlug, prev, next } = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav
+      aria-label="Adjacent articles"
+      class="mt-16 grid gap-3 border-t border-border/80 pt-8 sm:grid-cols-2"
+    >
+      {
+        prev ? (
+          <a
+            href={`/v/${versionSlug}/${prev.slug}`}
+            class="group flex flex-col gap-1.5 rounded-xl border border-border/80 px-4 py-3.5 transition-colors hover:bg-accent/70"
+          >
+            <span class="inline-flex items-center gap-1 text-xs text-muted-foreground">
+              <svg
+                class="size-3.5 transition-transform group-hover:-translate-x-0.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+              Previous
+            </span>
+            <span class="text-sm font-medium tracking-tight text-foreground">{prev.title}</span>
+          </a>
+        ) : (
+          <div />
+        )
+      }
+      {
+        next && (
+          <a
+            href={`/v/${versionSlug}/${next.slug}`}
+            class="group flex flex-col items-end gap-1.5 rounded-xl border border-border/80 px-4 py-3.5 text-right transition-colors hover:bg-accent/70"
+          >
+            <span class="inline-flex items-center gap-1 text-xs text-muted-foreground">
+              Next
+              <svg
+                class="size-3.5 transition-transform group-hover:translate-x-0.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </span>
+            <span class="text-sm font-medium tracking-tight text-foreground">{next.title}</span>
+          </a>
+        )
+      }
+    </nav>
+  )
+}

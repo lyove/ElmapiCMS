@@ -1,0 +1,153 @@
+/*
+  MDXEditor ships unlayered CSS with light tokens on ._editorRoot_*.
+  Our previous overrides lived in @layer components (Tailwind), which loses to unlayered styles.
+  This file is unlayered and imported from markdown-editor.tsx *after* @mdxeditor/editor/style.css.
+
+  Portals (selects, link dialog, etc.) render into .mdxeditor-popup-container on document.body,
+  so theme tokens must target that node too — not only .markdown-mdx-editor .mdxeditor.
+*/
+
+/* Keep the editor from widening flex rows (avoids a horizontal scrollbar on the main scroll area). */
+.markdown-mdx-editor {
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* Inner viewport: scroll + sticky toolbar (see markdown-editor.tsx wrapper). */
+.markdown-mdx-editor-scroll {
+    min-width: 0;
+}
+
+.markdown-mdx-editor .mdxeditor {
+    max-width: 100%;
+    /* Height follows content; avoid a large min-height here (flex children can stretch and show a false bottom gap). */
+    height: auto;
+    min-height: 0;
+}
+
+/*
+  Sticky relative to `.markdown-mdx-editor-scroll` (overflow-y: auto), not the app shell — toolbar
+  stays visible while long documents scroll inside the capped editor viewport.
+*/
+.markdown-mdx-editor-scroll .mdxeditor-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 0 var(--border);
+}
+
+.markdown-mdx-editor .mdxeditor,
+.mdxeditor-popup-container {
+    --basePageBg: var(--background);
+    --baseBase: var(--background);
+    --baseBgSubtle: var(--muted);
+    --baseBg: var(--muted);
+    --baseBgHover: var(--accent);
+    --baseBgActive: var(--accent);
+    --baseLine: var(--border);
+    --baseBorder: var(--border);
+    --baseBorderHover: var(--ring);
+    --baseSolid: var(--muted-foreground);
+    --baseSolidHover: var(--foreground);
+    --baseText: var(--muted-foreground);
+    --baseTextContrast: var(--foreground);
+    --accentBase: var(--primary-foreground);
+    --accentBgSubtle: color-mix(in oklch, var(--primary) 12%, transparent);
+    --accentBg: color-mix(in oklch, var(--primary) 18%, transparent);
+    --accentBgHover: color-mix(in oklch, var(--primary) 26%, transparent);
+    --accentBgActive: color-mix(in oklch, var(--primary) 32%, transparent);
+    --accentLine: color-mix(in oklch, var(--primary) 35%, transparent);
+    --accentBorder: color-mix(in oklch, var(--primary) 50%, transparent);
+    --accentBorderHover: color-mix(in oklch, var(--primary) 65%, transparent);
+    --accentSolid: var(--primary);
+    --accentSolidHover: color-mix(in oklch, var(--primary) 88%, white);
+    --accentText: var(--primary);
+    --accentTextContrast: var(--primary-foreground);
+
+    --admonitionNoteBg: var(--muted);
+    --admonitionNoteBorder: var(--border);
+    --admonitionTipBg: color-mix(in oklch, var(--primary) 10%, var(--muted));
+    --admonitionTipBorder: var(--border);
+    --admonitionInfoBg: var(--muted);
+    --admonitionInfoBorder: var(--border);
+    --admonitionCautionBg: color-mix(in oklch, var(--destructive) 12%, var(--muted));
+    --admonitionCautionBorder: var(--border);
+    --admonitionDangerBg: color-mix(in oklch, var(--destructive) 15%, var(--muted));
+    --admonitionDangerBorder: color-mix(in oklch, var(--destructive) 40%, transparent);
+    --error-color: var(--destructive);
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] {
+    /* Small floor only — large min-height here looked like empty space below short content. */
+    min-height: 4rem;
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+/*
+  Tailwind preflight resets headings/lists; restore only inside the editor surface.
+*/
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] :is(h1, h2, h3, h4, h5, h6) {
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 0.75em;
+    margin-bottom: 0.35em;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] h1 {
+    font-size: 1.875rem;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] h2 {
+    font-size: 1.5rem;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] h3 {
+    font-size: 1.25rem;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] h4 {
+    font-size: 1.125rem;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] h5 {
+    font-size: 1rem;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] h6 {
+    font-size: 0.9375rem;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] ul {
+    list-style-type: disc;
+    padding-inline-start: 1.5rem;
+    margin: 0.5em 0;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] ol {
+    list-style-type: decimal;
+    padding-inline-start: 1.5rem;
+    margin: 0.5em 0;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] li {
+    margin: 0.15em 0;
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] blockquote {
+    margin: 0.75em 0;
+    padding-left: 1rem;
+    border-left: 3px solid var(--border);
+    color: var(--muted-foreground);
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] hr {
+    margin: 1rem 0;
+    border-color: var(--border);
+}
+
+.markdown-mdx-editor .mdxeditor [contenteditable='true'] a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
