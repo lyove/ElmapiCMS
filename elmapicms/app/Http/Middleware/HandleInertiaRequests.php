@@ -14,12 +14,13 @@ class HandleInertiaRequests extends Middleware
 {
     /**
      * The root template that's loaded on the first page visit.
+     * The admin shell lives under resources/views/admin/app.blade.php.
      *
      * @see https://inertiajs.com/server-side-setup#root-template
      *
      * @var string
      */
-    protected $rootView = 'app';
+    protected $rootView = 'admin.app';
 
     /**
      * Determines the current asset version.

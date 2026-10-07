@@ -28,7 +28,7 @@ class ProjectSettingsController extends Controller
      */
     public function project(Project $project)
     {
-        return Inertia::render('Projects/Settings/Project', [
+        return Inertia::render('admin/Projects/Settings/Project', [
             'project' => $project,
         ]);
     }
@@ -38,7 +38,7 @@ class ProjectSettingsController extends Controller
      */
     public function localization(Project $project)
     {
-        return Inertia::render('Projects/Settings/Localization', [
+        return Inertia::render('admin/Projects/Settings/Localization', [
             'project' => $project,
         ]);
     }
@@ -50,7 +50,7 @@ class ProjectSettingsController extends Controller
     {
         $project->load(['members.roles']);
 
-        return Inertia::render('Projects/Settings/UserAccess', [
+        return Inertia::render('admin/Projects/Settings/UserAccess', [
             'project' => $project,
         ]);
     }
@@ -60,7 +60,7 @@ class ProjectSettingsController extends Controller
      */
     public function apiAccess(Project $project)
     {
-        return Inertia::render('Projects/Settings/APIAccess', [
+        return Inertia::render('admin/Projects/Settings/APIAccess', [
             'project' => $project,
             'tokens' => $project->tokens()->select('id', 'name', 'abilities', 'last_used_at', 'created_at')->orderBy('created_at', 'desc')->get(),
         ]);
@@ -73,7 +73,7 @@ class ProjectSettingsController extends Controller
     {
         $project->load(['collections:id,project_id,name']);
 
-        return Inertia::render('Projects/Settings/Webhooks', [
+        return Inertia::render('admin/Projects/Settings/Webhooks', [
             'project' => $project,
         ]);
     }
@@ -201,7 +201,7 @@ class ProjectSettingsController extends Controller
     {
         $project->load(['collections:id,project_id,name,slug']);
 
-        return Inertia::render('Projects/Settings/ExportImport', [
+        return Inertia::render('admin/Projects/Settings/ExportImport', [
             'project' => $project,
         ]);
     }

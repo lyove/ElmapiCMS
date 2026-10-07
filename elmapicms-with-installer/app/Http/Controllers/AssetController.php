@@ -130,7 +130,7 @@ class AssetController extends Controller
 
         $assets = $query->paginate($perPage);
 
-        return Inertia::render('Assets/Index', [
+        return Inertia::render('admin/Assets/Index', [
             'project' => $project,
             'assets' => $assets,
             'filters' => $request->only(['search', 'type', 'date_filter', 'date_from', 'date_to', 'sort', 'per_page']),

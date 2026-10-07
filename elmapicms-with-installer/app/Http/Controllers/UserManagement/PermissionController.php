@@ -18,7 +18,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return Inertia::render('UserManagement/Permissions', [
+        return Inertia::render('admin/UserManagement/Permissions', [
             'permissions' => Permission::all(),
         ]);
     }

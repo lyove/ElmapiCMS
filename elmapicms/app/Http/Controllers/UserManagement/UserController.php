@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('UserManagement/Users', [
+        return Inertia::render('admin/UserManagement/Users', [
             'roles' => Role::all(),
         ]);
     }

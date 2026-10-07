@@ -43,7 +43,7 @@ class ProjectAuthSettingsController extends Controller
             })
             ->count();
 
-        return Inertia::render('Projects/Settings/Auth/Index', [
+        return Inertia::render('admin/Projects/Settings/Auth/Index', [
             'project' => $project,
             'stats' => [
                 'total_users' => $totalUsers,
@@ -63,35 +63,35 @@ class ProjectAuthSettingsController extends Controller
 
     public function usersPage(Project $project): Response
     {
-        return Inertia::render('Projects/Settings/Auth/Users', [
+        return Inertia::render('admin/Projects/Settings/Auth/Users', [
             'project' => $project,
         ]);
     }
 
     public function sessionsPage(Project $project): Response
     {
-        return Inertia::render('Projects/Settings/Auth/Sessions', [
+        return Inertia::render('admin/Projects/Settings/Auth/Sessions', [
             'project' => $project,
         ]);
     }
 
     public function apiKeysPage(Project $project): Response
     {
-        return Inertia::render('Projects/Settings/Auth/ApiKeys', [
+        return Inertia::render('admin/Projects/Settings/Auth/ApiKeys', [
             'project' => $project,
         ]);
     }
 
     public function auditPage(Project $project): Response
     {
-        return Inertia::render('Projects/Settings/Auth/AuditLog', [
+        return Inertia::render('admin/Projects/Settings/Auth/AuditLog', [
             'project' => $project,
         ]);
     }
 
     public function emailVerificationPage(Project $project): Response
     {
-        return Inertia::render('Projects/Settings/Auth/EmailVerification', [
+        return Inertia::render('admin/Projects/Settings/Auth/EmailVerification', [
             'project' => $project,
             'authSettings' => [
                 'require_verified_email' => (bool) $project->project_auth_require_verified_email,

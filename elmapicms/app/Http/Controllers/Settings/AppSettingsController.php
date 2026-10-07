@@ -271,7 +271,7 @@ class AppSettingsController extends Controller
     {
         $settings = AppSetting::query()->latest('id')->first();
 
-        return Inertia::render('settings/app', [
+        return Inertia::render('admin/settings/app', [
             'settings' => [
                 'app_name' => $settings?->app_name ?? null,
                 'logo_file' => $settings?->logo_file ? Storage::disk('public')->url($settings->logo_file) : null,
@@ -366,7 +366,7 @@ class AppSettingsController extends Controller
             ->values()
             ->all();
 
-        return Inertia::render('settings/ai', [
+        return Inertia::render('admin/settings/ai', [
             'settings' => [
                 'ai_enabled' => $settings?->ai_enabled ?? false,
                 'ai_provider' => $settings?->ai_provider ?? 'anthropic',
@@ -417,7 +417,7 @@ class AppSettingsController extends Controller
         $themeRadius = $settings?->theme_radius
             ?? $this->resolveThemeRadiusKey(is_string(data_get($activeThemeTokens, 'light.radius')) ? data_get($activeThemeTokens, 'light.radius') : null);
 
-        return Inertia::render('settings/theme', [
+        return Inertia::render('admin/settings/theme', [
             'settings' => [
                 'font_family' => $settings?->font_family ?? $this->defaultFontFamily(),
                 'theme_radius' => $themeRadius,

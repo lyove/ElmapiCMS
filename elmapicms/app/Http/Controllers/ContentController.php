@@ -87,7 +87,7 @@ class ContentController extends Controller
         $collectionData = $collection->toArray();
         $collectionData['fields'] = $allFields->values()->toArray();
 
-        return Inertia::render('Collections/Show', [
+        return Inertia::render('admin/Collections/Show', [
             'project' => $project->load('collections'),
             'collection' => $collectionData,
         ]);
@@ -347,7 +347,7 @@ class ContentController extends Controller
         $collectionData = $collection->toArray();
         $collectionData['fields'] = $allFields->values()->toArray();
 
-        return Inertia::render('Collections/Show', [
+        return Inertia::render('admin/Collections/Show', [
             'project' => $project->load('collections'),
             'collection' => $collectionData,
             'contentEntry' => $contentEntry,

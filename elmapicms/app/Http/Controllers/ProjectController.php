@@ -692,7 +692,7 @@ class ProjectController extends Controller
         $lastUsed = $project->tokens()->max('last_used_at');
         $project->last_api_usage = $lastUsed;
 
-        return Inertia::render('Projects/Show', [
+        return Inertia::render('admin/Projects/Show', [
             'project' => $project,
         ]);
     }

@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return Inertia::render('UserManagement/Roles', [
+        return Inertia::render('admin/UserManagement/Roles', [
             'roles' => Role::with('permissions')->paginate(10),
             'permissionGroups' => $this->getGroupedPermissions(),
         ]);
