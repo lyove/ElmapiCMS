@@ -17,11 +17,7 @@ Route::get('/uploads/{path}', [AssetController::class, 'stream'])
     ->where('path', '.*')
     ->middleware('throttle:120,1');
 
-// Front page: visitors see the project introduction page; logged-in users go to the admin dashboard.
+// Front page: visitors see the project introduction page.
 Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('dashboard');
-    }
-
     return view('frontend.welcome');
 });
