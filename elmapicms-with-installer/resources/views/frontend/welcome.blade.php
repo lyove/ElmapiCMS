@@ -121,10 +121,6 @@
                 <li>团队协作：用户、角色、权限管理</li>
             </ul>
         </div>
-        <div class="actions">
-            <a class="btn btn-primary" href="/admin">进入后台</a>
-            <a class="btn btn-ghost" href="/login">登录</a>
-        </div>
         <div class="footer">ElmapiCMS 4.0</div>
     </div>
 </body>
