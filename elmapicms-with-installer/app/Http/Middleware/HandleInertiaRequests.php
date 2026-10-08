@@ -97,9 +97,7 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            // The main sidebar is expanded by default on every page (including project pages).
-            // The sidebar_state cookie records the user's manual toggle, so a previously
-            // collapsed sidebar stays collapsed for that user.
+
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
 
             'awsCredentialsConfigured' => env('AWS_ACCESS_KEY_ID') && env('AWS_SECRET_ACCESS_KEY'),
