@@ -10,7 +10,7 @@ import { Separator } from '@radix-ui/react-separator';
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/',
+        href: '/admin',
         icon: LayoutGrid,
     }
 ];

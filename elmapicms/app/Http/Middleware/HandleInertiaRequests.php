@@ -97,11 +97,10 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
-            // Automatically close the main sidebar on project-specific pages to give more room to the project workspace.
-            // The explicit query string parameter is kept for flexibility and the cookie still controls the sidebar on other pages.
-            'sidebarOpen' => $request->routeIs('projects.*') || $request->routeIs('assets.*')
-                ? false
-                : (! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true'),
+            // The main sidebar is expanded by default on every page (including project pages).
+            // The sidebar_state cookie records the user's manual toggle, so a previously
+            // collapsed sidebar stays collapsed for that user.
+            'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
 
             'awsCredentialsConfigured' => env('AWS_ACCESS_KEY_ID') && env('AWS_SECRET_ACCESS_KEY'),
             'aiEnabled' => $appSettings?->ai_enabled ?? false,
