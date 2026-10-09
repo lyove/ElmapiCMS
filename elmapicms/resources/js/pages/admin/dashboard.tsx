@@ -32,7 +32,7 @@ import {
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/',
+        href: '/admin',
     },
 ];
 
