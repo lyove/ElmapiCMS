@@ -1,6 +1,22 @@
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/admin/components/ui/sidebar';
+import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/admin/components/ui/sidebar';
 import { type NavItem } from '@/admin/types';
 import { Link, usePage } from '@inertiajs/react';
+
+function getPathname(url: string): string {
+    try {
+        return new URL(url).pathname;
+    } catch {
+        return url;
+    }
+}
+
+function isUrlActive(currentUrl: string, href: string): boolean {
+    const urlPath = getPathname(currentUrl).split('?')[0].split('#')[0].replace(/\/+$/, '');
+    const hrefPath = getPathname(href).split('?')[0].split('#')[0].replace(/\/+$/, '');
+    if (urlPath === hrefPath) return true;
+    if (urlPath.startsWith(hrefPath + '/')) return true;
+    return false;
+}
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
@@ -10,20 +26,13 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton  
-                            asChild isActive={item.href === page.url}
+                            asChild isActive={isUrlActive(page.url as string, item.href)}
                             tooltip={{ children: item.title }}
                         >
-                            {item.href === '/' ? (
-                                <Link href={item.href}>
-                                    {item.icon && <item.icon />}
-                                    <span>{item.title}</span>
-                                </Link>
-                            ) : (
-                                <Link href={item.href}>
-                                    {item.icon && <item.icon />}
-                                    <span>{item.title}</span>
-                                </Link>
-                            )}
+                            <Link href={item.href}>
+                                {item.icon && <item.icon />}
+                                <span>{item.title}</span>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 ))}

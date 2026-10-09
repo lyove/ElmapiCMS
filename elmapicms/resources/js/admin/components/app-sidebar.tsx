@@ -15,6 +15,24 @@ const mainNavItems: NavItem[] = [
     }
 ];
 
+/** Extract pathname from a URL string (handles both full URLs and relative paths) */
+function getPathname(url: string): string {
+    try {
+        return new URL(url).pathname;
+    } catch {
+        return url;
+    }
+}
+
+/** Check if the current URL matches a given href with proper path boundary handling */
+function isUrlActive(currentUrl: string, href: string): boolean {
+    const urlPath = getPathname(currentUrl).split('?')[0].split('#')[0].replace(/\/+$/, '');
+    const hrefPath = getPathname(href).split('?')[0].split('#')[0].replace(/\/+$/, '');
+    if (urlPath === hrefPath) return true;
+    if (urlPath.startsWith(hrefPath + '/')) return true;
+    return false;
+}
+
 export function AppSidebar() {
     const page = usePage<SharedData>();
     const currentProject = page.props.project as Project | undefined;
@@ -69,7 +87,7 @@ export function AppSidebar() {
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton  
                                         asChild
-                                        isActive={page.url.includes(item.href)}
+                                        isActive={isUrlActive(page.url, item.href)}
                                         tooltip={{ children: item.title }}
                                     >
                                         <Link href={item.href} >
@@ -90,7 +108,7 @@ export function AppSidebar() {
                         <SidebarMenuItem>
                             <SidebarMenuButton  
                                 asChild
-                                isActive={page.url.includes('/admin/settings/ai')}
+                                isActive={isUrlActive(page.url, '/admin/settings/ai')}
                                 tooltip={{ children: 'AI Settings' }}
                             >
                                 <Link href="/admin/settings/ai">
@@ -108,7 +126,7 @@ export function AppSidebar() {
                             <SidebarMenuItem>
                             <SidebarMenuButton  
                                 asChild
-                                isActive={page.url.includes('/admin/user-management/users') || page.url.includes('/admin/user-management/roles') || page.url.includes('/admin/user-management/permissions')}
+                                isActive={isUrlActive(page.url, '/admin/user-management/users') || isUrlActive(page.url, '/admin/user-management/roles') || isUrlActive(page.url, '/admin/user-management/permissions')}
                                 tooltip={{ children: 'Users & Roles' }}
                             >
                                 <Link href={'/admin/user-management/' + (can.access_users ? 'users' : can.access_roles ? 'roles' : 'permissions')} >

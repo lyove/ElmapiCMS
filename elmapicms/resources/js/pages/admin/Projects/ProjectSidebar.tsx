@@ -46,7 +46,13 @@ export default function ProjectSidebar({ project }: Props) {
             return collection?.id === collectionId;
         }
 
-        return false;
+        // Extract pathname from both URLs (route() may return full URL with domain)
+        const getPathname = (url: string) => {
+            try { return new URL(url).pathname; } catch { return url; }
+        };
+        const urlPath = getPathname(page.url).split('?')[0].split('#')[0].replace(/\/+$/, '');
+        const collectionUrl = getPathname(route('projects.collections.show', [project.id, collectionId])).replace(/\/+$/, '');
+        return urlPath === collectionUrl || urlPath.startsWith(collectionUrl + '/');
     };
 
     const filteredCollections = collections.filter(
