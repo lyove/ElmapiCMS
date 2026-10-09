@@ -44,7 +44,6 @@ import AssetTable from '@/pages/admin/Assets/AssetTable';
 import AssetUploader from '@/pages/admin/Assets/AssetUploader';
 import { ArrowUpDown, Calendar, Filter, LayoutGrid, List, Plus, Trash, X } from 'lucide-react';
 
-import ProjectSidebar from '../Projects/ProjectSidebar';
 import ProjectsLayout from '../Projects/layout';
 import AssetDetailsModal from './AssetDetailsModal';
 
@@ -325,8 +324,6 @@ export default function Index({ project, assets, filters }: Props) {
             <Head title="Asset Library" />
 
             <ProjectsLayout>
-                <ProjectSidebar project={project} />
-
                 <div className="min-w-0 flex-1">
                     <section className="space-y-6">
                         <div>
