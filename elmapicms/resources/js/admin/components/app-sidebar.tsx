@@ -3,7 +3,7 @@ import { NavUser } from '@/admin/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel } from '@/admin/components/ui/sidebar';
 import { type NavItem, SharedData, Project, UserCan } from '@/admin/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid, Settings, Webhook, Image, Users, Folder, Key, Globe, Download, Sparkles, Shield } from 'lucide-react';
+import { LayoutGrid, Settings, Image, Users, Folder, Sparkles } from 'lucide-react';
 import AppLogo from './app-logo';
 import { Separator } from '@radix-ui/react-separator';
 
@@ -38,42 +38,6 @@ export function AppSidebar() {
             title: 'Settings',
             href: route('projects.settings.project', currentProject.id),
             icon: Settings,
-            permission: 'access_project_settings',
-        },
-        {
-            title: 'Localization',
-            href: route('projects.settings.localization', currentProject.id),
-            icon: Globe,
-            permission: 'access_localization_settings',
-        },
-        {
-            title: 'User Access',
-            href: route('projects.settings.user-access', currentProject.id),
-            icon: Users,
-            permission: 'access_user_access_settings',
-        },
-        {
-            title: 'API Access',
-            href: route('projects.settings.api-access', currentProject.id),
-            icon: Key,
-            permission: 'access_api_access_settings',
-        },
-        {
-            title: 'Auth',
-            href: route('projects.settings.auth.index', currentProject.id),
-            icon: Shield,
-            permission: 'access_auth_settings',
-        },
-        {
-            title: 'Webhooks',
-            href: route('projects.settings.webhooks', currentProject.id),
-            icon: Webhook,
-            permission: 'access_webhooks_settings',
-        },
-        {
-            title: 'Export/Import',
-            href: route('projects.settings.export-import', currentProject.id),
-            icon: Download,
             permission: 'access_project_settings',
         },
     ] : [];
