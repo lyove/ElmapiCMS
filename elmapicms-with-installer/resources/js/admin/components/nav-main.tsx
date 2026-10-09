@@ -10,11 +10,11 @@ function getPathname(url: string): string {
     }
 }
 
-function isUrlActive(currentUrl: string, href: string): boolean {
+function isUrlActive(currentUrl: string, href: string, exact = false): boolean {
     const urlPath = getPathname(currentUrl).split('?')[0].split('#')[0].replace(/\/+$/, '');
     const hrefPath = getPathname(href).split('?')[0].split('#')[0].replace(/\/+$/, '');
     if (urlPath === hrefPath) return true;
-    if (urlPath.startsWith(hrefPath + '/')) return true;
+    if (!exact && urlPath.startsWith(hrefPath + '/')) return true;
     return false;
 }
 
@@ -26,7 +26,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton  
-                            asChild isActive={isUrlActive(page.url as string, item.href)}
+                            asChild isActive={isUrlActive(page.url as string, item.href, true)}
                             tooltip={{ children: item.title }}
                         >
                             <Link href={item.href}>

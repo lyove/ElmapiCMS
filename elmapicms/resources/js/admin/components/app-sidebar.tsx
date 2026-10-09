@@ -25,11 +25,11 @@ function getPathname(url: string): string {
 }
 
 /** Check if the current URL matches a given href with proper path boundary handling */
-function isUrlActive(currentUrl: string, href: string): boolean {
+function isUrlActive(currentUrl: string, href: string, exact = false): boolean {
     const urlPath = getPathname(currentUrl).split('?')[0].split('#')[0].replace(/\/+$/, '');
     const hrefPath = getPathname(href).split('?')[0].split('#')[0].replace(/\/+$/, '');
     if (urlPath === hrefPath) return true;
-    if (urlPath.startsWith(hrefPath + '/')) return true;
+    if (!exact && urlPath.startsWith(hrefPath + '/')) return true;
     return false;
 }
 
@@ -40,11 +40,12 @@ export function AppSidebar() {
     const can = usePage().props.userCan as UserCan;
 
     // Generate project menu items if we're on a project page
-    const projectMenuItems: (NavItem & { permission?: string })[] = currentProject ? [
+    const projectMenuItems: (NavItem & { permission?: string; matchPaths?: string[] })[] = currentProject ? [
         {
             title: 'Collections',
             href: route('projects.show', currentProject.id),
             icon: Folder,
+            matchPaths: [`/admin/projects/${currentProject.id}/collections`],
         },
         {
             title: 'Asset Management',
@@ -87,7 +88,14 @@ export function AppSidebar() {
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton  
                                         asChild
-                                        isActive={isUrlActive(page.url, item.href)}
+                                        isActive={(() => {
+                                            const urlPath = getPathname(page.url).split('?')[0].split('#')[0].replace(/\/+$/, '');
+                                            const hrefPath = getPathname(item.href).split('?')[0].split('#')[0].replace(/\/+$/, '');
+                                            if (urlPath === hrefPath) return true;
+                                            // Check custom matchPaths for sub-page highlighting
+                                            if (item.matchPaths?.some(p => urlPath.startsWith(p.replace(/\/+$/, '') + '/'))) return true;
+                                            return false;
+                                        })()}
                                         tooltip={{ children: item.title }}
                                     >
                                         <Link href={item.href} >
