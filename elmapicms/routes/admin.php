@@ -88,7 +88,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
             Route::prefix('collections')->group(function () {
                 Route::post('/', [CollectionController::class, 'store'])->name('projects.collections.store')->middleware('permission:create_collection');
                 Route::post('/import', [CollectionController::class, 'import'])->name('projects.collections.import')->middleware('permission:create_collection');
-                Route::get('/{collection}', [CollectionController::class, 'show'])->name('projects.collections.show');
+                Route::get('/{collection}/content', [CollectionController::class, 'show'])->name('projects.collections.show');
                 Route::get('/{collection}/edit', [CollectionController::class, 'edit'])->name('projects.collections.edit')->middleware('permission:access_collection_settings');
                 Route::put('/{collection}', [CollectionController::class, 'update'])->name('projects.collections.update')->middleware('permission:update_collection');
                 Route::delete('/{collection}', [CollectionController::class, 'destroy'])->name('projects.collections.destroy')->middleware('permission:delete_collection');
