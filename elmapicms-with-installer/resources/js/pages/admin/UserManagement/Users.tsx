@@ -3,23 +3,23 @@ import { Head, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { toast } from 'sonner';
 
-import { generatePassword } from '@/admin/lib/utils';
-import { formatLocalDateTime } from '@/admin/lib/date';
+import { generatePassword } from '@/lib/utils';
+import { formatLocalDateTime } from '@/lib/date';
 
-import { BreadcrumbItem, User, Role, UserCan } from '@/admin/types';
+import { BreadcrumbItem, User, Role, UserCan } from '@/types';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import UserManagementLayout from './layout';
 
-import { Button } from '@/admin/components/ui/button';
-import { Input } from '@/admin/components/ui/input';
-import { Badge } from '@/admin/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/admin/components/ui/dialog';
-import { Label } from '@/admin/components/ui/label';
-import MultiSelect from '@/admin/components/ui/select/Select';
-import InputError from '@/admin/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import MultiSelect from '@/components/ui/select/Select';
+import InputError from '@/components/input-error';
 import { Eye, EyeOff, Plus, Lock, KeyRound } from 'lucide-react';
-import { DataTable, ColumnFilter, DataTableRef } from '@/admin/components/ui/data-table';
+import { DataTable, ColumnFilter, DataTableRef } from '@/components/ui/data-table';
 
 type RoleOption = { value: number; label: string };
 

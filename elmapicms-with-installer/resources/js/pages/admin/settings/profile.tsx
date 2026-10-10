@@ -1,16 +1,16 @@
-import { type BreadcrumbItem, type SharedData } from '@/admin/types/index.d';
+import { type BreadcrumbItem, type SharedData } from '@/types/index.d';
 import { Transition } from '@headlessui/react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-import HeadingSmall from '@/admin/components/heading-small';
-import InputError from '@/admin/components/input-error';
-import { Button } from '@/admin/components/ui/button';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import AppLayout from '@/admin/layouts/app-layout';
-import SettingsLayout from '@/admin/layouts/settings/layout';
-import { Separator } from '@/admin/components/ui/separator';
+import HeadingSmall from '@/components/heading-small';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import AppLayout from '@/layouts/app-layout';
+import SettingsLayout from '@/layouts/settings/layout';
+import { Separator } from '@/components/ui/separator';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

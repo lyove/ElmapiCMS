@@ -1,6 +1,6 @@
 import FieldBase, { FieldProps } from './FieldBase';
 
-import { Input } from "@/admin/components/ui/input";
+import { Input } from "@/components/ui/input";
 
 export default function SlugField({ field, value, onChange, processing, errors, fieldId }: FieldProps) {
     const uniqueId = fieldId || field.name;

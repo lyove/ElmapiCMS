@@ -2,9 +2,9 @@ import { useRef } from 'react';
 import FieldBase from './FieldBase';
 import type { FieldProps } from './FieldBase';
 
-import { Button } from '@/admin/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Plus, Trash2, Clock } from 'lucide-react';
-import InputError from '@/admin/components/input-error';
+import InputError from '@/components/input-error';
 
 export default function TimeField({ field, value, onChange, processing, errors }: FieldProps) {
     const addRepeatableField = () => {

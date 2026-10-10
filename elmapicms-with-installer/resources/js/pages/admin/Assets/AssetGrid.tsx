@@ -1,11 +1,11 @@
 import { usePage } from '@inertiajs/react';
 
-import { Asset, UserCan } from '@/admin/types';
+import { Asset, UserCan } from '@/types';
 
-import { Badge } from '@/admin/components/ui/badge';
-import { Card, CardContent, CardFooter } from '@/admin/components/ui/card';
-import { Checkbox } from '@/admin/components/ui/checkbox';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/admin/components/ui/tooltip';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { File, FileAudio, FileImage, FileText, FileVideo } from 'lucide-react';
 
 import AssetActionMenu from './AssetActionMenu';

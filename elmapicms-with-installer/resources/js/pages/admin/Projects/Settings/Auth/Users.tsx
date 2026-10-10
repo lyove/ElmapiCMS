@@ -1,8 +1,8 @@
 import { Head, usePage } from '@inertiajs/react';
 
-import type { BreadcrumbItem, Project, UserCan } from '@/admin/types';
+import type { BreadcrumbItem, Project, UserCan } from '@/types';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from '../layout';
 import { UsersTab } from './Index';
 

@@ -4,20 +4,20 @@ import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Plus, Eye, EyeOff, List } from 'lucide-react';
 
-import type { Project, BreadcrumbItem, UserCan } from '@/admin/types/index.d';
+import type { Project, BreadcrumbItem, UserCan } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from './layout';
-import { Button } from '@/admin/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/admin/components/ui/dialog';
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/admin/components/ui/sheet';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import InputError from '@/admin/components/input-error';
-import MultiSelect from '@/admin/components/ui/select/Select';
-import { Switch } from '@/admin/components/ui/switch';
-import HeadingSmall from '@/admin/components/heading-small';
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from '@/admin/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import InputError from '@/components/input-error';
+import MultiSelect from '@/components/ui/select/Select';
+import { Switch } from '@/components/ui/switch';
+import HeadingSmall from '@/components/heading-small';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from '@/components/ui/alert-dialog';
 
 interface Webhook {
     id: number;

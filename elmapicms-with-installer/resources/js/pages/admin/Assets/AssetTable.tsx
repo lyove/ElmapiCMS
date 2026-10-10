@@ -1,9 +1,9 @@
-import { Asset, UserCan } from '@/admin/types';
-import { formatLocalDate } from '@/admin/lib/date';
+import { Asset, UserCan } from '@/types';
+import { formatLocalDate } from '@/lib/date';
 
-import { Badge } from '@/admin/components/ui/badge';
-import { Checkbox } from '@/admin/components/ui/checkbox';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/admin/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { File, FileAudio, FileImage, FileText, FileVideo } from 'lucide-react';
 
 import { usePage } from '@inertiajs/react';

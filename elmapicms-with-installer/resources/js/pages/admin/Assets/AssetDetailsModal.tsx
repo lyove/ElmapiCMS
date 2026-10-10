@@ -3,15 +3,15 @@ import axios from 'axios';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { Asset, Project } from '@/admin/types';
-import { formatLocalDateTime } from '@/admin/lib/date';
+import { Asset, Project } from '@/types';
+import { formatLocalDateTime } from '@/lib/date';
 
-import InputError from '@/admin/components/input-error';
-import { Button } from '@/admin/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/admin/components/ui/dialog';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import { Textarea } from '@/admin/components/ui/textarea';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
     Check,
     ChevronLeft,

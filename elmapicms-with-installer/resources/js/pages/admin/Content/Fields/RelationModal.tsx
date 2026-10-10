@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import { formatLocalDateTime } from '@/admin/lib/date';
+import { formatLocalDateTime } from '@/lib/date';
 
-import { Collection, Field, ContentEntry, ColumnDef } from '@/admin/types';
-import { getRichTextPlainText } from '@/admin/components/editor/utils/lexical-converter';
+import { Collection, Field, ContentEntry, ColumnDef } from '@/types';
+import { getRichTextPlainText } from '@/components/editor/utils/lexical-converter';
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/admin/components/ui/dialog';
-import { DataTable } from '@/admin/components/ui/data-table';
-import { Badge } from '@/admin/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { DataTable } from '@/components/ui/data-table';
+import { Badge } from '@/components/ui/badge';
 import { FileText } from 'lucide-react';
 
 

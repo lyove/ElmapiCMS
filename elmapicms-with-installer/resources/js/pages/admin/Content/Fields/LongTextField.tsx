@@ -1,9 +1,9 @@
 import FieldBase, { FieldProps } from './FieldBase';
 
-import { Textarea } from "@/admin/components/ui/textarea";
-import { Button } from "@/admin/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from 'lucide-react';
-import InputError from '@/admin/components/input-error';
+import InputError from '@/components/input-error';
 
 export default function LongTextField({ field, value, onChange, processing, errors, fieldId, locales, collectionName }: FieldProps) {
     const uniqueId = fieldId || field.name;

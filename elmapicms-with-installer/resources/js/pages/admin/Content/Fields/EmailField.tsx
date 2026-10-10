@@ -1,9 +1,9 @@
 import FieldBase, { FieldProps } from './FieldBase';
 
-import { Input } from "@/admin/components/ui/input";
-import { Button } from "@/admin/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Plus, Trash2, AtSign } from 'lucide-react';
-import InputError from '@/admin/components/input-error';
+import InputError from '@/components/input-error';
 
 export default function EmailField({ field, value, onChange, processing, errors, fieldId }: FieldProps) {
     const uniqueId = fieldId || field.name;

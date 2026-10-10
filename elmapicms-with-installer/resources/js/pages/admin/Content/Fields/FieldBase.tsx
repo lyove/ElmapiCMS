@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Field, SharedData } from "@/admin/types";
+import { Field, SharedData } from "@/types";
 import { usePage } from '@inertiajs/react';
 
-import { Label } from "@/admin/components/ui/label";
-import InputError from '@/admin/components/input-error';
-import AiFieldButton from '@/admin/components/ai-field-button';
+import { Label } from "@/components/ui/label";
+import InputError from '@/components/input-error';
+import AiFieldButton from '@/components/ai-field-button';
 
 export interface FieldProps {
     field: Field;

@@ -1,16 +1,16 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 
-import { type BreadcrumbItem, type Project, type UserCan } from '@/admin/types/index.d';
+import { type BreadcrumbItem, type Project, type UserCan } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
-import { Button } from '@/admin/components/ui/button';
-import { Badge } from '@/admin/components/ui/badge';
-import { Card, CardContent, CardFooter, CardTitle } from '@/admin/components/ui/card';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/admin/components/ui/tooltip';
-import { ToggleGroup, ToggleGroupItem } from '@/admin/components/ui/toggle-group';
-import { SearchBar } from '@/admin/components/ui/search-bar';
-import { formatLocalDateTime, formatRelativeFromNow, getDateTimestamp } from '@/admin/lib/date';
+import AppLayout from '@/layouts/app-layout';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { SearchBar } from '@/components/ui/search-bar';
+import { formatLocalDateTime, formatRelativeFromNow, getDateTimestamp } from '@/lib/date';
 
 import CreateProjectModal from '@/pages/admin/Projects/CreateProjectModal';
 

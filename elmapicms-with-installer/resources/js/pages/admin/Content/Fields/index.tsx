@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Field } from '@/admin/types';
+import { Field } from '@/types';
 
 import TextField from './TextField';
 import LongTextField from './LongTextField';

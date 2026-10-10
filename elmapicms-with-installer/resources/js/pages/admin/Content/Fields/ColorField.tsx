@@ -2,9 +2,9 @@ import FieldBase from './FieldBase';
 
 import { FieldRendererProps } from './index';
 
-import { Button } from '@/admin/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
-import InputError from '@/admin/components/input-error';
+import InputError from '@/components/input-error';
 
 export default function ColorField({ field, value, onChange, processing, errors }: FieldRendererProps) {
     const addRepeatableField = () => {

@@ -1,13 +1,13 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { type BreadcrumbItem } from '@/admin/types/index.d';
-import AppLayout from '@/admin/layouts/app-layout';
-import AppSettingsLayout from '@/admin/layouts/settings/app-settings-layout';
-import { Button } from '@/admin/components/ui/button';
-import { Label } from '@/admin/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/admin/components/ui/select';
-import { Textarea } from '@/admin/components/ui/textarea';
-import InputError from '@/admin/components/input-error';
-import { applyThemeRadius } from '@/admin/hooks/use-theme-radius';
+import { type BreadcrumbItem } from '@/types/index.d';
+import AppLayout from '@/layouts/app-layout';
+import AppSettingsLayout from '@/layouts/settings/app-settings-layout';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import InputError from '@/components/input-error';
+import { applyThemeRadius } from '@/hooks/use-theme-radius';
 import { toast } from 'sonner';
 import { type FormEventHandler } from 'react';
 

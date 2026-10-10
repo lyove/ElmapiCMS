@@ -1,9 +1,9 @@
 import FieldBase, { FieldProps } from './FieldBase';
 
-import { Input } from "@/admin/components/ui/input";
-import { Button } from "@/admin/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Plus, Trash2, Hash } from 'lucide-react';
-import InputError from '@/admin/components/input-error';
+import InputError from '@/components/input-error';
 
 const formatNumber = (value: string | number | null): string => {
     if (value === null || value === '') return '';

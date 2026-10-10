@@ -1,18 +1,18 @@
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
-import type { Project, BreadcrumbItem, UserCan } from '@/admin/types/index.d';
+import type { Project, BreadcrumbItem, UserCan } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from './layout';
-import HeadingSmall from '@/admin/components/heading-small';
-import InputError from '@/admin/components/input-error';
-import { Button } from '@/admin/components/ui/button';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import DeleteProject from '@/admin/components/delete-project';
-import { Separator } from '@/admin/components/ui/separator';
-import { RadioGroup, RadioGroupItem } from '@/admin/components/ui/radio-group';
+import HeadingSmall from '@/components/heading-small';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import DeleteProject from '@/components/delete-project';
+import { Separator } from '@/components/ui/separator';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 interface Props {
     project: Project;

@@ -1,6 +1,6 @@
 import FieldBase, { FieldProps } from './FieldBase';
 
-import { Switch } from "@/admin/components/ui/switch";
+import { Switch } from "@/components/ui/switch";
 
 export default function BooleanField({ field, value = false, onChange, processing, errors, fieldId }: FieldProps) {
     const uniqueId = fieldId || field.name;

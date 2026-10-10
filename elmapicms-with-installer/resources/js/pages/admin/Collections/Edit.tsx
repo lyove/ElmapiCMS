@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { Head, usePage } from '@inertiajs/react';
 import axios from 'axios';
 
-import type { Collection, Project, Field, BreadcrumbItem, UserCan } from '@/admin/types/index.d';
+import type { Collection, Project, Field, BreadcrumbItem, UserCan } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
-import { Button } from '@/admin/components/ui/button';
+import AppLayout from '@/layouts/app-layout';
+import { Button } from '@/components/ui/button';
 import { Copy, Save } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/admin/components/ui/dialog';
-import { Input } from '@/admin/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
-import { formatLocalDate } from '@/admin/lib/date';
+import { formatLocalDate } from '@/lib/date';
 
 import ProjectSidebar from '../Projects/ProjectSidebar';
 import FieldList from './Fields/FieldList';

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { generatePassword } from '@/admin/lib/utils';
+import { generatePassword } from '@/lib/utils';
 
 import FieldBase, { FieldProps } from './FieldBase';
 
-import { Input } from "@/admin/components/ui/input";
-import { Button } from "@/admin/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Lock, KeyRound } from 'lucide-react';
 
 export default function PasswordField({ field, value, onChange, processing, errors, fieldId }: FieldProps) {

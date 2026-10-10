@@ -1,11 +1,11 @@
 import { Head, useForm } from '@inertiajs/react';
-import { type BreadcrumbItem } from '@/admin/types/index.d';
-import AppLayout from '@/admin/layouts/app-layout';
-import AppSettingsLayout from '@/admin/layouts/settings/app-settings-layout';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import { Button } from '@/admin/components/ui/button';
-import InputError from '@/admin/components/input-error';
+import { type BreadcrumbItem } from '@/types/index.d';
+import AppLayout from '@/layouts/app-layout';
+import AppSettingsLayout from '@/layouts/settings/app-settings-layout';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import InputError from '@/components/input-error';
 import { toast } from 'sonner';
 import { FormEventHandler, ChangeEvent, useRef, useState, DragEvent } from 'react';
 import { X, Image as ImageIcon } from 'lucide-react';

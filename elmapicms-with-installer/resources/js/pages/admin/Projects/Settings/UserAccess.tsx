@@ -1,12 +1,12 @@
 import { Head } from '@inertiajs/react';
 
-import type { Project, BreadcrumbItem } from '@/admin/types/index.d';
+import type { Project, BreadcrumbItem } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from './layout';
-import HeadingSmall from '@/admin/components/heading-small';
-import { Button } from '@/admin/components/ui/button';
-import MultiSelect from '@/admin/components/ui/select/Select';
+import HeadingSmall from '@/components/heading-small';
+import { Button } from '@/components/ui/button';
+import MultiSelect from '@/components/ui/select/Select';
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'sonner';

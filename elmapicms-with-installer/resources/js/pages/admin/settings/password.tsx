@@ -1,15 +1,15 @@
-import InputError from '@/admin/components/input-error';
-import AppLayout from '@/admin/layouts/app-layout';
-import SettingsLayout from '@/admin/layouts/settings/layout';
-import { type BreadcrumbItem } from '@/admin/types/index.d';
+import InputError from '@/components/input-error';
+import AppLayout from '@/layouts/app-layout';
+import SettingsLayout from '@/layouts/settings/layout';
+import { type BreadcrumbItem } from '@/types/index.d';
 import { Transition } from '@headlessui/react';
 import { Head, useForm } from '@inertiajs/react';
 import { FormEventHandler, useRef } from 'react';
 
-import HeadingSmall from '@/admin/components/heading-small';
-import { Button } from '@/admin/components/ui/button';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
+import HeadingSmall from '@/components/heading-small';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

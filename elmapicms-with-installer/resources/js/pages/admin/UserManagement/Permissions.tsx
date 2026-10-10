@@ -3,19 +3,19 @@ import { Head, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import { toast } from 'sonner';
 
-import { BreadcrumbItem, Permission, UserCan } from '@/admin/types';
+import { BreadcrumbItem, Permission, UserCan } from '@/types';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import UserManagementLayout from './layout';
 
-import { Button } from '@/admin/components/ui/button';
-import { Input } from '@/admin/components/ui/input';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/admin/components/ui/dialog';
-import { Label } from '@/admin/components/ui/label';
-import InputError from '@/admin/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import InputError from '@/components/input-error';
 import { Eye, EyeOff, Plus } from 'lucide-react';
-import { DataTable, ColumnFilter, DataTableRef } from '@/admin/components/ui/data-table';
-import { formatLocalDateTime } from '@/admin/lib/date';
+import { DataTable, ColumnFilter, DataTableRef } from '@/components/ui/data-table';
+import { formatLocalDateTime } from '@/lib/date';
 
 const getErrorMessage = (error: unknown, fallback: string): string => {
     if (axios.isAxiosError(error)) {
