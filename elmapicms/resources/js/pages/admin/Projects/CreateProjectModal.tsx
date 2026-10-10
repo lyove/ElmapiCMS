@@ -2,17 +2,17 @@ import { useForm } from '@inertiajs/react';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 
-import InputError from '@/admin/components/input-error';
-import { Button } from '@/admin/components/ui/button';
-import { Checkbox } from '@/admin/components/ui/checkbox';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/admin/components/ui/dialog';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import { Progress } from '@/admin/components/ui/progress';
-import { RadioGroup, RadioGroupItem } from '@/admin/components/ui/radio-group';
-import MultiSelect from '@/admin/components/ui/select/Select';
-import { Textarea } from '@/admin/components/ui/textarea';
-import locales from '@/admin/lib/locales.json';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import MultiSelect from '@/components/ui/select/Select';
+import { Textarea } from '@/components/ui/textarea';
+import locales from '@/lib/locales.json';
 import { Upload } from 'lucide-react';
 type LocaleOption = {
     value: string;

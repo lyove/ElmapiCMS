@@ -1,9 +1,9 @@
 import { Link, usePage } from '@inertiajs/react';
-import Heading from '@/admin/components/heading';
-import { Button } from '@/admin/components/ui/button';
-import { Separator } from '@/admin/components/ui/separator';
-import { cn } from '@/admin/lib/utils';
-import type { NavItem, Project, UserCan } from '@/admin/types/index.d';
+import Heading from '@/components/heading';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
+import type { NavItem, Project, UserCan } from '@/types/index.d';
 import { Settings as SettingsIcon, Globe, Users, Key, Share2, Download, Shield } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 

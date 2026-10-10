@@ -1,10 +1,10 @@
 import { Edit, MoreVertical, Eye, Download, Trash } from "lucide-react";
 
-import { DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/admin/components/ui/dropdown-menu";
-import { Button } from "@/admin/components/ui/button";
-import { DropdownMenu, DropdownMenuContent } from "@/admin/components/ui/dropdown-menu";
+import { DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent } from "@/components/ui/dropdown-menu";
 
-import { Asset } from "@/admin/types";
+import { Asset } from "@/types";
 
 interface ActionMenuProps {
 	asset: Asset;

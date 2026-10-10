@@ -1,10 +1,10 @@
 import FieldBase, { FieldProps } from './FieldBase';
 import { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { usePage } from '@inertiajs/react';
-import type { SharedData } from '@/admin/types';
+import type { SharedData } from '@/types';
 
-import { Editor } from '@/admin/components/editor/editor';
-import { MarkdownEditor } from '@/admin/components/editor/markdown-editor';
+import { Editor } from '@/components/editor/editor';
+import { MarkdownEditor } from '@/components/editor/markdown-editor';
 
 type RichTextValue = {
     json?: Record<string, unknown> | null;

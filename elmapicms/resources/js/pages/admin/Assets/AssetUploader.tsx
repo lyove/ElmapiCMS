@@ -2,9 +2,9 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { usePage } from '@inertiajs/react';
 import axios from 'axios';
-import { cn } from '@/admin/lib/utils';
-import { uploadProjectAssetDirect } from '@/admin/lib/directAssetUpload';
-import type { SharedData } from '@/admin/types';
+import { cn } from '@/lib/utils';
+import { uploadProjectAssetDirect } from '@/lib/directAssetUpload';
+import type { SharedData } from '@/types';
 
 import {
 	Dialog,
@@ -13,16 +13,16 @@ import {
 	DialogTitle,
 	DialogFooter,
 	DialogDescription,
-} from '@/admin/components/ui/dialog';
-import { Button } from '@/admin/components/ui/button';
-import { Progress } from '@/admin/components/ui/progress';
-import { Alert, AlertDescription } from '@/admin/components/ui/alert';
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
 	Card,
 	CardContent,
-} from '@/admin/components/ui/card';
-import { ScrollArea } from '@/admin/components/ui/scroll-area';
-import { Badge } from '@/admin/components/ui/badge';
+} from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Badge } from '@/components/ui/badge';
 import {
 	Upload,
 	X,

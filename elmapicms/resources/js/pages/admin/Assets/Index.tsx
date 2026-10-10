@@ -2,7 +2,7 @@ import { Head, router, usePage } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { Asset, BreadcrumbItem, Project, UserCan } from '@/admin/types';
+import { Asset, BreadcrumbItem, Project, UserCan } from '@/types';
 
 import {
     AlertDialog,
@@ -13,9 +13,9 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from '@/admin/components/ui/alert-dialog';
-import { Button } from '@/admin/components/ui/button';
-import { Checkbox } from '@/admin/components/ui/checkbox';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -24,7 +24,7 @@ import {
     DropdownMenuRadioItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/admin/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import {
     Pagination,
     PaginationContent,
@@ -33,12 +33,12 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from '@/admin/components/ui/pagination';
-import { SearchBar } from '@/admin/components/ui/search-bar';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/admin/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/admin/components/ui/tabs';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/admin/components/ui/tooltip';
-import AppLayout from '@/admin/layouts/app-layout';
+} from '@/components/ui/pagination';
+import { SearchBar } from '@/components/ui/search-bar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import AppLayout from '@/layouts/app-layout';
 import AssetGrid from '@/pages/admin/Assets/AssetGrid';
 import AssetTable from '@/pages/admin/Assets/AssetTable';
 import AssetUploader from '@/pages/admin/Assets/AssetUploader';

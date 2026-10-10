@@ -1,8 +1,8 @@
 import { Head } from '@inertiajs/react';
 
-import type { BreadcrumbItem, Project } from '@/admin/types';
+import type { BreadcrumbItem, Project } from '@/types';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from '../layout';
 import { VerificationSettingsCard } from './Index';
 

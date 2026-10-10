@@ -5,20 +5,20 @@ import { ChevronDown, Download, FileArchive, FileJson, Upload } from 'lucide-rea
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import type { BreadcrumbItem, Collection, Project } from '@/admin/types/index.d';
+import type { BreadcrumbItem, Collection, Project } from '@/types/index.d';
 
-import HeadingSmall from '@/admin/components/heading-small';
-import InputError from '@/admin/components/input-error';
-import { Button } from '@/admin/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/admin/components/ui/card';
-import { Checkbox } from '@/admin/components/ui/checkbox';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/admin/components/ui/collapsible';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import { Progress } from '@/admin/components/ui/progress';
-import { RadioGroup, RadioGroupItem } from '@/admin/components/ui/radio-group';
-import AppLayout from '@/admin/layouts/app-layout';
-import { slugify } from '@/admin/lib/utils';
+import HeadingSmall from '@/components/heading-small';
+import InputError from '@/components/input-error';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import AppLayout from '@/layouts/app-layout';
+import { slugify } from '@/lib/utils';
 import ProjectSettingsLayout from './layout';
 
 type AssetScope = 'referenced' | 'all';

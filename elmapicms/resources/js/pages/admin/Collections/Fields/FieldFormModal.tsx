@@ -1,24 +1,24 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useForm, router } from '@inertiajs/react';
-import { cn, slugify } from '@/admin/lib/utils';
+import { cn, slugify } from '@/lib/utils';
 import { toast } from 'sonner';
 import axios from 'axios';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/admin/components/ui/dialog';
-import { Button } from '@/admin/components/ui/button';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import { Textarea } from '@/admin/components/ui/textarea';
-import { Checkbox } from '@/admin/components/ui/checkbox';
-import MultiSelect from '@/admin/components/ui/select/Select';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/admin/components/ui/alert-dialog';
-import { ScrollArea } from '@/admin/components/ui/scroll-area';
-import { RadioGroup, RadioGroupItem } from '@/admin/components/ui/radio-group';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import MultiSelect from '@/components/ui/select/Select';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { TextCursor, AlignLeft, LetterText, Link, AtSign, Lock, Hash, ListOrdered, CheckSquare, Droplet, Calendar, Clock, Image, GitBranch, Code } from 'lucide-react';
 
-import fieldTypes from '@/admin/lib/fields.json';
-import InputError from '@/admin/components/input-error';
+import fieldTypes from '@/lib/fields.json';
+import InputError from '@/components/input-error';
 
 export interface FieldFormModalProps {
     isOpen: boolean;

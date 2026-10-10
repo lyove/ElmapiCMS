@@ -3,11 +3,11 @@ import '../css/app.css';
 import { createInertiaApp, router } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
-import { initializeTheme } from '@/admin/hooks/use-appearance';
-import { applyThemeRadius } from '@/admin/hooks/use-theme-radius';
-import { Toaster } from '@/admin/components/ui/sonner';
-import { AiChatProvider } from '@/admin/hooks/use-ai-chat';
-import type { SharedData } from '@/admin/types';
+import { initializeTheme } from '@/hooks/use-appearance';
+import { applyThemeRadius } from '@/hooks/use-theme-radius';
+import { Toaster } from '@/components/ui/sonner';
+import { AiChatProvider } from '@/hooks/use-ai-chat';
+import type { SharedData } from '@/types';
 
 // Default app name fallback
 let dynamicAppName = import.meta.env.VITE_APP_NAME || 'Laravel';

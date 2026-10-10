@@ -1,18 +1,18 @@
 import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Copy, Save, Layers, FileText, Image, ExternalLink } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/admin/components/ui/dialog';
-import { Input } from '@/admin/components/ui/input';
-import { Textarea } from '@/admin/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import axios from 'axios';
 import { toast } from 'sonner';
 
-import { type Project, type BreadcrumbItem, UserCan } from '@/admin/types/index.d';
+import { type Project, type BreadcrumbItem, UserCan } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
-import { Button } from '@/admin/components/ui/button';
-import { Badge } from '@/admin/components/ui/badge';
-import { formatLocalDateTime } from '@/admin/lib/date';
+import AppLayout from '@/layouts/app-layout';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { formatLocalDateTime } from '@/lib/date';
 
 import ProjectSidebar from './ProjectSidebar';
 import ProjectsLayout from './layout';

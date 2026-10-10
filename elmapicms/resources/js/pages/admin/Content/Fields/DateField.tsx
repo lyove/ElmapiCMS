@@ -4,11 +4,11 @@ import { format } from 'date-fns';
 import moment from 'moment';
 import { useState } from 'react';
 
-import { DatePicker } from '@/admin/components/ui/date-picker';
-import { Button } from '@/admin/components/ui/button';
+import { DatePicker } from '@/components/ui/date-picker';
+import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
-import InputError from '@/admin/components/input-error';
+import InputError from '@/components/input-error';
 
 export default function DateField({ field, value, onChange, processing, errors }: FieldProps) {
     const [rangeDrafts, setRangeDrafts] = useState<{ start?: Date; end?: Date }[]>(() => {

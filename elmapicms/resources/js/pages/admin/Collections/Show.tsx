@@ -1,8 +1,8 @@
 import { Head, usePage } from '@inertiajs/react';
 
-import { Collection, Project, BreadcrumbItem, SharedData, Field, ContentEntry } from '@/admin/types/index.d';
+import { Collection, Project, BreadcrumbItem, SharedData, Field, ContentEntry } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 
 import ProjectSidebar from '@/pages/admin/Projects/ProjectSidebar';
 import ContentList from '@/pages/admin/Content/ContentList';

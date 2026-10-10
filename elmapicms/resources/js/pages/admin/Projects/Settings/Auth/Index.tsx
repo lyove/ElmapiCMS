@@ -4,27 +4,27 @@ import { useEffect, useState, useCallback, type ComponentProps, type ComponentTy
 import { toast } from 'sonner';
 import { Plus, Trash2, Pencil, Ban, ShieldCheck, Copy, RefreshCw, UserX, Key, Users as UsersIcon, Activity, MonitorSmartphone, Shield, MailCheck, MailX } from 'lucide-react';
 
-import type { Project, BreadcrumbItem, UserCan } from '@/admin/types';
+import type { Project, BreadcrumbItem, UserCan } from '@/types';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from '../layout';
-import HeadingSmall from '@/admin/components/heading-small';
-import { Button } from '@/admin/components/ui/button';
-import { Input } from '@/admin/components/ui/input';
-import { Label } from '@/admin/components/ui/label';
-import { Badge } from '@/admin/components/ui/badge';
-import { Separator } from '@/admin/components/ui/separator';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/admin/components/ui/card';
-import { Checkbox } from '@/admin/components/ui/checkbox';
-import { Switch } from '@/admin/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/admin/components/ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/admin/components/ui/dialog';
-import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel } from '@/admin/components/ui/alert-dialog';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/admin/components/ui/tooltip';
-import InputError from '@/admin/components/input-error';
-import { formatLocalDateTime, parseServerDate } from '@/admin/lib/date';
-import { DatePicker } from '@/admin/components/ui/date-picker';
-import MultiSelect from '@/admin/components/ui/select/Select';
+import HeadingSmall from '@/components/heading-small';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogCancel } from '@/components/ui/alert-dialog';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import InputError from '@/components/input-error';
+import { formatLocalDateTime, parseServerDate } from '@/lib/date';
+import { DatePicker } from '@/components/ui/date-picker';
+import MultiSelect from '@/components/ui/select/Select';
 
 type JsonObject = Record<string, unknown>;
 const getErrorMessage = (error: unknown, fallback: string): string => {

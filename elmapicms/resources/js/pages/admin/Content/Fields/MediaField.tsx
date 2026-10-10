@@ -2,16 +2,16 @@ import { PageProps as InertiaPageProps } from '@inertiajs/core';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
-import { Asset, Project } from '@/admin/types';
+import { Asset, Project } from '@/types';
 
 import FieldBase, { FieldProps } from './FieldBase';
 
-import { Button } from '@/admin/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/admin/components/ui/card';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/admin/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { File, FileAudio, FileImage, FileText, FileVideo, FolderOpen, GripVertical, X } from 'lucide-react';
 
-import { Badge } from '@/admin/components/ui/badge';
+import { Badge } from '@/components/ui/badge';
 import AssetDetailsModal from '@/pages/admin/Assets/AssetDetailsModal';
 import { MediaLibraryModal } from '@/pages/admin/Assets/MediaFieldSelectModal';
 

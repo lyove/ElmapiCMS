@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import FieldBase, { FieldProps } from './FieldBase';
-import { Button } from "@/admin/components/ui/button";
+import { Button } from "@/components/ui/button";
 import RelationModal from './RelationModal';
-import RelationEntriesTable from '@/admin/components/ui/relation-entries-table';
-import { ContentEntry, Field as CollectionField } from '@/admin/types';
+import RelationEntriesTable from '@/components/ui/relation-entries-table';
+import { ContentEntry, Field as CollectionField } from '@/types';
 import { PlusIcon, TrashIcon } from 'lucide-react';
 import axios from 'axios';
 

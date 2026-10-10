@@ -3,28 +3,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { router, usePage } from '@inertiajs/react';
-import { slugify } from '@/admin/lib/utils';
-import { formatLocalDate, formatLocalDateTime, formatRelativeFromNow } from '@/admin/lib/date';
+import { slugify } from '@/lib/utils';
+import { formatLocalDate, formatLocalDateTime, formatRelativeFromNow } from '@/lib/date';
 
-import type { Project, Collection, Field, UserCan, ContentEntry } from "@/admin/types";
+import type { Project, Collection, Field, UserCan, ContentEntry } from "@/types";
 
-import { Button } from "@/admin/components/ui/button";
-import {  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/admin/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import {  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown, Clock, FileText, Calendar, User, Globe2, Copy, Key, AlertCircle, Trash2, X, CheckCircle2, Languages, Sparkles, Loader2, Plus, MoreHorizontal } from "lucide-react";
-import { ContentAiUsageProvider, useContentAiUsage } from '@/admin/contexts/content-ai-usage-context';
-import { ContentAiFormProvider, type FieldSummary } from '@/admin/contexts/content-ai-form-context';
+import { ContentAiUsageProvider, useContentAiUsage } from '@/contexts/content-ai-usage-context';
+import { ContentAiFormProvider, type FieldSummary } from '@/contexts/content-ai-form-context';
 import { renderField } from './Fields';
-import { Card, CardContent } from "@/admin/components/ui/card";
-import { Separator } from "@/admin/components/ui/separator";
-import { Badge } from "@/admin/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/admin/components/ui/dialog";
-import Select from "@/admin/components/ui/select/Select";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import Select from "@/components/ui/select/Select";
 import TranslationSelectModal from "./TranslationSelectModal";
 import VersionHistory from "./VersionHistory";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/admin/components/ui/sheet";
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/admin/components/ui/tooltip';
-import { UnsavedChangesDialog } from '@/admin/components/unsaved-changes-dialog';
-import { useUnsavedChangesGuard } from '@/admin/hooks/use-unsaved-changes-guard';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { UnsavedChangesDialog } from '@/components/unsaved-changes-dialog';
+import { useUnsavedChangesGuard } from '@/hooks/use-unsaved-changes-guard';
 
 interface Props {
     project: Project;

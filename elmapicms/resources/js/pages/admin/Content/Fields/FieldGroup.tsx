@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Field } from '@/admin/types';
+import { Field } from '@/types';
 import { renderField } from './index';
-import { Button } from '@/admin/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
 
 interface FieldGroupProps {

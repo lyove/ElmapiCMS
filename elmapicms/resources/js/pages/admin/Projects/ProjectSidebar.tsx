@@ -2,19 +2,19 @@ import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Project, SharedData, Collection, UserCan } from '@/admin/types/index.d';
+import { Project, SharedData, Collection, UserCan } from '@/types/index.d';
 
-import { Button } from '@/admin/components/ui/button';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/admin/components/ui/sheet';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { FolderTree, Plus, Settings, GripVertical, MoreVertical } from 'lucide-react';
-import { SearchBar } from '@/admin/components/ui/search-bar';
+import { SearchBar } from '@/components/ui/search-bar';
 import { DragDropContext, Droppable, Draggable, DropResult, DroppableProvided, DraggableProvided } from '@hello-pangea/dnd';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from '@/admin/components/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 
 import CreateCollectionModal from '@/pages/admin/Collections/CreateCollectionModal';
 import DeleteCollectionModal from '@/pages/admin/Collections/DeleteCollectionModal';

@@ -1,5 +1,5 @@
 import FieldBase, { FieldProps } from './FieldBase';
-import MultiSelect from "@/admin/components/ui/select/Select";
+import MultiSelect from "@/components/ui/select/Select";
 
 export default function EnumerationField({ field, value, onChange, processing, errors }: FieldProps) {
     type SelectOption = { value: string; label: string };

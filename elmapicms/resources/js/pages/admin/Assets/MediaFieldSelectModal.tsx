@@ -11,10 +11,10 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from '@/admin/components/ui/alert-dialog';
-import { Button } from '@/admin/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/admin/components/ui/dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/admin/components/ui/dropdown-menu';
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import {
     Pagination,
     PaginationContent,
@@ -23,9 +23,9 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from '@/admin/components/ui/pagination';
-import { SearchBar } from '@/admin/components/ui/search-bar';
-import { Tabs, TabsList, TabsTrigger } from '@/admin/components/ui/tabs';
+} from '@/components/ui/pagination';
+import { SearchBar } from '@/components/ui/search-bar';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowUpDown, Calendar, LayoutGrid, List, Plus, X } from 'lucide-react';
 
 import AssetDetailsModal from '@/pages/admin/Assets/AssetDetailsModal';
@@ -33,8 +33,8 @@ import AssetGrid from '@/pages/admin/Assets/AssetGrid';
 import AssetTable from '@/pages/admin/Assets/AssetTable';
 import AssetUploader from '@/pages/admin/Assets/AssetUploader';
 
-import MultiSelect from '@/admin/components/ui/select/Select';
-import type { Asset, Project } from '@/admin/types';
+import MultiSelect from '@/components/ui/select/Select';
+import type { Asset, Project } from '@/types';
 import { DialogDescription } from '@radix-ui/react-dialog';
 
 interface MediaLibraryModalProps {

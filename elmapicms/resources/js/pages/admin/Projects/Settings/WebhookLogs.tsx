@@ -1,9 +1,9 @@
 import { Head, Link, router } from '@inertiajs/react';
-import type { Project, BreadcrumbItem } from '@/admin/types';
-import { Button } from '@/admin/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/admin/components/ui/dialog';
-import { ScrollArea } from '@/admin/components/ui/scroll-area';
-import { Badge } from '@/admin/components/ui/badge';
+import type { Project, BreadcrumbItem } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Badge } from '@/components/ui/badge';
 import {
     Pagination,
     PaginationContent,
@@ -12,12 +12,12 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from '@/admin/components/ui/pagination';
-import AppLayout from '@/admin/layouts/app-layout';
+} from '@/components/ui/pagination';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from './layout';
 import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { formatLocalDateTime } from '@/admin/lib/date';
+import { formatLocalDateTime } from '@/lib/date';
 
 interface LogRow {
     id: number;

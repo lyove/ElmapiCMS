@@ -4,7 +4,7 @@ import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-json';
 import 'prismjs/themes/prism.css';
 
-import { Button } from '@/admin/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Code, Check, AlertCircle } from 'lucide-react';
 
 export default function JSONField({ field, value, onChange, processing, errors }: FieldProps) {

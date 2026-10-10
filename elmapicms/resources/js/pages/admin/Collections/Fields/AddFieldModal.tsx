@@ -1,12 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import { cn } from '@/admin/lib/utils';
+import { cn } from '@/lib/utils';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/admin/components/ui/dialog';
-import { ScrollArea } from '@/admin/components/ui/scroll-area';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { TextCursor, AlignLeft, LetterText, Link, AtSign, Lock, Hash, ListOrdered, CheckSquare, Droplet, Calendar, Clock, Image, GitBranch, Code, Layers } from 'lucide-react';
 
-import fields from '@/admin/lib/fields.json';
+import fields from '@/lib/fields.json';
 
 import FieldFormModal from './FieldFormModal';
 

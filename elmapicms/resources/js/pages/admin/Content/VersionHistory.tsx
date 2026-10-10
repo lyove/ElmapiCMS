@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { formatLocalDateTime, formatRelativeFromNow } from '@/admin/lib/date';
-import type { Field } from '@/admin/types';
+import { formatLocalDateTime, formatRelativeFromNow } from '@/lib/date';
+import type { Field } from '@/types';
 import { router } from '@inertiajs/react';
 import axios from 'axios';
 import { CheckCircle2, Eye, History, Loader2, Pencil, RotateCcw, Undo2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
-import { Badge } from '@/admin/components/ui/badge';
-import { Button } from '@/admin/components/ui/button';
-import { Card, CardContent } from '@/admin/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -17,12 +17,12 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from '@/admin/components/ui/dialog';
-import { Input } from '@/admin/components/ui/input';
-import { Separator } from '@/admin/components/ui/separator';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/admin/components/ui/sheet';
-import { Textarea } from '@/admin/components/ui/textarea';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/admin/components/ui/tooltip';
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Textarea } from '@/components/ui/textarea';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface Version {
     uuid: string;

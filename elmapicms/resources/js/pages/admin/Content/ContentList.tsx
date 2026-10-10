@@ -4,16 +4,16 @@ import { router, usePage } from "@inertiajs/react";
 import axios from "axios";
 import { toast } from "sonner";
 import moment from "moment";
-import { formatLocalDateTime, formatRelativeFromNow } from "@/admin/lib/date";
+import { formatLocalDateTime, formatRelativeFromNow } from "@/lib/date";
 
-import type { Collection, Project, Field, ContentEntry, ColumnDef, UserCan } from "@/admin/types";
-import { renderRichTextContent, getRichTextPlainText } from "@/admin/components/editor/utils/lexical-converter";
+import type { Collection, Project, Field, ContentEntry, ColumnDef, UserCan } from "@/types";
+import { renderRichTextContent, getRichTextPlainText } from "@/components/editor/utils/lexical-converter";
 
-import { Button } from "@/admin/components/ui/button";
-import { Badge } from "@/admin/components/ui/badge";
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/admin/components/ui/hover-card';
-import { Label } from "@/admin/components/ui/label";
-import { Input } from "@/admin/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { 
     Plus, 
     Trash, 
@@ -30,17 +30,17 @@ import {
     Rocket,
     Undo2,
 } from "lucide-react";
-import { DataTable, DataTableRef } from "@/admin/components/ui/data-table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/admin/components/ui/dialog";
-import { ScrollArea } from "@/admin/components/ui/scroll-area";
-import RelationEntriesTable from "@/admin/components/ui/relation-entries-table";
+import { DataTable, DataTableRef } from "@/components/ui/data-table";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import RelationEntriesTable from "@/components/ui/relation-entries-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/admin/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/admin/components/ui/tooltip";
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Props {
     collection: Collection;

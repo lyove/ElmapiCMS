@@ -3,17 +3,17 @@ import axios from 'axios';
 import { useState, useMemo } from 'react';
 import { toast } from 'sonner';
 
-import type { Project, BreadcrumbItem } from '@/admin/types/index.d';
+import type { Project, BreadcrumbItem } from '@/types/index.d';
 
-import AppLayout from '@/admin/layouts/app-layout';
+import AppLayout from '@/layouts/app-layout';
 import ProjectSettingsLayout from './layout';
-import HeadingSmall from '@/admin/components/heading-small';
-import { Button } from '@/admin/components/ui/button';
-import { Separator } from '@/admin/components/ui/separator';
-import MultiSelect from '@/admin/components/ui/select/Select';
+import HeadingSmall from '@/components/heading-small';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import MultiSelect from '@/components/ui/select/Select';
 
 // Locales JSON map
-import localesMap from '@/admin/lib/locales.json';
+import localesMap from '@/lib/locales.json';
 import { Trash2 } from 'lucide-react';
 
 type ProjectWithLocales = Project & { locales: string[] };

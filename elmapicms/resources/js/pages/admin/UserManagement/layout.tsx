@@ -1,11 +1,11 @@
 import { Link } from '@inertiajs/react';
-import { cn } from '@/admin/lib/utils';
+import { cn } from '@/lib/utils';
 
-import { type NavItem, type UserCan } from '@/admin/types';
+import { type NavItem, type UserCan } from '@/types';
 
-import Heading from '@/admin/components/heading';
-import { Button } from '@/admin/components/ui/button';
-import { Separator } from '@/admin/components/ui/separator';
+import Heading from '@/components/heading';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { Users, Shield, Key } from 'lucide-react';
 
 const sidebarNavItems: NavItem[] = [

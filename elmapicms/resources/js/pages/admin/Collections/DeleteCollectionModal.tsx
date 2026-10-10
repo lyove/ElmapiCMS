@@ -1,6 +1,6 @@
 import { useForm } from '@inertiajs/react';
 
-import { Button } from '@/admin/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -8,10 +8,10 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from '@/admin/components/ui/dialog';
-import { Input } from '@/admin/components/ui/input';
-import { Collection } from '@/admin/types/index.d';
-import InputError from '@/admin/components/input-error';
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Collection } from '@/types/index.d';
+import InputError from '@/components/input-error';
 
 interface Props {
     open: boolean;

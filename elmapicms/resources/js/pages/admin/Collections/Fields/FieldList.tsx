@@ -3,15 +3,15 @@ import { useState, useEffect } from 'react';
 import { router } from '@inertiajs/react';
 import axios from 'axios';
 
-import type { Field } from '@/admin/types/index.d';
+import type { Field } from '@/types/index.d';
 
-import { CardDescription, CardTitle } from '@/admin/components/ui/card';
-import { Button } from '@/admin/components/ui/button';
+import { CardDescription, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { GripVertical, Pencil, Plus, ChevronDown, ChevronRight } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { TextCursor, AlignLeft, LetterText, Link, AtSign, Lock, Hash, ListOrdered, CheckSquare, Droplet, Calendar, Clock, Image, GitBranch, Code, Layers } from 'lucide-react';
 
-import fields from '@/admin/lib/fields.json';
+import fields from '@/lib/fields.json';
 
 import type { FieldFormModalProps, Validations, FieldFormData } from './FieldFormModal';
 
