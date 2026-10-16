@@ -8,6 +8,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Middleware;
+use Symfony\Component\HttpFoundation\Response;
 use Tighten\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
@@ -30,6 +31,22 @@ class HandleInertiaRequests extends Middleware
     public function version(Request $request): ?string
     {
         return parent::version($request);
+    }
+
+    /**
+     * Skip Inertia entirely while the application is not installed yet:
+     * the web installer renders plain Blade pages and the shared props below
+     * would hit database tables that do not exist before migrations run.
+     * Unit/feature tests are excluded so the existing test-suite behaviour
+     * is preserved.
+     */
+    public function handle(Request $request, \Closure $next): Response
+    {
+        if (! app()->runningUnitTests() && ! file_exists(storage_path('app/installed'))) {
+            return $next($request);
+        }
+
+        return parent::handle($request, $next);
     }
 
     /**

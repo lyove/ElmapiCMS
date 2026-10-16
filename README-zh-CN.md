@@ -37,7 +37,7 @@ ElmapiCMS 是一款商业、可自托管的无头 CMS。你可以在现代化的
 | 路径 | 说明 |
 |---|---|
 | **`elmapicms/`** | CMS 应用本体（Laravel 后端 + React/Inertia 管理后台 SPA）。**这是本项目的主体。** |
-| `elmapicms-installer/` | CMS 的打包分发版本，附带基于网页的安装器（`public/install.php`），适用于共享主机环境。 |
+| `elmapicms-installer/` | CMS 的打包分发版本，内置 Laravel 原生网页安装器（`/install` 路由），未安装时 bootstrap 会自动准备 `.env`。 |
 | `elmapicms-templates/` | 生产可用的前端 Starter 模板（Next.js / Nuxt / Astro），通过 API 消费 ElmapiCMS 项目内容。 |
 | `elmapicms.sql` | 数据库转储文件（参考快照）。 |
 | `DOCUMENTATION.html` | 指向在线文档的入口页。 |
@@ -310,15 +310,16 @@ curl "https://cms.example.com/api/posts" \
 
 ---
 
-## 网页安装器（elmapicms-installer）
+## 网页安装器
 
-适用于没有命令行权限的共享主机：
+ElmapiCMS 内置一个 Laravel 原生网页安装器，入口为 `/install` 路由（源码位于应用根目录的 `installer/`），全新副本可直接通过浏览器完成安装，无需命令行或 Shell 访问：
 
-1. 将 `elmapicms-installer/` 的内容上传到 Web 根目录。
-2. 浏览器访问 `install.php`。
-3. 安装器会检查服务器环境要求、写入 `.env`（`EnvWriter`）、修复路径（`PathFixer`/`PathResolver`）、执行数据库迁移，并在完成后自动清理（`Cleanup`）。
+1. 按标准 Laravel 部署，将站点根目录指向 `elmapicms/public`，仅此一种形态。
+2. 浏览器访问 `https://你的域名/install`。
+3. 向导会检查服务器环境要求、依据 `.env.example` 写入 `.env`、执行数据库迁移与数据填充，并创建首个管理员账号。
+4. 安装完成后，所有 `/install` 路由自动锁定（返回 404），锁文件为 `storage/app/installed`。
 
-它是同一个 `elmapicms` 应用的打包分发版本，已内置构建好的前端资源（`public/build`）。
+在安装完成之前，`bootstrap/app.php` 会自动准备 `.env`：生成 `APP_KEY`，并临时将 session / queue / cache 驱动切换为 `file` / `sync` / `file`，使框架在数据库表尚未创建时也能正常启动。迁移完成后，安装器会把这三个驱动改回 `database`。
 
 ---
 
@@ -373,6 +374,6 @@ npm run types               # tsc --noEmit
 ## 部署说明
 
 - 按标准 Laravel 方式部署：`composer install --no-dev --optimize-autoloader`、`npm run build`、`php artisan migrate --force`、`php artisan config:cache` / `route:cache`，并常驻队列 Worker（Webhook、AI、图片处理需要）。
-- 站点根目录指向 `elmapicms/public/`（共享主机则使用安装器包）。
+- 站点根目录指向 `elmapicms/public/`（标准 Laravel 部署形态）。
 - 生产环境建议使用 MySQL；设置 `APP_ENV=production`、`APP_DEBUG=false`。
 - API Token 只能在服务端保存，切勿放入浏览器端打包产物（参见模板 README）。

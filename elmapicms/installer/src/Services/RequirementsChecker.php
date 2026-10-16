@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-final class Requirements
+namespace ElmapiCMS\Installer\Services;
+
+final class RequirementsChecker
 {
     private const PHP_MIN = '8.4.0';
 
@@ -27,7 +29,7 @@ final class Requirements
     /**
      * @return list<array{id: string, label: string, ok: bool, detail: string}>
      */
-    public function check(?string $basePath): array
+    public function check(string $basePath): array
     {
         $checks = [];
 
@@ -49,17 +51,8 @@ final class Requirements
             ];
         }
 
-        if ($basePath === null) {
-            $checks[] = [
-                'id' => 'app_path',
-                'label' => 'ElmapiCMS application found',
-                'ok' => false,
-                'detail' => 'Could not find vendor/autoload.php next to the document root. Expected a sibling elmapicms/ folder or a standard Laravel public/ layout.',
-            ];
-
-            return $checks;
-        }
-
+        // In the package layout the application root is always the framework
+        // base path, so vendor/autoload.php is guaranteed to exist.
         $checks[] = [
             'id' => 'app_path',
             'label' => 'ElmapiCMS application found',
@@ -89,16 +82,11 @@ final class Requirements
         $checks[] = [
             'id' => 'env_example',
             'label' => '.env.example present',
-            'ok' => $envExample,
+            'ok' => true,
             'detail' => $envExample ? 'Found' : 'Missing — installer will use a built-in template',
         ];
 
-        // .env.example missing is not fatal
-        if (! $envExample) {
-            $checks[array_key_last($checks)]['ok'] = true;
-        }
-
-        $already = is_file($basePath.'/storage/app/installed');
+        $already = InstalledFileManager::installed();
         $checks[] = [
             'id' => 'not_installed',
             'label' => 'Not already installed',

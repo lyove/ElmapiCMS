@@ -37,7 +37,7 @@ The repository root contains several pieces. **The main application is `elmapicm
 | Path | Description |
 |---|---|
 | **`elmapicms/`** | The CMS application itself (Laravel backend + React/Inertia admin SPA). This is the main project. |
-| `elmapicms-installer/` | A packaged distribution of the CMS with a web-based installer (`public/install.php`) for shared hosting environments. |
+| `elmapicms-installer/` | A packaged distribution of the CMS with a Laravel-native web installer (`/install` route) — the pre-install bootstrap prepares `.env` automatically. |
 | `elmapicms-templates/` | Production-ready frontend starter templates (Next.js / Nuxt / Astro) that consume an ElmapiCMS project via the API. |
 | `elmapicms.sql` | A database dump (reference snapshot). |
 | `DOCUMENTATION.html` | Pointer to the online documentation. |
@@ -310,15 +310,16 @@ Each template is a standalone app — see its own `README.md` and `.env.example`
 
 ---
 
-## Web Installer (elmapicms-installer)
+## Web Installer
 
-For shared hosting without CLI access, use the `elmapicms-installer/` package:
+ElmapiCMS ships with a Laravel-native web installer at the `/install` route (its source lives in the application root under `installer/`), so a fresh copy can be set up from the browser — no CLI or shell access required:
 
-1. Upload the contents of `elmapicms-installer/` to your web root.
-2. Open `install.php` in the browser.
-3. The installer checks server requirements, writes `.env` (via `EnvWriter`), fixes paths (`PathFixer`/`PathResolver`), runs the migration, and cleans up after itself (`Cleanup`).
+1. Deploy with the document root pointed at `elmapicms/public` — the standard Laravel layout, nothing else.
+2. Open `https://your-site/install` in the browser.
+3. The wizard checks server requirements, writes `.env` from `.env.example`, runs migrations and seeders, and creates the first admin account.
+4. When it finishes, every `/install` route locks itself (404) via `storage/app/installed`.
 
-It is a packaged distribution of the same `elmapicms` application with a pre-built frontend (`public/build`).
+During the pre-install window `bootstrap/app.php` automatically prepares `.env` with a generated `APP_KEY` and temporary `file` / `sync` / `file` session-queue-cache drivers, so the framework can boot before any database table exists. The installer flips those drivers back to `database` once migrations complete.
 
 ---
 
@@ -373,6 +374,6 @@ npm run types               # tsc --noEmit
 ## Deployment Notes
 
 - Standard Laravel deployment applies: `composer install --no-dev --optimize-autoloader`, `npm run build`, `php artisan migrate --force`, `php artisan config:cache` / `route:cache`, and a queue worker for webhooks/AI/image processing.
-- Serve the site from `elmapicms/public/` (or the installer package on shared hosting).
+- Serve the site from `elmapicms/public/` (the standard Laravel document root).
 - Use MySQL for production databases; set `APP_ENV=production`, `APP_DEBUG=false`.
 - Keep API tokens server-side only; never expose them in browser bundles (see templates README).
