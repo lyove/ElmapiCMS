@@ -8,7 +8,7 @@ import {
   getVersions,
 } from '../../../lib/content';
 import { buildPageSeo } from '../../../lib/seo';
-import { NotFoundError } from '@elmapicms/js-sdk';
+import { NotFoundError } from '../../../../sdk';
 
 const { version } = Astro.params;
 if (!version) {

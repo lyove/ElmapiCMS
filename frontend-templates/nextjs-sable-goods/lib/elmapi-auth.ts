@@ -1,4 +1,4 @@
-import { createClient } from "@elmapicms/js-sdk";
+import { createClient } from '../sdk';
 
 /** Browser/server auth client without the project API key. */
 export function createAuthClient(session?: {

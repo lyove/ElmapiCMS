@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { listNotes } from "../../lib/content";
 import { localePath } from "../../lib/i18n";
 import { loadPageChrome, resolveLocale } from "../../lib/page-context";
-import { ElmapiError } from "@elmapicms/js-sdk";
+import { ElmapiError } from '../../../sdk';
 
 const locale = await resolveLocale(Astro.params.locale);
 const chrome = await loadPageChrome(locale, Astro.cookies);

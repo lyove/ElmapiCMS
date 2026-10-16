@@ -1,4 +1,4 @@
-import { createClient } from "@elmapicms/js-sdk";
+import { createClient } from './sdk';
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import authConfig from "@/auth.config";

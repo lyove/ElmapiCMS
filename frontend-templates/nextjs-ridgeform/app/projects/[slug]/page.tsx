@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../../sdk';
 import { PageIntro } from "@/components/page-intro";
 import { Reveal } from "@/components/reveal";
 import { RichText } from "@/components/rich-text";

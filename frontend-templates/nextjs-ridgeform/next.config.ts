@@ -48,7 +48,6 @@ const nextConfig: NextConfig = {
     dangerouslyAllowLocalIP: process.env.NODE_ENV === "development",
     remotePatterns: elmapiRemotePatterns(),
   },
-  transpilePackages: ["@elmapicms/js-sdk"],
-};
+  };
 
 export default nextConfig;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../../../sdk';
 import { Markdown } from "@/components/markdown";
 import { PrevNext } from "@/components/prev-next";
 import { TableOfContents } from "@/components/toc";

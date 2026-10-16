@@ -1,4 +1,4 @@
-import { ElmapiError } from '@elmapicms/js-sdk'
+import { ElmapiError } from '../../../sdk'
 import type { ListNotesOptions, Locale, NoteSort } from '../../utils/types'
 
 const SORTS: NoteSort[] = [

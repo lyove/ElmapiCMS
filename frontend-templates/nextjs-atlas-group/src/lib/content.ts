@@ -1,4 +1,4 @@
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../sdk';
 import type { Locale } from "@/i18n/config";
 import { elmapi } from "./elmapi-server";
 import type {

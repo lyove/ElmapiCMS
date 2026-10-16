@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { revalidatePath } from "next/cache";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../sdk';
 import { elmapi } from "./elmapi-server";
 
 export const TEMPLATE_COLLECTION_SLUGS = [

@@ -1,4 +1,4 @@
-import { AuthenticationError } from '@elmapicms/js-sdk'
+import { AuthenticationError } from '../../../sdk'
 
 /**
  * Revoke the Elmapi backend session before clearing cookies.

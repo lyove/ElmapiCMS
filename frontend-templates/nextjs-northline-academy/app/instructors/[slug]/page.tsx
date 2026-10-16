@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../../sdk';
 import { notFound } from "next/navigation";
 import { CourseCard } from "@/components/course-card";
 import { RichText } from "@/components/rich-text";

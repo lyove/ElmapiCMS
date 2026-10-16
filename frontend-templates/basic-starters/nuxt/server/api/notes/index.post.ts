@@ -2,7 +2,7 @@ import {
   AuthenticationError,
   ElmapiError,
   ValidationError,
-} from '@elmapicms/js-sdk'
+} from '../../../sdk'
 import type { Locale } from '../../utils/types'
 
 export default defineEventHandler(async (event) => {

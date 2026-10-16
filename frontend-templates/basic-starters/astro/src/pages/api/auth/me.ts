@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { AuthenticationError, ElmapiError } from "@elmapicms/js-sdk";
+import { AuthenticationError, ElmapiError } from '../../../../sdk';
 import {
   clearAuthCookies,
   ensureFreshSession,

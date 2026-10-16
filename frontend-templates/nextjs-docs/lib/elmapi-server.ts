@@ -1,4 +1,4 @@
-import { createClient } from "@elmapicms/js-sdk";
+import { createClient } from '../sdk';
 
 type ServerClient = ReturnType<typeof createClient>;
 

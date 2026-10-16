@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../../sdk';
 import { DocsShell } from "@/components/docs-shell";
 import {
   getDocsNav,

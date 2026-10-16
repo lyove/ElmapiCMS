@@ -14,7 +14,7 @@ import {
 } from '../../../lib/content';
 import { extractToc, normalizeMarkdown, renderArticleBody } from '../../../lib/markdown';
 import { buildPageSeo } from '../../../lib/seo';
-import { NotFoundError } from '@elmapicms/js-sdk';
+import { NotFoundError } from '../../../../sdk';
 
 const { version, slug } = Astro.params;
 if (!version || !slug) {

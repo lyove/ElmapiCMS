@@ -1,4 +1,4 @@
-import { createClient } from '@elmapicms/js-sdk';
+import { createClient } from '../../sdk';
 import {
   ELMAPI_API_KEY,
   ELMAPI_BASE_URL,

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ElmapiError } from "@elmapicms/js-sdk";
+import { ElmapiError } from '../../sdk';
 import { SiteHeader } from "@/components/site-header";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales, type Locale } from "@/i18n/config";

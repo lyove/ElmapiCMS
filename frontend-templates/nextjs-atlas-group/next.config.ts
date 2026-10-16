@@ -39,8 +39,7 @@ function elmapiRemotePatterns(): ImageRemotePattern[] {
 }
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@elmapicms/js-sdk"],
-  images: {
+    images: {
     // Required for Herd / .test hosts that resolve to 127.0.0.1 (Next.js 16+)
     dangerouslyAllowLocalIP: process.env.NODE_ENV === "development",
     remotePatterns: elmapiRemotePatterns(),

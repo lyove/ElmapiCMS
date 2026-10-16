@@ -1,4 +1,4 @@
-import { createClient } from "@elmapicms/js-sdk";
+import { createClient } from '../sdk';
 
 /**
  * Server-only CMS client with the project API token.

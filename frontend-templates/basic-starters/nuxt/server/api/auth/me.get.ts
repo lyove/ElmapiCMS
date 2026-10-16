@@ -1,4 +1,4 @@
-import { AuthenticationError, ElmapiError } from '@elmapicms/js-sdk'
+import { AuthenticationError, ElmapiError } from '../../../sdk'
 
 export default defineEventHandler(async (event) => {
   const session = await ensureFreshSession(event)

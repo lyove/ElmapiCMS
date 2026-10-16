@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../../sdk';
 import { auth } from "@/auth";
 import { MemberGate } from "@/components/member-gate";
 import { RichText } from "@/components/rich-text";

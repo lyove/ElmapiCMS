@@ -10,11 +10,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@elmapicms/js-sdk": "^1.0.0",
     "marked": "^18.0.7",
     "nuxt": "^4.5.1",
     "vue": "^3.5.40",
-    "vue-router": "^5.2.0"
+    "vue-router": "^5.2.0",
+    "superagent": "^10.2.3"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

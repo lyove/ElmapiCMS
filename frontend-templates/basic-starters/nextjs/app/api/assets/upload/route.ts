@@ -1,4 +1,4 @@
-import { ElmapiError, ValidationError } from "@elmapicms/js-sdk";
+import { ElmapiError, ValidationError } from '../../../../sdk';
 import { NextRequest, NextResponse } from "next/server";
 import { elmapi } from "@/lib/elmapi-server";
 

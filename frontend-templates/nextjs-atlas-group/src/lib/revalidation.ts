@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "crypto";
 import { revalidatePath } from "next/cache";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../sdk';
 import { locales } from "@/i18n/config";
 import { elmapi } from "./elmapi-server";
 

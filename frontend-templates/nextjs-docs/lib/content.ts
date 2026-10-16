@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../sdk';
 import { elmapi } from "./elmapi-server";
 import type {
   ContentEntry,

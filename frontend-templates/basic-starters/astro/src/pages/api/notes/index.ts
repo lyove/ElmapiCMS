@@ -3,7 +3,7 @@ import {
   AuthenticationError,
   ElmapiError,
   ValidationError,
-} from "@elmapicms/js-sdk";
+} from '../../../../sdk';
 import { ensureFreshSession } from "../../../lib/auth-cookies";
 import { authUserFromMe } from "../../../lib/auth-user";
 import {

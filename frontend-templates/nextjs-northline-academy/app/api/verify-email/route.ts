@@ -1,4 +1,4 @@
-import { createClient, ElmapiError } from "@elmapicms/js-sdk";
+import { createClient, ElmapiError } from '../../../sdk';
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {

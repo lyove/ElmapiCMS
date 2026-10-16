@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@astrojs/node": "^11.0.3",
-    "@elmapicms/js-sdk": "^1.0.0",
     "@rehype-pretty/transformers": "^0.13.2",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.1.6",
@@ -29,7 +28,8 @@
     "shiki": "^4.4.2",
     "tailwindcss": "^4.3.3",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.1.0"
+    "unist-util-visit": "^5.1.0",
+    "superagent": "^10.2.3"
   },
   "devDependencies": {
     "@types/hast": "^3.0.5",

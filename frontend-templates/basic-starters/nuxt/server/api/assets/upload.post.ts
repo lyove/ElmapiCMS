@@ -1,4 +1,4 @@
-import { ElmapiError, ValidationError } from '@elmapicms/js-sdk'
+import { ElmapiError, ValidationError } from '../../../sdk'
 
 type UploadedAsset = {
   uuid: string

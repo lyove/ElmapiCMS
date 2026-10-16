@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ElmapiError } from "@elmapicms/js-sdk";
+import { ElmapiError } from '../../../sdk';
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, localePath, type Locale } from "@/i18n/config";
 import {

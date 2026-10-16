@@ -1,4 +1,4 @@
-import { NotFoundError } from '@elmapicms/js-sdk'
+import { NotFoundError } from '../../sdk'
 import type {
   ContentEntry,
   ListNotesOptions,

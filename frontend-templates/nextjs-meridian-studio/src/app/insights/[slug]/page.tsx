@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { NotFoundError } from "@elmapicms/js-sdk";
+import { NotFoundError } from '../../../../sdk';
 import { InsightDetail } from "@/components/insight-detail";
 import { firstAsset } from "@/lib/assets";
 import {

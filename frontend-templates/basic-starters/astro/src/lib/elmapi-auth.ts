@@ -1,4 +1,4 @@
-import { createClient } from "@elmapicms/js-sdk";
+import { createClient } from '../../sdk';
 import { ELMAPI_BASE_URL, ELMAPI_PROJECT_ID } from "astro:env/server";
 
 /** Auth client for project-user identity (no API key). */

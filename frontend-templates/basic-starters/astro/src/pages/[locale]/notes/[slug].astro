@@ -5,7 +5,7 @@ import { getNoteBySlug } from "../../../lib/content";
 import { localePath } from "../../../lib/i18n";
 import { loadPageChrome, resolveLocale } from "../../../lib/page-context";
 import { richTextToHtml } from "../../../lib/rich-text";
-import { ElmapiError } from "@elmapicms/js-sdk";
+import { ElmapiError } from '../../../../sdk';
 
 const locale = await resolveLocale(Astro.params.locale);
 const chrome = await loadPageChrome(locale, Astro.cookies);

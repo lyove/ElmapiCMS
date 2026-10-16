@@ -1,6 +1,6 @@
 "use server";
 
-import { ValidationError } from "@elmapicms/js-sdk";
+import { ValidationError } from '../../sdk';
 import { elmapi } from "@/lib/elmapi-server";
 
 export type ContactFormState = {

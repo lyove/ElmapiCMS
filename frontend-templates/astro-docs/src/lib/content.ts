@@ -1,4 +1,4 @@
-import { NotFoundError } from '@elmapicms/js-sdk';
+import { NotFoundError } from '../../sdk';
 import { cachedCms } from './cms-cache';
 import { elmapi } from './elmapi';
 import { asList } from './list';

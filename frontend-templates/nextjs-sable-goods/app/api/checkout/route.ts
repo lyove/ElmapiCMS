@@ -2,7 +2,7 @@ import {
   AuthenticationError,
   ElmapiError,
   ValidationError,
-} from "@elmapicms/js-sdk";
+} from '../../../sdk';
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { authUserFromMe } from "@/lib/auth-user";

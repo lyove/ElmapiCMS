@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { ElmapiError } from "@elmapicms/js-sdk";
+import { ElmapiError } from '../../../../sdk';
 import { setAuthCookies } from "../../../lib/auth-cookies";
 import { authUserFromMe } from "../../../lib/auth-user";
 import { createAuthClient } from "../../../lib/elmapi-auth";

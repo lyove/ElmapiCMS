@@ -39,8 +39,7 @@ function elmapiRemotePatterns(): ImageRemotePattern[] {
 }
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@elmapicms/js-sdk"],
-  turbopack: {
+    turbopack: {
     root: __dirname,
   },
   images: {

@@ -1,4 +1,4 @@
-import { ElmapiError } from '@elmapicms/js-sdk'
+import { ElmapiError } from '../../sdk'
 import type { Locale } from '../utils/types'
 
 export default defineEventHandler(async (event) => {

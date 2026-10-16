@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { ElmapiError } from "@elmapicms/js-sdk";
+import { ElmapiError } from '../../../../sdk';
 import { getNoteBySlug } from "../../../lib/content";
 import { isLocale } from "../../../lib/i18n";
 import { richTextToHtml } from "../../../lib/rich-text";

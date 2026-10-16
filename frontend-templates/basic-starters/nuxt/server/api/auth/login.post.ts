@@ -1,4 +1,4 @@
-import { ElmapiError } from '@elmapicms/js-sdk'
+import { ElmapiError } from '../../../sdk'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email?: string, password?: string }>(event)

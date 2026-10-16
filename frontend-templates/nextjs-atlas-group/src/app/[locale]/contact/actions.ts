@@ -1,6 +1,6 @@
 "use server";
 
-import { ValidationError } from "@elmapicms/js-sdk";
+import { ValidationError } from '../../../../sdk';
 import { isLocale, type Locale } from "@/i18n/config";
 import { elmapi } from "@/lib/elmapi-server";
 

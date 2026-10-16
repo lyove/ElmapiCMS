@@ -15,11 +15,11 @@
   },
   "dependencies": {
     "@astrojs/node": "^11.0.3",
-    "@elmapicms/js-sdk": "^1.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.1.6",
     "marked": "^18.0.7",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "superagent": "^10.2.3"
   },
   "devDependencies": {
     "typescript": "~5.9.3"

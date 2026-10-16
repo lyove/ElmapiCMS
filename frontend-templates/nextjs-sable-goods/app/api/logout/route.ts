@@ -1,4 +1,4 @@
-import { AuthenticationError, createClient } from "@elmapicms/js-sdk";
+import { AuthenticationError, createClient } from '../../../sdk';
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 

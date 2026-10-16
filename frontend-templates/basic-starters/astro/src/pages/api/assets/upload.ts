@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { ElmapiError, ValidationError } from "@elmapicms/js-sdk";
+import { ElmapiError, ValidationError } from '../../../../sdk';
 import { elmapi } from "../../../lib/elmapi";
 
 type UploadedAsset = {
